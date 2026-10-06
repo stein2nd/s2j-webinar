@@ -2,6 +2,11 @@
 
 ## unreleased
 
+## 0.0.1 - 2026-10-07
+
+* セッション中の Q&A は、作成で `settings.question_and_answer` の一式を送る。`enable` = `true`、`allow_anonymous_questions` = `true`、`answer_questions` = `only` である。コメントと upvote は送らない。
+* HD は `settings.hd_video` = `false`、出席者の参加時認証は `settings.meeting_authentication` = `false` である。パネリスト認証とチャットのデフォルト対象は送らない。
+
 ## 0.0.1 - 2026-10-06
 
 * 新規登録は二段階とする。ウェビナー ID は作成応答の `id` であり、発行は購読しない。その ID で、スケジュール後のタブの初期値を追加リクエストする。

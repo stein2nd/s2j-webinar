@@ -146,9 +146,9 @@ Zoom に渡す開始時刻は `gatherpress_datetime_start`、タイムゾーン�
 
 質問メールの送信先は、独立したメタにはしません。登壇者の1人目の氏名と社内メールアドレスです。サービスが `settings.contact_name` と `settings.contact_email` に載せます。1人目は社内の営業メンバーです。ホストの `zoom3@…` と、営業のファンクションアドレス (たとえば `business@…`) は、この欄にしません。ライセンスユーザーは、そのファンクションアドレスの受信者に入っていないためです。
 
-セッション中の Q&A (`settings.question_and_answer`) は、使う、匿名可、出席者に見せるのは回答済みだけ、を一式で送ります。パネルには出しません。`enable` だけは送りません。ネストした公式フィールド名が確定してから、作成直後の追加リクエストに足します。質問メールの送信先とは別です。
+セッション中の Q&A (`settings.question_and_answer`) は、作成リクエストで一式を送ります。`enable` = `true`、`allow_anonymous_questions` = `true`、`answer_questions` = `only` です。`enable` だけは送りません。コメントと upvote は送りません。パネルには出しません。質問メールの送信先とは別です。
 
-トピックは200文字まで、説明は2000文字まで、です。パスコードは送らず、公開ページにも出しません。オーディオはコンピューター (`voip`) です。ホストとパネリストのカメラは off です。これらは作成リクエストで送ります。
+トピックは200文字まで、説明は2000文字まで、です。パスコードは送らず、公開ページにも出しません。オーディオはコンピューター (`voip`) です。ホストとパネリストのカメラは off です。HD は `settings.hd_video` = `false` です。出席者の参加時認証は `settings.meeting_authentication` = `false` です。認証プロファイルの項目は送りません。パネリストの参加時認証は送りません。チャットのデフォルト対象は送りません。作成 API に一対一のフィールドがないためです。これらは作成リクエストで送ります。
 
 作成で省略したとき、ユーザーのアカウント設定を継ぐと Zoom が公式にしているのは、2026年3月15日以降の7項目です。`password`、`add_watermark`、`add_audio_watermark`、`language_interpretation`、`sign_language_interpretation`、`panelist_authentication`、`allow_host_control_participant_mute_state`。これらはサービスが省略したままにし、本プラグインのメタには持ちません。更新で送るのも、サービスが持つ項目だけです。
 
@@ -221,7 +221,7 @@ Zoom 連携のあとで足す候補です。サービスには入れません。
 * 公開前チェックリストは、パネル冒頭の表示です。
 * 招待状のソース追跡は、QR の `utm_source` と同じ用語です。登録ページのバナーは、CoverArt ができてから、登録ページを使うときに出します。
 * アンケートの設問は、[S2J Webinar Survey](https://github.com/stein2nd/s2j-webinar-survey) が作ります。仕様は [docs_mod/specs.md](https://github.com/stein2nd/s2j-webinar-survey/blob/main/docs_mod/specs.md) です。本プラグインは、作成直後に、使ってよいと判定された文書をアンケートとして付けます。設問の文面と助言は持ちません。
-* 登壇者のプロフィール台帳、メール本文の「最新情報」と「末尾の告知」、待機室の画像と動画、投票の流用、登録者数の Slack や LineWorks への通知は、後続です。連携タブの他製品接続は、本プラグインに入れません。
+* 登壇者の Profile 台帳、メール本文の「最新情報」と「末尾の告知」、待機室の画像と動画、投票の流用、チャットのデフォルト対象、登録者数の Slack や LineWorks への通知は、後続です。連携タブの他製品接続は、本プラグインに入れません。
 
 ## 設計方針
 
@@ -267,9 +267,9 @@ Composer で `s2j/webinar-service` を require します。参照は [S2J Slug G
 * 質問メールの送信先は登壇者の1人目であり、独立した宛先フィールドは持たない。
 * 新規登録は二段階である。ウェビナー ID は作成応答の `id` であり、発行は購読しない。その ID で、スケジュール後のタブの初期値を追加リクエストする。
 * 登壇者の削除は `DELETE /webinars/{webinarId}/panelists/{panelistId}` である。`panelistId` は外した人のメールである。全員削除は使わない。
-* セッション中の Q&A は、使う、匿名可、出席者に見せるのは回答済みだけ、を一式で送る。`enable` だけでは送らない。ネストした公式フィールド名が確定してから、作成直後に足す。パネルには出さない。
+* セッション中の Q&A は、作成で `settings.question_and_answer` の一式を送る。`enable` = `true`、`allow_anonymous_questions` = `true`、`answer_questions` = `only`。`enable` だけでは送らない。コメントと upvote は送らない。パネルには出さない。
 * 参加登録はイベントごとにラジオで選ぶ。デフォルトは必須・自動承認であり、イベントページを一つの参加 URL にする回は不要を選ぶ。選んだ値は省略せず Zoom に送る。
-* 録画のデフォルトはクラウドである。オーディオはコンピューター、ホストとパネリストのカメラは off、パスコードは送らない。
+* 録画のデフォルトはクラウドである。オーディオはコンピューター、ホストとパネリストのカメラは off、HD は `hd_video` = `false`、出席者の参加時認証は `meeting_authentication` = `false`、パスコードは送らない。チャットのデフォルト対象は送らない。
 * 作成で省略してアカウント設定を継ぐのは、Zoom が公式に挙げた7項目だけである。本プラグインのメタには持たない。
 * 開始 URL は保存しない。「Zoom で開く」は、押したときに `GET /webinars/{webinarId}` の `start_url` をその場で開く。通常ユーザーの期限は2時間であり、タイマーにはしない。
 * 同期は WordPress から Zoom への一方向である。再取得は表示用である。
@@ -308,3 +308,5 @@ Composer で `s2j/webinar-service` を require します。参照は [S2J Slug G
 | 2026-10-06 | 新規登録は二段階とする。ウェビナー ID は作成応答の `id` であり、発行は購読しない。その ID でタブの初期値を追加リクエストする、と記録 |
 | 2026-10-06 | `zoom3` のスケジュール画面の項目を確定する。参加登録のデフォルトは必須・自動承認。録画のデフォルトはクラウド。トピックは200文字、説明は2000文字。パスコードは送らない、と記録 |
 | 2026-10-06 | アンケート設問の仕様を [s2j-webinar-survey](https://github.com/stein2nd/s2j-webinar-survey) に分けた、と記録 |
+| 2026-10-07 | Q&A は作成で `question_and_answer` 一式を送る。HD は `hd_video` = `false`。チャットのデフォルト対象は送らない、と記録 |
+| 2026-10-07 | 出席者の参加時認証は `settings.meeting_authentication` = `false`。パネリスト認証と `enforce_login` は使わない、と記録 |
