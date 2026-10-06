@@ -2,6 +2,8 @@
 
 ## unreleased
 
+* 確定前の仕様から、ホストの具体的なメールアドレス表記を外した。ホストは Webinar 権限のある Zoom アカウントとして書く。
+
 ## 0.0.1 - 2026-10-07
 
 * セッション中の Q&A は、作成で `settings.question_and_answer` の一式を送る。`enable` = `true`、`allow_anonymous_questions` = `true`、`answer_questions` = `only` である。コメントと upvote は送らない。
