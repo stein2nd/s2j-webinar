@@ -220,7 +220,7 @@ Zoom 連携のあとで足す候補です。サービスには入れません。
 * フライヤー PDF と配配メール用ヘッダーは、CoverArt と QR がそろってから検討します。配配メールへの送信は、本プラグインの外です。
 * 公開前チェックリストは、パネル冒頭の表示です。
 * 招待状のソース追跡は、QR の `utm_source` と同じ用語です。登録ページのバナーは、CoverArt ができてから、登録ページを使うときに出します。
-* アンケートの設問は、[S2J Webinar Survey](https://github.com/stein2nd/s2j-webinar-survey) が作ります。仕様は [docs_mod/specs.md](https://github.com/stein2nd/s2j-webinar-survey/blob/main/docs_mod/specs.md) です。本プラグインは、作成直後に、使ってよいと判定された文書をアンケートとして付けます。設問の文面と助言は持ちません。
+* アンケートの設問は、[S2J Webinar Survey](https://github.com/stein2nd/s2j-webinar-survey) が作ります。仕様は [docs_mod/specs.md](https://github.com/stein2nd/s2j-webinar-survey/blob/main/docs_mod/specs.md) です。本プラグインは、作成直後に、使ってよいと判定された文書を `PATCH /webinars/{webinarId}/survey` で付けます。設問の文面と助言は持ちません。写像はサービスが持ちます。初版の `type` は `single` / `multiple` / `short_answer` / `long_answer` / `rating_scale` です。画像、スキップロジック、マッチング、ランク順、空欄に記入する、は初版以降の検討です。
 * 登壇者の Profile 台帳、メール本文の「最新情報」と「末尾の告知」、待機室の画像と動画、投票の流用、チャットのデフォルト対象、登録者数の Slack や LineWorks への通知は、後続です。連携タブの他製品接続は、本プラグインに入れません。
 
 ## 設計方針
@@ -310,3 +310,5 @@ Composer で `s2j/webinar-service` を require します。参照は [S2J Slug G
 | 2026-10-06 | アンケート設問の仕様を [s2j-webinar-survey](https://github.com/stein2nd/s2j-webinar-survey) に分けた、と記録 |
 | 2026-10-07 | Q&A は作成で `question_and_answer` 一式を送る。HD は `hd_video` = `false`。チャットのデフォルト対象は送らない、と記録 |
 | 2026-10-07 | 出席者の参加時認証は `settings.meeting_authentication` = `false`。パネリスト認証と `enforce_login` は使わない、と記録 |
+| 2026-10-07 | アンケート添付は、公式 webinar survey 更新で型名確定まで始めない。初版は単一選択・複数選択・短い回答・長い回答・レーティング。画像・スキップ・マッチング・ランク・空欄記入は初版以降の検討、と記録 |
+| 2026-10-07 | 初版5種の Zoom `type` を確定。添付は `PATCH /webinars/{webinarId}/survey`。写像はサービス、と記録 |

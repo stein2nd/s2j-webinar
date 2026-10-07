@@ -6,6 +6,8 @@
 
 * セッション中の Q&A は、作成で `settings.question_and_answer` の一式を送る。`enable` = `true`、`allow_anonymous_questions` = `true`、`answer_questions` = `only` である。コメントと upvote は送らない。
 * HD は `settings.hd_video` = `false`、出席者の参加時認証は `settings.meeting_authentication` = `false` である。パネリスト認証とチャットのデフォルト対象は送らない。
+* アンケート添付は `PATCH /webinars/{webinarId}/survey` で行う。写像はサービスが持つ。
+* 初版の設問 `type` は `single` / `multiple` / `short_answer` / `long_answer` / `rating_scale` である。画像、スキップロジック、マッチング、ランク順、空欄に記入する、は初版以降の検討である。
 
 ## 0.0.1 - 2026-10-06
 
