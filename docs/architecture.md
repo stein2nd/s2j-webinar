@@ -44,8 +44,8 @@ s2j-webinar/
 ├── composer.json
 ├── package.json
 ├── s2j-webinar.php
-├── docs/                 # 合意後の確定仕様
-├── docs_mod/             # いまの起草キット
+├── docs/                 # 確定仕様の正本
+├── docs_mod/             # 改訂案と進行中イニシアチブの起草
 ├── includes/             # PHP (設定、OAuth、HTTP、メタ、Webhook)
 ├── src/                  # 管理画面・パネル用 TS/TSX
 ├── build/                # ビルド成果

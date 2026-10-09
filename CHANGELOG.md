@@ -4,6 +4,10 @@
 
 ## 0.0.1 - 2026-10-09
 
+* 確定した仕様キットを `docs_mod/` から `docs/` に移した。`docs_mod/` は改訂案と進行中イニシアチブの起草用として残す。
+* `README.md` の案内を [docs/specs.md](docs/specs.md) に切り替えた。
+* `docs/` の Source of Truth とガバナンスを確定正本向けに更新し、`docs_mod/README.md` を起草用の説明に差し替えた。
+
 ### Added
 
 * `docs_mod/` を Survey / Alliance / webinar-service に倣い分割起草した (索引、Why / What / How、ガバナンス、archive)

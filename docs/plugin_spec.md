@@ -1,6 +1,6 @@
 # S2J Webinar - プラグイン仕様 (統合見取り図)
 
-起草中の統合見取り図として `docs_mod/` に置きます。細部の正本は分割仕様 ([specs.md](./specs.md) の一覧) です。計算の正本は [Webinar Service の docs/](https://github.com/stein2nd/s2j-webinar-service/blob/main/docs/specs.md) です。記録日は2026-10-09です。合意のあと `docs/` に移行します。
+統合見取り図として `docs/` に置きます。細部の正本は分割仕様 ([specs.md](./specs.md) の一覧) です。計算の正本は [Webinar Service の docs/](https://github.com/stein2nd/s2j-webinar-service/blob/main/docs/specs.md) です。記録日は2026-10-09です。
 
 ## 概要
 
@@ -116,6 +116,7 @@ Composer で `s2j/webinar-service` を require します。参照は [S2J Slug G
 | 日付 | 内容 |
 | --- | --- |
 | 2026-10-09 | `docs_mod/` に分割起草。Survey / Alliance / webinar-service に倣う索引と境界を記録 |
+| 2026-10-09 | 確定正本を `docs/` に移行した |
 | 2026-10-09 | 監査 BP: アンインストール明示リスト、delete で last_panelists/セッション処理、get と join_url、ended 非空、保存経路、last_sent タイミング、intend_get、Webhook REST、用語、と記録 |
 | 2026-10-09 | 再監査 BP: 再取得は Zoom で開くと同義、duration floor、last_* 即時永続、intend_retry UI、get 写像範囲、個別メタ、登壇者1人以上、トークン暗号化は後続、と記録 |
 | 2026-10-09 | 第3監査 BP: get 専用経路、メタ REST 範囲、join_url 必須反映、登壇者0は UI ブロック、concept 図注記、webinar_uuid と ready 表記、と記録 |

@@ -21,7 +21,7 @@
 
 | 機能名 | 実装済み/未実装 | 実装％ | 完了条件 |
 | --- | --- | --- | --- |
-| 仕様 (`docs_mod/`) | 起草中 | — | 合意後に `docs/` に移行 |
+| 仕様 (`docs/`) | 確定 | — | 大きな改訂は `docs_mod/` で起草し、合意後に本 `docs/` に反映 |
 | Composer require (`s2j/webinar-service`) | 未実装 | 0 | Packagist 名のみ。`VCS`/`path` なし |
 | サイト設定 + OAuth | 未実装 | 0 | [oauth_and_settings_spec.md](./oauth_and_settings_spec.md) |
 | イベントパネル (Slot Fill) | 未実装 | 0 | [admin_ui_spec.md](./admin_ui_spec.md) / [gatherpress_boundary_spec.md](./gatherpress_boundary_spec.md) |

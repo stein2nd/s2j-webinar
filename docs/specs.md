@@ -5,7 +5,7 @@
 
 統合見取り図は [plugin_spec.md](./plugin_spec.md) です。構成は [S2J Webinar Survey の docs/](https://github.com/stein2nd/s2j-webinar-survey/blob/main/docs/specs.md) と [S2J Alliance Manager の docs/](https://github.com/stein2nd/s2j-alliance-manager/blob/main/docs/specs.md) に倣い、本プラグインに必要な層だけを置いています。
 
-**いまの置き場:** 起草中の正本は `docs_mod/` です。合意のあと `docs/` に移行します。
+**いまの置き場:** 確定仕様の正本は `docs/` です。大きな改訂案は `docs_mod/` で起草します。
 
 ## 共通仕様
 
@@ -98,8 +98,8 @@ Webinar の検証・操作計画・リクエスト材料・応答写像の規則
 | --- | --- |
 | 検証・操作計画・材料・写像および OAuth 材料形 | Webinar Service の `docs/core/` |
 | 公開 PHP API (Composer) | Webinar Service の `docs/interfaces/php_api_spec.md` |
-| メタキー、option、メタ ↔ レコード、dirty 判定 | 本 `docs_mod/` ([data_dictionary.md](./data_dictionary.md) 等) |
-| 画面、HTTP 実行、Webhook、i18n | 本 `docs_mod/` の分割仕様 |
+| メタキー、option、メタ ↔ レコード、dirty 判定 | 本 `docs/` ([data_dictionary.md](./data_dictionary.md) 等) |
+| 画面、HTTP 実行、Webhook、i18n | 本 `docs/` の分割仕様 |
 | ユーザー向け最短手順 | ルート `README.md` |
 
 ## 補足

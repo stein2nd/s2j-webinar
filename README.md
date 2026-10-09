@@ -4,7 +4,7 @@ GatherPress のイベント編集画面から Zoom Webinar を作成・更新す
 
 ## 仕様
 
-確定前の仕様キットは [docs_mod/specs.md](docs_mod/specs.md) です。合意のあと `docs/` に移行します。
+確定仕様の索引は [docs/specs.md](docs/specs.md) です。大きな改訂案は [docs_mod/](docs_mod/) で起草します。
 
 ## 依存
 

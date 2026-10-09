@@ -28,7 +28,7 @@
 2. dirty / synced / not_created / error を本プラグインが付与する ([data_dictionary.md](./data_dictionary.md))
 3. validate_webinar_record
 4. deficiencies 非空 → 適切なメッセージ文。HTTP しない。
-   レコード status を synced 等へ進めない
+   レコード status を synced 等に進めない
 5. plan_webinar_operations( record, context )
 6. 各 step について:
    a. build_webinar_request( step.op, record, step )

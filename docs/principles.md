@@ -9,7 +9,7 @@
 ### 1. Source of Truth
 
 * 計算規則の正本は Webinar Service の `docs/core/` である。
-* メタキー、option、メタ ↔ WebinarRecord、dirty 判定の正本は本 `docs_mod/` である。
+* メタキー、option、メタ ↔ WebinarRecord、dirty 判定の正本は本 `docs/` である。
 * README は最短手順であり、契約と矛盾させない。
 
 ### 2. アダプタ

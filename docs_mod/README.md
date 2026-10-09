@@ -1,10 +1,26 @@
-# docs_mod (起草キット)
+# docs_mod (起草用)
 
-いまの仕様の起草正本です。合意のあと `docs/` に移行します。
+確定した仕様の正本は [`../docs/`](../docs/) です。索引は [`../docs/specs.md`](../docs/specs.md) です。
 
-* 索引: [specs.md](./specs.md)
-* 統合見取り図: [plugin_spec.md](./plugin_spec.md)
-* ガバナンス: [governance/documentation_governance.md](./governance/documentation_governance.md)
-* archive 索引: [archive/README.md](./archive/README.md)
+このディレクトリは、**仕様の改訂案** と、**進行中イニシアチブの証跡三点** の起草に使います。
 
-進行中イニシアチブの三点セット (`modification.md` / `status.md` / `test-results.md`) も、完了までここに置きます。完了後は archive に freeze し、三点は削除してよいです。
+## 仕様ドラフト
+
+1. 改訂案をここに置く (必要なら `docs/` と同じレイヤー構成で)
+2. レビューし、合意する
+3. 合意内容を `docs/` に反映する
+4. 起草ファイルは反映後に片付けてよい (ディレクトリ自体は残す)
+
+## イニシアチブ証跡 (作業中)
+
+進行中の実装・改修では、下記の三点をここに置きます。
+
+* `modification.md`
+* `status.md`
+* `test-results.md`
+
+完了条件を満たしたら `docs/archive/impl-<slug>/` または `docs/archive/mod-<slug>/` にフリーズし、このディレクトリの三点は削除してかまいません。
+
+詳細は [../docs/governance/documentation_governance.md](../docs/governance/documentation_governance.md) と [../docs/archive/README.md](../docs/archive/README.md) です。
+
+空のままでもかまいません。

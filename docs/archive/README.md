@@ -1,10 +1,8 @@
-# docs_mod/archive (イニシアチブ証跡)
+# docs/archive (イニシアチブ証跡)
 
 完了した実装・改修イニシアチブの **凍結スナップショット** を置きます。
 
 規則の正本は [../governance/documentation_governance.md](../governance/documentation_governance.md) の「イニシアチブ証跡 (archive)」です。
-
-合意後に確定正本が `docs/` に移ったら、本索引も `docs/archive/README.md` に移します。
 
 ## 命名
 
