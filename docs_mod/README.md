@@ -1,4 +1,4 @@
-# docs_mod (起草用)
+# S2J Webinar - 起草用
 
 確定した仕様の正本は [`../docs/`](../docs/) です。索引は [`../docs/specs.md`](../docs/specs.md) です。
 
@@ -24,3 +24,11 @@
 詳細は [../docs/governance/documentation_governance.md](../docs/governance/documentation_governance.md) と [../docs/archive/README.md](../docs/archive/README.md) です。
 
 空のままでもかまいません。
+
+## 進行中の改訂案
+
+| 版 | パス | 内容 |
+| --- | --- | --- |
+| v0.0.2運用素材 | [v0.0.2/](./v0.0.2/) | CoverArt / フライヤー (本プラグイン)、UTM 別 QR (コンパニオン・プラグイン) |
+
+実装仕様 **v0.0.1** の正本は [`../docs/`](../docs/) で fix です。
