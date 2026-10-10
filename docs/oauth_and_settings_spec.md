@@ -54,8 +54,15 @@
 
 ## HTTP と Authorization
 
-* サービス材料の `method` / `path` / `body` に、本プラグインが `Authorization: Bearer …` を付けて `wp_remote_*` する。
-* 材料に Authorization を含めない (サービス契約)。
+材料に `Authorization` / Basic を含めない (サービス契約)。本プラグインが呼び出し種別に応じて付け、`wp_remote_*` する。正本の材料形はサービス [oauth_spec.md](https://github.com/stein2nd/s2j-webinar-service/blob/main/docs/core/oauth_spec.md) / [request_spec.md](https://github.com/stein2nd/s2j-webinar-service/blob/main/docs/core/request_spec.md)。
+
+| 呼び出し | `path` の扱い | 認証ヘッダー | body |
+| --- | --- | --- | --- |
+| Webinar REST (`create` / `update` / `delete` / `get` / Panelist / `attach_survey`) | ホストなし。プラグインが API ベース (例: `api.zoom.us`) を前置 | `Authorization: Bearer {access_token}` | 材料の JSON (`Content-Type: application/json`) |
+| OAuth `token` / `refresh` | 材料の **フル URL** (`https://zoom.us/oauth/token`) をそのまま使う。API ベースを前置しない | `Authorization: Basic` (`base64(client_id:client_secret)`)。**Bearer にしない** | 材料の object を `application/x-www-form-urlencoded` にエンコード |
+
+* `path` が `https://` で始まる場合はそのまま使う。そうでなければ API ベースを前置する (サービス oauth_spec と同じ判定)。
+* アクセス・トークンの Bearer は Webinar REST のみ。トークン交換・リフレッシュには使わない。
 
 ## Webhook 秘密
 

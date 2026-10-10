@@ -7,7 +7,7 @@
 本ページは、現状の実装状況を機能単位で一覧します。
 索引は [specs.md](./specs.md) です。計算規則の正本は Webinar Service の `docs/` です。
 
-最終更新: 2026-10-09
+最終更新: 2026-10-10
 
 ## 仕様書 (参照元)
 
@@ -23,10 +23,10 @@
 | --- | --- | --- | --- |
 | 仕様 (`docs/`) | 確定 | — | 大きな改訂は `docs_mod/` で起草し、合意後に本 `docs/` に反映 |
 | Composer require (`s2j/webinar-service`) | 未実装 | 0 | Packagist 名のみ。`VCS`/`path` なし |
-| サイト設定 + OAuth | 未実装 | 0 | [oauth_and_settings_spec.md](./oauth_and_settings_spec.md) |
+| サイト設定 + OAuth | 未実装 | 0 | [oauth_and_settings_spec.md](./oauth_and_settings_spec.md)。Webinar REST=Bearer、token/refresh=Basic+フル URL |
 | イベントパネル (Slot Fill) | 未実装 | 0 | [admin_ui_spec.md](./admin_ui_spec.md) / [gatherpress_boundary_spec.md](./gatherpress_boundary_spec.md) |
 | メタ ↔ WebinarRecord + dirty | 未実装 | 0 | [data_dictionary.md](./data_dictionary.md) |
-| 同期 (create / update) | 未実装 | 0 | [sync_execution_spec.md](./sync_execution_spec.md) |
+| 同期 (create / update) | 未実装 | 0 | [sync_execution_spec.md](./sync_execution_spec.md)。`intend_retry` は error+id で dirty と同計画 |
 | 削除、「Zoom で開く」(`get`) | 未実装 | 0 | `build_webinar_request( 'get', … )` のみ。`join_url` / `webinar_uuid` 非空時のみメタ (と `join_url` なら公開欄) を更新 |
 | 登壇者 (Panelist) 差分 | 未実装 | 0 | `_s2j_webinar_last_panelists`。delete 成功時に処理 |
 | 公開リンク反映 | 未実装 | 0 | `gatherpress_online_event_link` / `Event::set_online`。ended では空にしない |

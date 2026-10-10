@@ -31,7 +31,7 @@
 
 ## 責務
 
-* OAuth、トークン保存、`Authorization` 付き HTTP
+* OAuth、トークン保存、呼び出し種別ごとの `Authorization` 付き HTTP ([oauth_and_settings_spec.md](./oauth_and_settings_spec.md))
 * イベントメタとサイト設定
 * GatherPress Slot へのパネル、設定画面
 * メタ ↔ WebinarRecord の組立と書き戻し、`dirty` / `synced` の業務判定

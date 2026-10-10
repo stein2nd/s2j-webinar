@@ -28,7 +28,7 @@ flowchart TD
   U["担当者"] --> P["イベントパネル / 設定"]
   P --> A["本プラグイン PHP"]
   A --> S["s2j/webinar-service"]
-  A -->|"Authorization + HTTP"| Z["Zoom REST"]
+  A -->|"種別ごとの Authorization + HTTP"| Z["Zoom REST / OAuth"]
   A --> M["イベントメタ / option"]
   G["GatherPress"] -.->|"Slot / 日時 / set_online"| A
   SV["S2J Webinar Survey"] -.->|"`ready` 文書"| A

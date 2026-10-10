@@ -2,6 +2,15 @@
 
 ## unreleased
 
+## 0.0.1 - 2026-10-10
+
+### Changed
+
+* OAuth HTTP をサービス契約に追随: Webinar REST は Bearer、token/refresh は Basic + フル URL の `path`、body は form-urlencoded
+* `update` は `dirty` または `intend_retry` (error+id)。`last_panelists` は希望の登壇者列を丸ごと即時永続化し、列中断時も成功した op までの希望列を残す
+* 同期手順1を「Survey は context の `survey_document` のみ」に修正。Authorization の粒度を oauth_and_settings に集約
+* 確定仕様の表記を「とき→場合」にそろえた
+
 ## 0.0.1 - 2026-10-09
 
 * 確定した仕様キットを `docs_mod/` から `docs/` に移した。`docs_mod/` は改訂案と進行中イニシアチブの起草用として残す。

@@ -22,7 +22,7 @@
 
 * WordPress → Zoom が正である。
 * Zoom 側の手修正を検知してイベント項目を上書きしない (初版)。
-* 「Zoom で開く」(`get`。再取得と同義) は表示用。`build_webinar_request( 'get', … )` 直呼び。タイトル・日時等を Zoom で上書きせず、レコードの `status` も変えない。create / update / get いずれも `join_url` / `webinar_uuid` 非空のときだけメタ (と `join_url` なら公開欄) を更新 (空なら既存を消さない。空にするのは delete 成功時のみ)。失敗時は `last_error` 可。`start_url` は保存しない (サービス result_spec)。
+* 「Zoom で開く」(`get`。再取得と同義) は表示用。`build_webinar_request( 'get', … )` 直呼び。タイトル・日時等を Zoom で上書きせず、レコードの `status` も変えない。create / update / get いずれも `join_url` / `webinar_uuid` 非空の場合だけメタ (と `join_url` なら公開欄) を更新 (空なら既存を消さない。空にするのは delete 成功時のみ)。失敗時は `last_error` 可。`start_url` は保存しない (サービス result_spec)。
 
 ### 4. dirty / synced の所有
 
@@ -48,7 +48,7 @@
 
 * クライアント ID / シークレット、トークン、Webhook 秘密はサイト設定。配布物とログに出さない。
 * 保存後のシークレットは再表示しない。
-* `Authorization` は本プラグインが付け、サービス材料には含めない。
+* `Authorization` は本プラグインが呼び出し種別に応じて付け、サービス材料には含めない。種別 (Webinar REST の Bearer / OAuth token・refresh の Basic、フル URL の `path`) の正本は [oauth_and_settings_spec.md](./oauth_and_settings_spec.md)。
 
 ### 8. GatherPress 非改変
 

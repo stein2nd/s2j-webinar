@@ -25,9 +25,9 @@
 | --- | --- | --- |
 | Zoom をサイトに接続する | 設定 > S2J Webinar | OAuth、トークン保存 |
 | Webinar を新規登録する | イベント編集パネル | レコード組立 → validate → plan → `build_webinar_request` → HTTP → map → メタ |
-| 日時や録画を変えて送る | 同上 | `dirty` の場合だけ `update` 材料 |
+| 日時や録画を変えて送る | 同上 | `dirty` (または `error`+id で `intend_retry`) の場合に `update` 材料 |
 | 登壇者だけ変える | 同上 | `synced` のまま差分 op |
-| 「Zoom で開く」(`get`。再取得と同義) | 同上 | `build_webinar_request( 'get', … )` 直呼び。揮発 `start_url`。`join_url` / `webinar_uuid` 非空のときだけメタ (と `join_url` なら公開欄) を更新 |
+| 「Zoom で開く」(`get`。再取得と同義) | 同上 | `build_webinar_request( 'get', … )` 直呼び。揮発 `start_url`。`join_url` / `webinar_uuid` 非空の場合だけメタ (と `join_url` なら公開欄) を更新 |
 | アンケートだけ後付け | 同上の「同期」 | `synced` + Survey の `ready` なら `attach_survey` のみ (専用ボタンなし) |
 | 開催中を公開リンクに反映 | Webhook | セッション `started` と `Event::set_online`。`ended` では公開リンクを空にしない |
 

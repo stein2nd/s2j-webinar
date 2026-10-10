@@ -46,8 +46,8 @@
 | キー | 型 | 説明 |
 | --- | --- | --- |
 | `_s2j_webinar_id` | string | Zoom webinar ID。未作成は空 |
-| `_s2j_webinar_uuid` | string | Zoom UUID (`webinar_uuid`)。空可。create / update / get で写像・応答が空のときは既存を消さない (空にするのは delete 成功時のみ) |
-| `_s2j_webinar_join_url` | string | 参加 URL。空可。公開欄への写し元。create / update / get で写像・応答が空のときは既存を消さない (空にするのは delete 成功時のみ) |
+| `_s2j_webinar_uuid` | string | Zoom UUID (`webinar_uuid`)。空可。create / update / get で写像・応答が空の場合は既存を消さない (空にするのは delete 成功時のみ) |
+| `_s2j_webinar_join_url` | string | 参加 URL。空可。公開欄への写し元。create / update / get で写像・応答が空の場合は既存を消さない (空にするのは delete 成功時のみ) |
 | `_s2j_webinar_status` | string | レコード status |
 | `_s2j_webinar_last_error` | string | 直近失敗文。トークンを入れない |
 | `_s2j_webinar_last_sent` | object | 前回送付スナップショット (本体項目のみ。下記) |
@@ -64,7 +64,9 @@
 
 ### `_s2j_webinar_last_sent` の形
 
-create / update の **map 成功直後**に、送った本体項目を `update_post_meta` で永続化します (列の登壇者 / survey 成否を待たない。列末の一括書き戻しに頼らない)。登壇者・アンケートは含めません。登壇者差分の成功直後は `_s2j_webinar_last_panelists` を同様に即時永続化します。
+create / update の **map 成功直後**に、送った本体項目を `update_post_meta` で永続化します (列の登壇者 / survey 成否を待たない。列末の一括書き戻しに頼らない)。登壇者・アンケートは含めません。
+
+登壇者追加・削除の **map 成功直後**に、`_s2j_webinar_last_panelists` を **その時点のレコード登壇者列 (希望の最終形)** で丸ごと永続化します。op 単位で Zoom 実体を再構築しません。列中断しても「成功した op までの希望列」が残ります (詳細は [sync_execution_spec.md](./sync_execution_spec.md))。
 
 * `topic`
 * `agenda`
@@ -101,7 +103,7 @@ create / update の **map 成功直後**に、送った本体項目を `update_p
 | `status` | 組立直後に本プラグインが再計算 (下記 dirty 規則)。メタの値は初期入力 |
 | `last_error` | `_s2j_webinar_last_error` |
 
-写像後のレコードは、対応するメタに書き戻します。`start_url` は書き戻しません。`join_url` / `webinar_uuid` が空のときは既存メタを触らない (`join_url` が空なら公開欄も触らない。create / update / get 共通。空にするのは delete 成功時のみ)。
+写像後のレコードは、対応するメタに書き戻します。`start_url` は書き戻しません。`join_url` / `webinar_uuid` が空の場合は既存メタを触らない (`join_url` が空なら公開欄も触らない。create / update / get 共通。空にするのは delete 成功時のみ)。
 
 ## dirty / synced の判定 (本プラグイン)
 

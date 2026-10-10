@@ -63,7 +63,7 @@ Survey プラグインの永続化にそろえます。**パネル編集キー**
 | --- | --- |
 | 投稿の明示更新 | パネル入力をイベントメタに保存 (登壇者 `[]` 可)。**自動では Zoom に送らない** |
 | 「同期」ボタン | 書き込みパイプライン ([sync_execution_spec.md](./sync_execution_spec.md))。`intend_get` は付けない。status が `error` かつ id 非空なら `intend_retry` |
-| 「Zoom で開く」 | `build_webinar_request( 'get', … )` のみ (`webinar_id` 非空ゲート)。`start_url` を保存せず開く。応答 `join_url` / `webinar_uuid` 非空のときだけメタ (と `join_url` なら公開欄) を更新。空なら既存を消さない。失敗時は `last_error` 可 |
+| 「Zoom で開く」 | `build_webinar_request( 'get', … )` のみ (`webinar_id` 非空ゲート)。`start_url` を保存せず開く。応答 `join_url` / `webinar_uuid` 非空の場合だけメタ (と `join_url` なら公開欄) を更新。空なら既存を消さない。失敗時は `last_error` 可 |
 | 「Zoom から削除」 | 確認後 `intend_delete` |
 
 ## 不足・失敗の表示

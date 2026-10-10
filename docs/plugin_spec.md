@@ -51,7 +51,7 @@
 | メタと GatherPress から WebinarRecord を組み立てる | レコードのキー意味を定義する (WP キー名は知らない) |
 | `_s2j_webinar_last_sent` と比較して `dirty` / `synced` を付ける | 渡された `status` を推測し直さない |
 | `validate` → 不足なら適切なメッセージ文。HTTP しない | 不足コード列を返す |
-| `plan` → 各 op で `build_webinar_request` → `Authorization` 付き HTTP → `map` | 材料と写像 |
+| `plan` → 各 op で `build_webinar_request` → 種別ごとの `Authorization` 付き HTTP → `map` | 材料と写像 |
 | 「Zoom で開く」で `start_url` を開く (保存しない)。create / update / get いずれも `join_url` / `webinar_uuid` 非空ならメタ (と `join_url` なら公開欄) を更新。空なら既存を消さない | `map` の揮発 `start_url` とレコード写像 |
 | Survey の `_s2j_webinar_survey` が `ready` なら context に載せる | `attach_survey` 材料 |
 
@@ -103,11 +103,11 @@ Composer で `s2j/webinar-service` を require します。参照は [S2J Slug G
 * 本プラグインはアダプタ。計算規則はサービス。メタキー名は本仕様だけに置く。
 * サイトに Zoom は1アカウント。初版の接続先 UI は Zoom 固定。
 * 参加登録のデフォルトは必須・自動承認 (`0`)。録画のデフォルトは `cloud`。
-* `dirty` は本体項目の変更のみ。登壇者だけ・アンケートだけは `synced` のまま。
+* `dirty` は本体項目の変更のみ。登壇者だけ・アンケートだけは `synced` のまま。`error`+id の「同期」は `intend_retry` (サービスは dirty と同計画)。
 * 削除はパネルの明示操作だけ。ゴミ箱移動では delete を呼ばない。
 * `start_url` は保存しない。「Zoom で開く」は `build_webinar_request( 'get', … )` 直呼び。create / update / get いずれも `join_url` / `webinar_uuid` 非空ならメタ (と `join_url` なら公開欄) を更新 (空なら既存を消さない。空にするのは delete 成功時のみ)。
-* パネルは Slot `EventPluginDocumentSettings` の Fill のみ。メタ保存は明示の投稿更新 + `save_post` (Survey に倣う)。Zoom HTTP は明示ボタンのみ。
-* Survey 未完了を create の条件にしない。`ready` がそろった時点で通常の「同期」が `attach_survey` する (専用ボタンなし)。
+* パネルは Slot `EventPluginDocumentSettings` の Fill のみ。メタ保存は明示の投稿更新 + `save_post` (Survey に倣う)。Zoom HTTP は明示ボタンのみ。Authorization の種別は [oauth_and_settings_spec.md](./oauth_and_settings_spec.md)。
+* Survey 未完了を create の条件にしない。`ready` は context の `survey_document` のみ (レコードに載せない)。通常の「同期」が `attach_survey` する (専用ボタンなし)。
 * Webhook `webinar.ended` では公開リンクを空にしない。空にするのは Zoom 削除成功時のみ。
 * アンインストールは本プラグイン所有キーの明示リスト + サイト option のみ。`_s2j_webinar_survey` は触らない。Zoom は変更しない。
 
@@ -125,3 +125,4 @@ Composer で `s2j/webinar-service` を require します。参照は [S2J Slug G
 | 2026-10-09 | 第6監査 BP: create/update の空 webinar_uuid も既存維持、status の get 完了条件にメタ、冒頭コメントの API 名統一、と記録 |
 | 2026-10-09 | 第7監査 BP: concept 操作表と specs 読み方のパイプライン表記を正本にそろえた、と記録 |
 | 2026-10-09 | 第8監査 BP: status の get 完了条件に webinar_uuid を含めた、と記録 |
+| 2026-10-10 | OAuth は REST=Bearer / token・refresh=Basic+フル URL、update は intend_retry も、last_panelists は希望列丸ごと、Survey は context のみ、と記録 |
