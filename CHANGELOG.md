@@ -2,6 +2,8 @@
 
 ## unreleased
 
+## 0.0.1 - 2026-10-10
+
 ### Added
 
 * v0.0.2 運用素材の改訂案 (`docs_mod/v0.0.2/`): CoverArt / フライヤー (メディア紐付け・イベントパネル)、UTM 別 Source Tracking + QR (コンパニオン・プラグイン境界・OAuth 再利用方針)
