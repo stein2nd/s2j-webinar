@@ -2,12 +2,20 @@
 
 ## unreleased
 
+## 0.0.1 - 2026-10-11
+
+### Changed
+
+* v0.0.2起草 (`docs_mod/v0.0.2/`): プロバイダ一般化 (初実装 `zoom`、取り込みは `s2j-webinar-service` Adapter)。コンパニオン `s2j-webinar-source-qr` とメタ `_s2j_webinar_source_qr`、Webinar 側 handoff (token 正本・同期列に QR 文書を載せない) を合意
+* `zoom` Source Tracking: リンク作成 REST 不可、`GET …/tracking_sources` 可。v0.0.2は接続先ポータル登録 + 手入力または Webinar 経由 GET 取り込み + Source QR で PNG 保存 (`s2j-webinar-source-qr-service` は見送り)
+* CoverArt / フライヤー起草: 未登録は `delete_post_meta`、許可 MIME と上限 (CoverArt 5MiB / フライヤー PDF 20MiB)、検証失敗時はメタを前値のまま
+
 ## 0.0.1 - 2026-10-10
 
 ### Added
 
-* v0.0.2 運用素材の改訂案 (`docs_mod/v0.0.2/`): CoverArt / フライヤー (メディア紐付け・イベントパネル)、UTM 別 Source Tracking + QR (コンパニオン・プラグイン境界・OAuth 再利用方針)
-* `docs_mod/README.md` に v0.0.2 索引。見出しを「S2J Webinar - 起草用」に統一
+* v0.0.2運用素材の改訂案 (`docs_mod/v0.0.2/`): CoverArt / フライヤー (メディア紐付け・イベントパネル)、UTM 別 Source Tracking + QR (コンパニオン・プラグイン境界、OAuth 再利用方針)
+* `docs_mod/README.md` に v0.0.2索引。見出しを「S2J Webinar - 起草用」に統一
 
 ### Changed
 

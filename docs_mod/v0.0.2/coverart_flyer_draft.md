@@ -33,14 +33,15 @@ Slot `EventPluginDocumentSettings` の既存 Fill を拡張します (Survey プ
 ### CoverArt
 
 * ラベル: CoverArt (表示文言は i18n)。
-* コントロール: WordPress `MediaUpload` / `MediaUploadCheck` 相当 (画像 MIME に限定)。
+* コントロール: WordPress `MediaUpload` / `MediaUploadCheck` 相当 ([採用方針](#coverart-採用) の MIME に限定)。
 * 選択後: サムネイルと「差し替え」「解除」。
 * 未選択: プレースホルダと「メディアを選択」。
 
 ### フライヤー
 
-* ラベル: フライヤー (PDF)。
-* コントロール: PDF (`application/pdf`) に限定したメディア選択。
+* ラベル: フライヤー (表示文言は i18n)。
+* コントロール: [採用方針](#フライヤー-採用) の PDF のみ。PowerPoint (PPTX 等) は受け付けない。
+* 案内 (任意): PowerPoint で作った場合は PDF 出力してから登録する旨 (i18n)。
 * 選択後: ファイル名リンク (新規タブでメディア URL)、「差し替え」「解除」。
 
 ### Zoom 同期との関係
@@ -52,17 +53,46 @@ Slot `EventPluginDocumentSettings` の既存 Fill を拡張します (Survey プ
 
 個別 `register_post_meta`。1オブジェクトにまとめません (v0.0.1 [admin_ui_spec.md](../../docs/admin_ui_spec.md) に倣う)。
 
+正本反映時は [data_dictionary.md](../../docs/data_dictionary.md) に移します。
+
 | キー (案) | 型 | `show_in_rest` | 説明 |
 | --- | --- | --- | --- |
-| `_s2j_webinar_cover_art_id` | int | true | CoverArt の `attachment_id`。0または未設定は未登録 |
+| `_s2j_webinar_cover_art_id` | int | true | CoverArt の `attachment_id`。正の整数のみ永続 ([未登録](#未登録の表現)) |
 | `_s2j_webinar_flyer_id` | int | true | フライヤー PDF の `attachment_id`。同上 |
 
-**未決事項:** (確定前の検討事項)
+### 未登録の表現
 
-* `0` と delete meta のどちらを「未登録」とするか (Survey 側の空表現に合わせる)。
-* MIME / サイズのサーバー側検証 (PDF 以外を拒否する等)。
+WordPress のアイキャッチ (`_thumbnail_id`) に倣います。Survey 文書メタの空表現とはそろえません。
 
-正本反映時は [data_dictionary.md](../../docs/data_dictionary.md) に移します。
+* **読み取り:** メタ不存在、`0`、非正整数、存在しない attachment ID → いずれも **未登録**。
+* **書き込み:** パネル「解除」および正規化で `0` / 負数 / 非数を受け取った場合は **`delete_post_meta`** する。永続するのは検証を通過した正の `attachment_id` のみ。
+
+### CoverArt 採用
+
+| 項目 | 方針 |
+| --- | --- |
+| 許可 MIME | `image/jpeg`, `image/png`, `image/webp`, `image/gif` |
+| 初版で非許可 | `image/svg+xml` (XSS リスク。SVG が必要なら後続イニシアチブで別決) |
+| UI | `allowedTypes` で画像に限定 (上記 MIME) |
+| サーバー (`save_post`) | 対象が `attachment` であること。`get_post_mime_type()` が許可リストに含まれること |
+| サイズ | WordPress / PHP のアップロード上限に加え、保存時 `filesize( get_attached_file( $id ) )` で **上限5MiB** |
+
+### フライヤー 採用
+
+| 項目 | 方針 |
+| --- | --- |
+| 許可 MIME | **`application/pdf` のみ** |
+| PowerPoint | v0.0.2では非対応。営業は PDF エクスポート後にメディアに登録する運用 |
+| UI | PDF のみ選択可能 |
+| サーバー (`save_post`) | MIME が `application/pdf` であること。必要なら `wp_check_filetype()` で拡張子も確認 |
+| サイズ | 保存時 **上限20MiB** |
+| PDF ページ数 | 初版では検証しない |
+
+### 検証失敗時
+
+不正な attachment ID や MIME / サイズ超過では **メタを更新しません** (既存の ID を維持)。適切なメッセージ文を表示します (生の MIME やパスを出さない)。
+
+UI で絞り込み、サーバーで必ず再検証します (REST 改ざん・古いメディアの付け替え対策)。
 
 ## 保存経路
 
@@ -75,7 +105,7 @@ Survey / v0.0.1パネルと同じです。
 
 **Webinar Service は、関与しません。**
 
-検証は、本プラグインです (attachment が存在し、投稿に紐づくか、MIME が期待どおりか)。
+検証は本プラグインの `save_post` 正規化です ([CoverArt 採用](#coverart-採用)、[フライヤー 採用](#フライヤー-採用))。
 
 ## アンインストール
 
@@ -86,12 +116,15 @@ Survey / v0.0.1パネルと同じです。
 ## テスト観点 (起草)
 
 * attachment 選択 → 保存 → 再読み込みでサムネイルとファイル名が復元される。
-* 解除 → メタが空になる。
+* 解除 → メタキーが削除され、未登録として読める。
+* REST が `0` を送った場合 → 正規化でメタ削除。
 * 同期パイプライン (validate / plan) が CoverArt / フライヤー欠如で止まらない。
-* PDF 以外を選んだ場合のサーバー拒否 (方針確定後)。
+* 不正 MIME / サイズ超過 → メタは前値のまま、メッセージ表示。
+* CoverArt に PDF、フライヤーに画像をサーバー側で拒否。
 
 ## 改訂履歴 (起草)
 
 | 日付 | 内容 |
 | --- | --- |
 | 2026-10-10 | 本プラグイン・パネル拡張、メタ案、非目標を起草 |
+| 2026-10-10 | 未登録 (delete meta)、MIME、サイズ上限、PDF のみ、検証失敗時の扱いを採用 |
