@@ -2,13 +2,31 @@
 
 ## unreleased
 
-## 0.0.1 - 2026-10-11
+## 0.0.1 - 2026-10-12
+
+### Added
+
+* 配布 zip: `tools/dist/make-dist-zip.mjs` (`npm run dist:zip`)。GitHub Actions で tag `v*` 時にビルド、zip アーティファクト
+* GitHub Actions: `main` / PR で PHPUnit
 
 ### Changed
 
+* 運用素材の仕様を `docs/` 正本に反映 (`operational_material_index.md`、`glossary_operational.md`、`coverart_flyer_spec.md`、`source_qr_handoff_spec.md`、`source_qr_tracking_definitions_rest_spec.md`、`source_qr_tracking_rest_spec.md`)。Source QR 向け REST は定義一覧と取り込み GET を分割。`specs.md` / `status.md` を更新、`docs_mod/v0.0.2/` を撤去し起草は [docs/archive/mod-v0-0-2-operational-material/](./docs/archive/mod-v0-0-2-operational-material/) に freeze
+
+## 0.0.1 - 2026-10-11
+
+### Added
+
+* v0.0.2実装仕様の分割 (`docs_mod/v0.0.2/`): `glossary.md`、`coverart_flyer_spec.md` (draft 昇格)、`source_qr_handoff_spec.md` (パネル handoff、任意 GET 取り込み REST 最小契約)
+
+### Changed
+
+* v0.0.2索引: `coverart_flyer_draft` / `source_tracking_qr_draft` は参照メモ。Source QR と Service 取り込み (`tracking_import_spec`) は各リポジトリ `docs_mod` を正本候補にリンク
+* 開発依存: `@wordpress/*`、`@typescript-eslint/*`、`vite`、`rollup` 等をマイナー更新
+
 * v0.0.2起草 (`docs_mod/v0.0.2/`): プロバイダ一般化 (初実装 `zoom`、取り込みは `s2j-webinar-service` Adapter)。コンパニオン `s2j-webinar-source-qr` とメタ `_s2j_webinar_source_qr`、Webinar 側 handoff (token 正本・同期列に QR 文書を載せない) を合意
 * `zoom` Source Tracking: リンク作成 REST 不可、`GET …/tracking_sources` 可。v0.0.2は接続先ポータル登録 + 手入力または Webinar 経由 GET 取り込み + Source QR で PNG 保存 (`s2j-webinar-source-qr-service` は見送り)
-* CoverArt / フライヤー起草: 未登録は `delete_post_meta`、許可 MIME と上限 (CoverArt 5MiB / フライヤー PDF 20MiB)、検証失敗時はメタを前値のまま
+* CoverArt / フライヤー起草: 未登録は `delete_post_meta`、許可 MIME と上限 (画像5MiB / フライヤー20MiB)、検証失敗時はメタを前値のまま
 
 ## 0.0.1 - 2026-10-10
 

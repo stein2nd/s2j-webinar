@@ -81,6 +81,12 @@ Webinar の検証・操作計画・リクエスト材料・応答写像の規則
 | [同期実行](./sync_execution_spec.md) | validate → plan → `build_webinar_request` → HTTP → map、dirty、削除 |
 | [Webhook](./webhook_spec.md) | `webinar.started` / `ended` |
 | [Survey 受け渡し](./survey_handoff_spec.md) | `ready` 文書と `attach_survey` |
+| [運用素材 (v0.0.2) 索引](./operational_material_index.md) | CoverArt / フライヤー / Source QR。`zoom` 調査メモ |
+| [CoverArt / フライヤー](./coverart_flyer_spec.md) | イベントパネル、メタ、検証 |
+| [Source QR 受け渡し](./source_qr_handoff_spec.md) | パネル handoff、同期非載せ |
+| [ソース定義 REST](./source_qr_tracking_definitions_rest_spec.md) | `GET …/tracking-source-definitions` |
+| [Source Tracking 取り込み REST](./source_qr_tracking_rest_spec.md) | `GET …/tracking-sources` |
+| [運用素材用語](./glossary_operational.md) | v0.0.2 - 横断用語 |
 
 ### 運用
 

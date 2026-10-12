@@ -1,7 +1,3 @@
-<!--
-目的：「Zoom Webhook 受け口」の明文化
--->
-
 # S2J Webinar - Webhook 仕様
 
 ## 設計意図 (ゴール)

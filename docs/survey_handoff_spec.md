@@ -1,7 +1,3 @@
-<!--
-目的：「Survey `ready` 文書の受け渡しと attach_survey」の明文化
--->
-
 # S2J Webinar - Survey 受け渡し仕様
 
 ## 設計意図 (ゴール)

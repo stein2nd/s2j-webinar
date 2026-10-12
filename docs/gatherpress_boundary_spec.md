@@ -1,7 +1,3 @@
-<!--
-目的：「GatherPress との境界 (日時・Slot・公開リンク・終日)」の明文化
--->
-
 # S2J Webinar - GatherPress 境界仕様
 
 ## 設計意図 (ゴール)

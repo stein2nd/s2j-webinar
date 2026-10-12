@@ -1,7 +1,3 @@
-<!--
-目的：「validate → plan → build_webinar_request → HTTP → map」の実行契約
--->
-
 # S2J Webinar - 同期実行の仕様
 
 ## 設計意図 (ゴール)

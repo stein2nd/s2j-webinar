@@ -27,8 +27,6 @@
 
 ## 進行中の改訂案
 
-| 版 | パス | 内容 |
-| --- | --- | --- |
-| v0.0.2運用素材 | [v0.0.2/](./v0.0.2/) | CoverArt / フライヤー (本プラグイン)、UTM 別 QR (コンパニオン・プラグイン) |
+(なし — v0.0.2運用素材は [`../docs/operational_material_index.md`](../docs/operational_material_index.md) に反映済)
 
 実装仕様 **v0.0.1** の正本は [`../docs/`](../docs/) で fix です。

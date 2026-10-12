@@ -1,20 +1,16 @@
-<!--
-目的：「CoverArt・フライヤー (v0.0.2) の起草仕様」
--->
-
 # S2J Webinar - 運用素材 (CoverArt / フライヤー)
 
-**所有者:** S2J Webinar (本プラグイン)。**正本反映前** の改訂案です。
+**所有者:** S2J Webinar (本プラグイン)。用語は [glossary_operational.md](./glossary_operational.md) を参照します。索引は [operational_material_index.md](./operational_material_index.md) です。
 
 ## 設計意図 (ゴール)
 
-制作 **済み** の CoverArt (画像) とフライヤー (PDF) を、WordPress メディアライブラリに載せ、GatherPress イベント (Webinar 対象投稿) に紐付けます。Zoom REST は呼びません。
+制作 **済み** の CoverArt (画像) とフライヤー (PDF) を、WordPress メディアライブラリに載せ、GatherPress イベント (Webinar 対象投稿) に紐付けます。接続先 REST は呼びません。
 
 ## 非目標
 
 * WordPress 内で CoverArt / フライヤーを **新規制作** する機能 (デザインツール、テンプレート PDF 生成等)。
 * 配配メール (ラクス) との連携、メール経由の集客数の取り込み。
-* QR コード生成 (コンパニオン・プラグイン。[source_tracking_qr_draft.md](./source_tracking_qr_draft.md))。
+* QR コード生成 ([S2J Webinar Source QR](https://github.com/stein2nd/s2j-webinar-source-qr) および [source_qr_handoff_spec.md](./source_qr_handoff_spec.md))。
 
 ## ユースケース
 
@@ -24,7 +20,7 @@
 | --- | --- | --- |
 | イベント用 CoverArt を登録する | GatherPress イベント編集 > S2J Webinar パネル | メディアライブラリから画像を選び、メタに attachment ID を保存 |
 | フライヤー PDF を登録する | 同上 | PDF を選び、メタに attachment ID を保存 |
-| 公開面で参照する | テーマ / ブロック (別イニシアチブ可) | メタの attachment から URL を解決 (本起草では **管理画面とメタ** まで) |
+| 公開面で参照する | テーマ / ブロック (別イニシアチブ可) | メタの attachment から URL を解決 (本仕様では **管理画面とメタ** まで) |
 
 ## UI (本プラグイン・イベントパネル)
 
@@ -33,36 +29,36 @@ Slot `EventPluginDocumentSettings` の既存 Fill を拡張します (Survey プ
 ### CoverArt
 
 * ラベル: CoverArt (表示文言は i18n)。
-* コントロール: WordPress `MediaUpload` / `MediaUploadCheck` 相当 ([採用方針](#coverart-採用) の MIME に限定)。
+* コントロール: WordPress `MediaUpload` / `MediaUploadCheck` 相当 ([CoverArt 採用](#coverart-採用) の MIME に限定)。
 * 選択後: サムネイルと「差し替え」「解除」。
 * 未選択: プレースホルダと「メディアを選択」。
 
 ### フライヤー
 
 * ラベル: フライヤー (表示文言は i18n)。
-* コントロール: [採用方針](#フライヤー-採用) の PDF のみ。PowerPoint (PPTX 等) は受け付けない。
-* 案内 (任意): PowerPoint で作った場合は PDF 出力してから登録する旨 (i18n)。
+* コントロール: [フライヤー 採用](#フライヤー-採用) の PDF のみ。PowerPoint (PPTX 等) は受け付けない。
+* 案内 (任意): PowerPoint で作った場合は、PDF 出力してから登録する旨 (i18n)。
 * 選択後: ファイル名リンク (新規タブでメディア URL)、「差し替え」「解除」。
 
-### Zoom 同期との関係
+### 接続先同期との関係
 
-* 投稿の明示「更新」でメタだけ保存。**「同期」ボタンでは Zoom に送らない。**
+* 投稿の明示「更新」でメタだけ保存。**「同期」ボタンでは接続先に送らない。**
 * CoverArt / フライヤーの変更は WebinarRecord の `dirty` 判定に **含めない** (本体項目のみの既存規則を維持)。
 
-## 永続化 (起草キー)
+## 永続化
 
-個別 `register_post_meta`。1オブジェクトにまとめません (v0.0.1 [admin_ui_spec.md](../../docs/admin_ui_spec.md) に倣う)。
+個別 `register_post_meta`。1オブジェクトにまとめません (v0.0.1 [admin_ui_spec.md](./admin_ui_spec.md) に倣う)。
 
-正本反映時は [data_dictionary.md](../../docs/data_dictionary.md) に移します。
+キー定義の正本は実装反映時に [data_dictionary.md](./data_dictionary.md) に追記します。
 
-| キー (案) | 型 | `show_in_rest` | 説明 |
+| キー | 型 | `show_in_rest` | 説明 |
 | --- | --- | --- | --- |
 | `_s2j_webinar_cover_art_id` | int | true | CoverArt の `attachment_id`。正の整数のみ永続 ([未登録](#未登録の表現)) |
 | `_s2j_webinar_flyer_id` | int | true | フライヤー PDF の `attachment_id`。同上 |
 
 ### 未登録の表現
 
-WordPress のアイキャッチ (`_thumbnail_id`) に倣います。Survey 文書メタの空表現とはそろえません。
+WordPress のアイキャッチ (`_thumbnail_id`) に倣います。Survey 文書メタの空表現とはそろえません ([glossary_operational.md](./glossary_operational.md))。
 
 * **読み取り:** メタ不存在、`0`、非正整数、存在しない attachment ID → いずれも **未登録**。
 * **書き込み:** パネル「解除」および正規化で `0` / 負数 / 非数を受け取った場合は **`delete_post_meta`** する。永続するのは検証を通過した正の `attachment_id` のみ。
@@ -103,7 +99,7 @@ Survey / v0.0.1パネルと同じです。
 
 ## Service 境界
 
-**Webinar Service は、関与しません。**
+**s2j-webinar-service は関与しません。**
 
 検証は本プラグインの `save_post` 正規化です ([CoverArt 採用](#coverart-採用)、[フライヤー 採用](#フライヤー-採用))。
 
@@ -113,7 +109,7 @@ Survey / v0.0.1パネルと同じです。
 
 メディアライブラリの attachment 自体は削除しません (WordPress 標準のメディア寿命に従う)。
 
-## テスト観点 (起草)
+## テスト観点
 
 * attachment 選択 → 保存 → 再読み込みでサムネイルとファイル名が復元される。
 * 解除 → メタキーが削除され、未登録として読める。
@@ -122,9 +118,10 @@ Survey / v0.0.1パネルと同じです。
 * 不正 MIME / サイズ超過 → メタは前値のまま、メッセージ表示。
 * CoverArt に PDF、フライヤーに画像をサーバー側で拒否。
 
-## 改訂履歴 (起草)
+## 改訂履歴
 
 | 日付 | 内容 |
 | --- | --- |
-| 2026-10-10 | 本プラグイン・パネル拡張、メタ案、非目標を起草 |
-| 2026-10-10 | 未登録 (delete meta)、MIME、サイズ上限、PDF のみ、検証失敗時の扱いを採用 |
+| 2026-10-10 | 本プラグイン・パネル拡張、メタ案、非目標を起草 (`coverart_flyer_draft.md`) |
+| 2026-10-11 | 実装仕様として `coverart_flyer_spec.md` に昇格。用語集参照を追加 |
+| 2026-10-12 | 正本 `docs/coverart_flyer_spec.md` に反映 |
