@@ -134,6 +134,15 @@ Settings API の group / name は、本キーとそろえます。秘密は配�
 
 OAuth の `redirect_uri` は option に持たず、`admin-post.php` の固定アクション URL を都度組み立てます ([oauth_and_settings_spec.md](./oauth_and_settings_spec.md))。
 
+### 拡張フィルター (option 外)
+
+| フィルター | 用途 |
+| --- | --- |
+| `s2j_webinar_oauth_redirect_uri` | 認可・トークン交換・画面表示の redirect URI を上書き (ngrok / ステージング) |
+| `s2j_webinar_provider_setup_guide_url` | GatherPress → Webinar の **Provider setup guide** リンク URL。空で非表示 |
+
+Connect 時の `wp_safe_redirect` 向けに **`allowed_redirect_hosts` に `zoom.us` を追加** ([`OAuthFlow`](../includes/OAuth/OAuthFlow.php))。
+
 イベントメタの `_s2j_webinar_provider` は **レコード組立用** (イベント単位。空なら `zoom`)。サイト option `s2j_webinar_provider` は **画面・文言・将来の接続先選択** 用。初版は両方 `zoom` でよい。
 
 ## Survey メタ (所有は Survey プラグイン)

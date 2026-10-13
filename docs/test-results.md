@@ -111,3 +111,7 @@ npm run test:unit:php:local
 | 2026-10-14 | 3b | wp-env | (未実行) | 統合 4 件 — `npm run test:unit:php` (Docker 要) |
 
 実行後、日付、Pass/Fail、メモを追記してください。
+
+### 外部結合ゲート (E1–E6)
+
+Zoom 実 API・OAuth 完了・Webhook 等の Pass は [status.md §外部結合ゲート](./status.md#status-external) を参照。**Local (`http` localhost / 127.0.0.1) で Pass しにくい項目 (E1–E4 等)** と **要 HTTPS (ステージング / ngrok)** の区別は同表の **Local 可 / 要 HTTPS** 列に記載。段階1–2の smoke Pass だけでは E1–E6 は満たさない。

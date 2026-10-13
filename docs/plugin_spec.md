@@ -61,7 +61,7 @@
 
 要約のみです。正本は分割仕様です。
 
-* OAuth とサイト設定 (設定 → S2J Webinar + GatherPress → Webinar): [oauth_and_settings_spec.md](./oauth_and_settings_spec.md)
+* OAuth とサイト設定 (設定 → S2J Webinar + GatherPress → Webinar): [oauth_and_settings_spec.md](./oauth_and_settings_spec.md)。GatherPress → Webinar の Save / Connect は **`admin-post.php`**。Marketplace 手順は [provider_setup_guides.md](./provider_setup_guides.md)
 * イベントパネル: [admin_ui_spec.md](./admin_ui_spec.md)
 * GatherPress 境界: [gatherpress_boundary_spec.md](./gatherpress_boundary_spec.md)
 * 同期実行: [sync_execution_spec.md](./sync_execution_spec.md)

@@ -38,7 +38,7 @@ WordPress 管理画面 **GatherPress 設定 → Webinar** タブ先頭の **Prov
 | **Webhook secret** | **Features → Access** → **Secret Token** をコピー (**Verification Token** は非推奨・使わない) |
 | **Webhook URL** (表示のみ) | **Event Subscriptions** の **Event notification endpoint URL** に **完全一致** で貼る。HTTPS 必須 |
 
-保存: WordPress では **Save settings**。Zoom 側は各画面の Save / Validate。
+保存: WordPress **GatherPress → Webinar** タブでは **Save settings** → `admin-post.php` ([oauth_and_settings_spec.md](./oauth_and_settings_spec.md#oauth-http-routes))。Zoom 側は各画面の Save / Validate。
 
 ### リダイレクト URI
 

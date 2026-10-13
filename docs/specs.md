@@ -71,7 +71,7 @@ Webinar の検証・操作計画・リクエスト材料・応答写像の規則
 | --- | --- |
 | [データ辞書](./data_dictionary.md) | メタキー、option、メタ ↔ WebinarRecord |
 | [GatherPress 境界](./gatherpress_boundary_spec.md) | 日時キー、Slot、公開リンク、終日 |
-| [OAuth とサイト設定](./oauth_and_settings_spec.md) | 接続、トークン、Webhook 秘密 |
+| [OAuth とサイト設定](./oauth_and_settings_spec.md) | 接続、トークン、Webhook 秘密、`admin-post` 保存・Connect、redirect フィルター |
 | [プロバイダー設定ガイド](./provider_setup_guides.md) | GatherPress → Webinar と Marketplace の対応 (Zoom 初版) |
 | [管理 UI](./admin_ui_spec.md) | 設定画面、イベントパネル |
 

@@ -17,6 +17,17 @@ GatherPress → Webinar タブの認証・Webhook 項目には用途ガイド (d
 
 **Marketplace 手順 (Zoom ほか):** GatherPress → Webinar タブ先頭に **Provider setup guide** リンク (既定: GitHub [`provider_setup_guides.md`](./provider_setup_guides.md))。URL は `s2j_webinar_provider_setup_guide_url` フィルターで差し替え可。
 
+### 設定フォームの POST 先 (実装)
+
+| 画面 | Save settings | Connect / Disconnect |
+| --- | --- | --- |
+| **GatherPress → Webinar** | `admin-post.php` (`s2j_webinar_save_gatherpress_settings`) | `admin-post.php` + nonce (`s2j_webinar_oauth_connect` / `_disconnect`) |
+| **設定 → S2J Webinar** | `options.php` (`s2j_webinar_settings`) | (Connect UI は GP タブのみ) |
+
+OAuth コールバック後の通知・接続状態は **設定 → S2J Webinar** にリダイレクトする。GatherPress タブに戻す要件は初版にない。
+
+Local / Studio での Zoom Marketplace 制約 (Webhook / OAuth) と外部ゲート E1–E6 の **Local 可 / 要 HTTPS** は [status.md §外部結合ゲート](./status.md#status-external) と [test-results.md](./test-results.md) を正とする。
+
 ## イベント編集パネル
 
 | 項目 | 内容 |
