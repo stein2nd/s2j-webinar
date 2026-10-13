@@ -218,14 +218,16 @@
 
 **100% 分母外。** Pass は [test-results.md](./test-results.md) に記録。
 
-| # | 内容 |
-| --- | --- |
-| E1 | ステージング Zoom — OAuth connect |
-| E2 | create / update / get / delete 実 API |
-| E3 | Webhook — Zoom ダッシュボードから started / ended |
-| E4 | Survey プラグイン `ready` → attach_survey 実 Zoom |
-| E5 | フロント — 参加 URL 目視 |
-| E6 | v0.0.2 運用素材 |
+**Local 可 / 要 HTTPS:** **Local** は Local / Studio の `http://localhost` または `http://127.0.0.1:<port>` (Zoom から到達不可) で **ゲートとして Pass できるか**。**要 HTTPS** は公衆 HTTPS (ステージング、ngrok / Cloudflare Tunnel 等) が必要。同一 PC 上の Local + トンネルは **要 HTTPS** 側で実施する ([test-results.md](./test-results.md))。
+
+| # | 内容 | Local 可 / 要 HTTPS |
+| --- | --- | --- |
+| E1 | ステージング Zoom — OAuth connect | **要 HTTPS** (`127.0.0.1` / HTTP は Zoom `4700` エラー・Allow list 不可。Client 保存・Connect 試行まで Local 可) |
+| E2 | create / update / get / delete 実 API | **要 HTTPS** (E1完了後。未接続時の REST 到達は段階1、実 API 成功は本ゲート) |
+| E3 | Webhook — Zoom ダッシュボードから started / ended | **要 HTTPS** (Event Subscriptions。Local では未設定でよい — [webhook_spec.md](./webhook_spec.md)) |
+| E4 | Survey プラグイン `ready` → attach_survey 実 Zoom | **要 HTTPS** (E1・E2後。Survey 保存・UI は Local 可) |
+| E5 | フロント — 参加 URL 目視 | **Local 可** (`_s2j_webinar_join_url` / 公開欄が入っていること。E2 またはテスト用メタ) |
+| E6 | 運用素材 | **項目依存** (プラグイン UI / REST のみ Local 可。外部配信・本番ドメインは **要 HTTPS**) |
 
 ## 補足
 
