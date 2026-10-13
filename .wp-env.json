@@ -1,0 +1,11 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/wp-env.json",
+	"plugins": [
+		".",
+		"https://github.com/stein2nd/gatherpress/archive/refs/heads/main.zip"
+	],
+	"phpVersion": "8.2",
+	"config": {
+		"WP_DEBUG": true
+	}
+}

@@ -1,0 +1,41 @@
+import js from '@eslint/js';
+import typescript from '@typescript-eslint/eslint-plugin';
+import typescriptParser from '@typescript-eslint/parser';
+import react from 'eslint-plugin-react';
+import reactHooks from 'eslint-plugin-react-hooks';
+
+export default [
+	js.configs.recommended,
+	{
+		files: ['src/**/*.{ts,tsx}'],
+		languageOptions: {
+			parser: typescriptParser,
+			parserOptions: {
+				ecmaVersion: 'latest',
+				sourceType: 'module',
+				ecmaFeatures: { jsx: true },
+			},
+			globals: {
+				window: 'readonly',
+				document: 'readonly',
+				console: 'readonly',
+				wp: 'readonly',
+				s2jWebinarConfig: 'readonly',
+			},
+		},
+		plugins: {
+			'@typescript-eslint': typescript,
+			react,
+			'react-hooks': reactHooks,
+		},
+		rules: {
+			...typescript.configs.recommended.rules,
+			'react/react-in-jsx-scope': 'off',
+			'react/display-name': 'off',
+			'react/prop-types': 'off',
+		},
+		settings: {
+			react: { version: '19.0' },
+		},
+	},
+];

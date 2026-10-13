@@ -1,4 +1,29 @@
 {
+    "intelephense.environment.includePaths": [
+        "${workspaceFolder}/stubs",
+        "${workspaceFolder}/vendor/php-stubs/wordpress-stubs"
+    ],
+    "intelephense.stubs": [
+        "wordpress",
+        "wordpress-globals",
+        "Core",
+        "standard",
+        "hash",
+        "json",
+        "curl",
+        "dom",
+        "mbstring",
+        "SPL",
+        "libxml"
+    ],
+    "php.stubs": [
+        "*",
+        "wordpress",
+        "${workspaceFolder}/stubs/gatherpress.php",
+        "${workspaceFolder}/stubs/s2j-webinar-plugin.php",
+        "${workspaceFolder}/stubs/php-internal.php",
+        "${workspaceFolder}/stubs/wordpress-tests.php"
+    ],
     "json.schemaDownload.enable": true,
     "textlint.configPath": "${workspaceFolder}/.textlintrc.json",
     "textlint.nodePath": "${workspaceFolder}/node_modules",

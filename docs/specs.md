@@ -93,6 +93,7 @@ Webinar の検証・操作計画・リクエスト材料・応答写像の規則
 | ドキュメント | 内容 |
 | --- | --- |
 | [実装状況](./status.md) | 機能単位の進捗 |
+| [テスト戦略・結果](./test-results.md) | 段階1: Local / 段階2: Studio / 段階3: PHPUnit |
 | [ドキュメンテーション・ガバナンス](./governance/documentation_governance.md) | SoT、用語、lint、`docs_mod` → `docs`、archive |
 | [archive 索引](./archive/README.md) | 完了イニシアチブの凍結一覧 |
 

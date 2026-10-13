@@ -44,6 +44,27 @@ const removeJunkFilesRecursively = (dir) => {
 	}
 };
 
+const pruneProductionVendor = (stageRootDir) => {
+	const vendorDir = join(stageRootDir, 'vendor');
+	if (!existsSync(vendorDir)) {
+		return;
+	}
+	const binDir = join(vendorDir, 'bin');
+	if (existsSync(binDir)) {
+		rmSync(binDir, { recursive: true, force: true });
+	}
+	const serviceDir = join(vendorDir, 's2j', 'webinar-service');
+	if (!existsSync(serviceDir)) {
+		return;
+	}
+	for (const entry of readdirSync(serviceDir, { withFileTypes: true })) {
+		if (entry.name === 'src' || entry.name === 'composer.json') {
+			continue;
+		}
+		rmSync(join(serviceDir, entry.name), { recursive: true, force: true });
+	}
+};
+
 const writeBuildMeta = () => {
 	const meta = {
 		plugin: PLUGIN_SLUG,
@@ -76,7 +97,14 @@ ensureEmptyDir(outDir);
 ensureEmptyDir(stagePluginDir);
 
 copyTree(mustExist('includes'), join(stagePluginDir, 'includes'));
+copyTree(mustExist('vendor'), join(stagePluginDir, 'vendor'));
+copyTree(mustExist('languages'), join(stagePluginDir, 'languages'));
 copyTree(mustExist('dist'), join(stagePluginDir, 'dist'));
+
+const assetsDir = join(repoRoot, 'assets');
+if (existsSync(assetsDir)) {
+	copyTree(assetsDir, join(stagePluginDir, 'assets'));
+}
 
 cpSync(mustExist(`${PLUGIN_SLUG}.php`), join(stagePluginDir, `${PLUGIN_SLUG}.php`));
 cpSync(mustExist('uninstall.php'), join(stagePluginDir, 'uninstall.php'));
@@ -89,6 +117,7 @@ if (existsSync(languagesDir)) {
 }
 
 removeJunkFilesRecursively(stagePluginDir);
+pruneProductionVendor(stagePluginDir);
 writeBuildMeta();
 
 rmSync(zipPath, { force: true });

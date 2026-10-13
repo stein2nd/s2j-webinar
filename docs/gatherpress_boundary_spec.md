@@ -19,6 +19,15 @@
 | 権限 | そのイベントを編集できるユーザー |
 | Survey | Survey プラグインが別 Fill を載せる。本パネルと同居してよい |
 
+## GatherPress 設定内 Webinar タブ
+
+| 項目 | 方針 |
+| --- | --- |
+| 登録 | フィルター `gatherpress_sub_pages`。slug `webinar_settings` (GP 側は prefix 付き page) |
+| 優先度 | Tools / Alpha 付近 (`PHP_INT_MAX - 2` 程度) |
+| 表示 ON/OFF | サイト option `s2j_webinar_show_gatherpress_settings_tab`。OFF 時はサブページ自体を登録しない |
+| 内容 | OAuth / Webhook / 接続 (正本 [admin_ui_spec.md](./admin_ui_spec.md))。GatherPress 依存状態は **設定 → S2J Webinar** のみ |
+
 ## 日時の読み取り
 
 本プラグインは、同期のたびに GatherPress が保持する開始・終了、timezone からレコードの日時を組み立てます。イベントメタに開始時刻の複製を持ちません。

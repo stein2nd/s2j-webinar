@@ -1,5 +1,7 @@
 # Dependencies
 node_modules/
+vendor/
+.phpunit.cache/
 
 # Build outputs
 /dist/

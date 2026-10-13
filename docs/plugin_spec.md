@@ -28,7 +28,7 @@
 
 * サイトに Zoom を1アカウント接続する。
 * 録画方式・参加登録・登壇者をイベントごとに編集し、メタに保存する。
-* 新規登録・更新・削除・「Zoom で開く」(`get`。再取得と同義) をパネルから行う。
+* 新規登録・更新・削除・プロバイダー名付き「開く」(`get`。msgid `Open in %s`。再取得と同義) をパネルから行う。
 * 参加 URL を GatherPress の公開欄に反映する。
 * Webhook で開催中 / 終了を反映する。
 * Survey の `ready` 文書があれば `attach_survey` で付ける (写像はサービス)。
@@ -40,7 +40,7 @@
 * 出席・録画ファイル・効果測定の取り込み、registrant 登録
 * Zoom 手修正の双方向同期
 * CoverArt、QR、フライヤー、配配メール (ラクス) (後続)
-* Teams / Meet 等 (初版は Zoom 固定。選択 UI は実装済みが増えた場合)
+* Teams / Meet 等 (初版 site slug は `zoom` のみ。`WebinarProvider` + `%s` 文言で拡張余地を確保)
 * GatherPress フォーク本体の改変、WordPress.org への掲載
 * 設問の検査・助言 (Survey / Survey Service)
 
@@ -61,7 +61,7 @@
 
 要約のみです。正本は分割仕様です。
 
-* OAuth とサイト設定: [oauth_and_settings_spec.md](./oauth_and_settings_spec.md)
+* OAuth とサイト設定 (設定 → S2J Webinar + GatherPress → Webinar): [oauth_and_settings_spec.md](./oauth_and_settings_spec.md)
 * イベントパネル: [admin_ui_spec.md](./admin_ui_spec.md)
 * GatherPress 境界: [gatherpress_boundary_spec.md](./gatherpress_boundary_spec.md)
 * 同期実行: [sync_execution_spec.md](./sync_execution_spec.md)

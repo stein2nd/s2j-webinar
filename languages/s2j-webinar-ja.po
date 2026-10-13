@@ -1,0 +1,466 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: S2J Webinar 0.0.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/s2j-webinar\n"
+"POT-Creation-Date: 2026-10-13T10:22:40+00:00\n"
+"PO-Revision-Date: 2026-10-13 19:41+0900\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.9\n"
+"X-Domain: s2j-webinar\n"
+
+#. Plugin Name of the plugin
+#: s2j-webinar.php includes/Admin/SettingsPage.php:28
+#: includes/Admin/SettingsPage.php:29 includes/Admin/SettingsPage.php:203
+msgid "S2J Webinar"
+msgstr "S2J Webinar"
+
+#. Plugin URI of the plugin
+#: s2j-webinar.php
+msgid "https://github.com/stein2nd/s2j-webinar"
+msgstr "https://github.com/stein2nd/s2j-webinar"
+
+#. Description of the plugin
+#: s2j-webinar.php
+msgid "Create and sync Webinars from GatherPress event editing screens."
+msgstr "GatherPressのイベント編集画面からウェビナーを作成・同期できます。"
+
+#. Author of the plugin
+#: s2j-webinar.php
+msgid "Koutarou ISHIKAWA"
+msgstr "Koutarou ISHIKAWA"
+
+#. Author URI of the plugin
+#: s2j-webinar.php
+msgid "https://stein2nd.wordpress.com"
+msgstr "https://stein2nd.wordpress.com"
+
+#: includes/Admin/PluginListIcon.php:44
+msgid "Settings"
+msgstr "設定"
+
+#. translators: %s: webinar provider name, e.g. Zoom
+#: includes/Admin/SettingsPage.php:110
+#, php-format
+msgid "Connect %s"
+msgstr "%s に接続"
+
+#. translators: %s: webinar provider name, e.g. Zoom
+#: includes/Admin/SettingsPage.php:159
+#, php-format
+msgid "%s account connected."
+msgstr "%s アカウントに接続しました。"
+
+#. translators: %s: webinar provider name, e.g. Zoom
+#: includes/Admin/SettingsPage.php:164
+#, php-format
+msgid "%s connection removed."
+msgstr "%s 接続を解除しました。"
+
+#: includes/Admin/SettingsPage.php:167
+msgid "Enter Client ID and Client Secret before connecting."
+msgstr "接続する前に、クライアント ID と秘密鍵を入力してください。"
+
+#. translators: %s: webinar provider name, e.g. Zoom
+#: includes/Admin/SettingsPage.php:170
+#, php-format
+msgid "%s authorization was not completed."
+msgstr "%s の認可が完了しませんでした。"
+
+#: includes/Admin/SettingsPage.php:173
+msgid ""
+"Could not exchange the authorization code. Check credentials and redirect "
+"URL."
+msgstr ""
+"認証コードを交換できませんでした。認証情報とリダイレクトURLを確認してくださ"
+"い。"
+
+#: includes/Admin/SettingsPage.php:218 includes/Admin/SettingsPage.php:240
+msgid "Save settings"
+msgstr "設定を保存"
+
+#: includes/Admin/SettingsPage.php:222 dist/js/s2j-webinar-admin.js:1
+#: dist/js/s2j-webinar-admin.js:9
+msgid ""
+"S2J Webinar settings are saved above. Event panel controls load in the block "
+"editor."
+msgstr ""
+"S2J Webinar 設定は上記に保存されています。イベントパネルのコントロールはブ"
+"ロックエディタにロードされます。"
+
+#: includes/Admin/SettingsPage.php:245
+msgid "Disconnect"
+msgstr "接続を解除"
+
+#: includes/Admin/SettingsPage.php:252
+msgid ""
+"Which webinar platform this site uses. Additional providers may be "
+"selectable here in a future release."
+msgstr ""
+"当サイトが利用しているウェビナープラットフォームです。今後のリリースでは、こ"
+"こで他のプロバイダーも選択できるようになる可能性があります。"
+
+#: includes/Admin/SettingsPage.php:257
+msgid "Webinar provider"
+msgstr "ウェビナープロバイダー"
+
+#: includes/Admin/SettingsPage.php:267
+msgid "Client ID"
+msgstr "クライアント ID"
+
+#. translators: 1: webinar provider name, 2: same as 1 when users click Connect
+#: includes/Admin/SettingsPage.php:270
+#, php-format
+msgid ""
+"From your %1$s OAuth app (General app). Identifies this WordPress site to "
+"%2$s when users click Connect."
+msgstr ""
+"%1$s OAuth アプリケーション (一般アプリケーション) の値です。ユーザーが「接"
+"続」をクリックした際、この WordPress サイトを %2$s に対して識別させます。"
+
+#: includes/Admin/SettingsPage.php:278
+msgid "Client Secret"
+msgstr "クライアント秘密鍵"
+
+#: includes/Admin/SettingsPage.php:279
+msgid ""
+"Proves your site owns the OAuth app. Stored encrypted in the database; leave "
+"blank to keep the saved secret."
+msgstr ""
+"サイトがOAuthアプリを所有していることを証明します。データベースに暗号化されて"
+"保存されます; 空欄のままであれば、保存済みの秘密鍵が保持されます。"
+
+#: includes/Admin/SettingsPage.php:283
+msgid "Redirect URI"
+msgstr "リダイレクト URI"
+
+#. translators: 1: webinar provider name, 2: same as 1 after users approve access
+#: includes/Admin/SettingsPage.php:286
+#, php-format
+msgid ""
+"Add this exact URL to your %1$s app’s Redirect URL allow list. %2$s sends "
+"users back here after they approve access."
+msgstr ""
+"この正規の URL を、%1$s アプリケーションの「リダイレクト URL の許可リスト」に"
+"追加してください。ユーザーがアクセスを承認すると、%2$s からこの URL にリダイ"
+"レクトされます。"
+
+#: includes/Admin/SettingsPage.php:294
+msgid "Webhook secret"
+msgstr "Webhook の秘密鍵"
+
+#. translators: 1: webinar provider name, 2: same as 1 for webhook origin
+#: includes/Admin/SettingsPage.php:297
+#, php-format
+msgid ""
+"From %1$s Event Subscriptions. Used to verify that started/ended "
+"notifications really come from %2$s."
+msgstr ""
+"%1$s イベント・サブスクリプションの値です。開始/終了通知が実際に %2$s から送"
+"信されていることを確認するために使用されます。"
+
+#: includes/Admin/SettingsPage.php:305
+msgid "Webhook URL"
+msgstr "Webhook URL"
+
+#. translators: 1: webinar provider name, 2: same as 1 for notifications
+#: includes/Admin/SettingsPage.php:308
+#, php-format
+msgid ""
+"Paste into %1$s Event Subscriptions endpoint URL so %2$s can notify this "
+"site when a webinar starts or ends."
+msgstr ""
+"%1$s イベントサブスクリプションのエンドポイント URL にペーストして、ウェビ"
+"ナーの開始または終了時に %2$s からこのサイトに通知が届くようにしてください。"
+
+#: includes/Admin/SettingsPage.php:318
+msgid "Show Webinar tab in GatherPress Settings"
+msgstr "GatherPress 設定に「ウェビナー」タブを表示"
+
+#: includes/Admin/SettingsPage.php:319
+msgid ""
+"When enabled, a Webinar tab appears near Tools and Alpha under GatherPress "
+"Settings."
+msgstr ""
+"有効にすると、GatherPressの設定画面の「ツール」と「Alpha」の近くに「ウェビ"
+"ナー」タブが表示されます。"
+
+#: includes/Admin/SettingsPage.php:326
+msgid "Enabled"
+msgstr "有効"
+
+#: includes/Admin/SettingsPage.php:339
+msgid "GatherPress"
+msgstr "GatherPress"
+
+#: includes/Admin/SettingsPage.php:345
+msgid "GatherPress plugin: active"
+msgstr "GatherPress プラグイン: 有効"
+
+#: includes/Admin/SettingsPage.php:346
+msgid ""
+"GatherPress plugin: not active — install and activate GatherPress to edit "
+"webinars on events."
+msgstr ""
+"GatherPress プラグイン: 無効 — イベントのウェビナーを編集するには、"
+"GatherPress をインストールして有効化してください。"
+
+#: includes/Admin/SettingsPage.php:354
+msgid "Event post type: available"
+msgstr "イベント投稿タイプ: 利用可能"
+
+#: includes/Admin/SettingsPage.php:355
+msgid "Event post type: not found — check GatherPress activation."
+msgstr ""
+"イベント投稿タイプ: 見つかりません — GatherPress が有効になっているか確認して"
+"ください。"
+
+#: includes/Admin/SettingsPage.php:363
+msgid "GatherPress alpha: active (companion for current GatherPress releases)"
+msgstr "GatherPress alpha: 有効 (現在の GatherPress 向けコンパニオン)"
+
+#: includes/Admin/SettingsPage.php:364
+msgid ""
+"GatherPress alpha: not active — wp.org GatherPress may require the alpha "
+"companion plugin."
+msgstr ""
+"GatherPress alpha: 無効 — WordPress.org 版 GatherPress では alpha コンパニオ"
+"ンが必要な場合があります。"
+
+#: includes/Admin/SettingsPage.php:372
+msgid "Open GatherPress Settings → Webinar tab"
+msgstr "GatherPress 設定 → Webinar タブを開く"
+
+#: includes/Admin/SettingsPage.php:382
+msgid ""
+"Authorize once so editors can sync webinars from GatherPress events. Tokens "
+"stay on the server; editors never see secrets."
+msgstr ""
+"一度認証を行うことで、編集者はGatherPressのイベントからウェビナーを同期できる"
+"ようになります。トークンはサーバー上に保存され、編集者が秘密鍵を目にすること"
+"はありません。"
+
+#: includes/Admin/SettingsPage.php:386
+msgid "Connection status"
+msgstr "接続状態"
+
+#: includes/Admin/SettingsPage.php:390
+msgid "Status: connected"
+msgstr "状態: 接続済み"
+
+#. translators: %s: provider account email
+#: includes/Admin/SettingsPage.php:395
+#, php-format
+msgid "Account: %s"
+msgstr "アカウント: %s"
+
+#. translators: %s: connect button label, e.g. Connect Zoom
+#: includes/Admin/SettingsPage.php:403
+#, php-format
+msgid "Status: not connected — save Client ID/Secret, then click %s."
+msgstr ""
+"状態: 未接続 — クライアント ID/秘密鍵を保存してから、%s をクリックしてくださ"
+"い。"
+
+#: includes/GatherPress/SettingsTab.php:40 dist/js/s2j-webinar-gutenberg.js:1
+msgid "Webinar"
+msgstr "ウェビナー"
+
+#: includes/GatherPress/SettingsTab.php:44
+msgid "Webinar connection"
+msgstr "ウェビナー接続"
+
+#: includes/GatherPress/SettingsTab.php:45
+msgid ""
+"Site-wide OAuth credentials, webhooks, and connection for event webinars."
+msgstr ""
+"サイト全体の OAuth 認証情報、Webhook、およびイベントウェビナーへの接続設定で"
+"す。"
+
+#: includes/Messages/DeficiencyMessages.php:31
+msgid "Event title is required."
+msgstr "イベントタイトルは必須です。"
+
+#: includes/Messages/DeficiencyMessages.php:32
+msgid "Event start date and time are required."
+msgstr "イベントの開始日時は必須です。"
+
+#: includes/Messages/DeficiencyMessages.php:33
+msgid "Event timezone is required."
+msgstr "イベントのタイムゾーンは必須です。"
+
+#: includes/Messages/DeficiencyMessages.php:34
+msgid "Event duration must be at least one minute."
+msgstr "イベントの所要時間は、少なくとも1分以上が必要です。"
+
+#: includes/Messages/DeficiencyMessages.php:35
+msgid "Add at least one panelist before syncing."
+msgstr "同期する前に、パネリストを少なくとも1人追加してください。"
+
+#: includes/Messages/DeficiencyMessages.php:36
+msgid "Each panelist needs a valid email address."
+msgstr "各パネリストには、有効なメールアドレスが必要です。"
+
+#: includes/Messages/DeficiencyMessages.php:37
+msgid "A panelist email address is invalid."
+msgstr "パネリストのメールアドレスが不正です。"
+
+#. translators: %s: webinar provider name, e.g. Zoom
+#: includes/Messages/DeficiencyMessages.php:40
+#, php-format
+msgid "This event is not linked to a %s webinar yet."
+msgstr "このイベントは、まだ %s ウェビナーにリンクされていません。"
+
+#: includes/Messages/DeficiencyMessages.php:43
+msgid "This provider is not supported."
+msgstr "このプロバイダーはサポートされていません。"
+
+#. translators: %s: webinar provider name, e.g. Zoom
+#: includes/Messages/DeficiencyMessages.php:52
+#, php-format
+msgid "Could not sync. Check event fields and %s connection."
+msgstr "同期できませんでした。イベント項目と %s 接続を確認してください。"
+
+#: includes/OAuth/OAuthFlow.php:27 includes/OAuth/OAuthFlow.php:43
+#: includes/OAuth/OAuthFlow.php:53
+msgid "Forbidden"
+msgstr "禁止"
+
+#: includes/Plugin.php:58
+msgid ""
+"S2J Webinar: Composer dependencies are missing. Run composer install in the "
+"plugin directory."
+msgstr ""
+"S2J Webinar: Composer の依存関係が不足しています。プラグインのディレクトリで"
+"「composer install」を実行してください。"
+
+#: includes/Provider/WebinarProvider.php:28
+msgid "Zoom"
+msgstr "Zoom"
+
+#: includes/Rest/EventActionsController.php:102
+#: includes/Rest/SyncController.php:63
+msgid "Invalid post."
+msgstr "不正な投稿です。"
+
+#: includes/Rest/SyncController.php:51
+msgid "Not a GatherPress event."
+msgstr "GatherPress イベントではありません。"
+
+#: includes/Rest/SyncController.php:54
+msgid "Forbidden."
+msgstr "禁止されています。"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "Cloud"
+msgstr "クラウド"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "Local"
+msgstr "ローカル"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "None"
+msgstr "なし"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "Request completed."
+msgstr "リクエストが完了しました。"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "Request could not complete."
+msgstr "リクエストを完了できませんでした。"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "Request could not complete. Check settings and event fields."
+msgstr ""
+"リクエストを完了できませんでした。設定およびイベントフィールドを確認してくだ"
+"さい。"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid ""
+"%s is not connected. Open Settings → S2J Webinar (or GatherPress Settings → "
+"Webinar)."
+msgstr ""
+"%s は接続されていません。「設定」→「S2J Webinar」(または「GatherPress 設定」→"
+"「ウェビナー」) を開いてください。"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "Synced"
+msgstr "同期済み"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "Changes not synced"
+msgstr "未同期の変更あり"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "Error"
+msgstr "エラー"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "Not created"
+msgstr "未作成"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "Status"
+msgstr "状態"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "Recording"
+msgstr "レコーディング"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "Registration"
+msgstr "登録"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "Required — auto approve"
+msgstr "必須 — 自動承認"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "Required — manual approve"
+msgstr "必須 — 手動承認"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "Not required"
+msgstr "必須ではありません"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "Panelists (at least one required to sync)"
+msgstr "パネリスト (同期には少なくとも1名が必要)"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "Name"
+msgstr "名前"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "Email"
+msgstr "メール"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "Remove"
+msgstr "削除"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "Add panelist"
+msgstr "パネリストを追加"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "Sync"
+msgstr "同期"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "Open in %s"
+msgstr "%s で開く"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "Remove this webinar from %s?"
+msgstr "%s からこのウェビナーを削除しますか ?"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "Delete from %s"
+msgstr "%s から削除"

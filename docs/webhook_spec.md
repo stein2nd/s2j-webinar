@@ -17,7 +17,7 @@ Zoom から開催開始・終了を受け、セッション状態を固定しま
 | 項目 | 方針 |
 | --- | --- |
 | URL | 本プラグインの REST ルート (絶対 URL をサイト設定に表示)。OAuth コールバックの `admin-post` とは別 |
-| 認証 | Zoom の署名 (Webhook Secret)。秘密は [oauth_and_settings_spec.md](./oauth_and_settings_spec.md) |
+| 認証 | Zoom の署名 (Webhook 秘密鍵)。秘密は [oauth_and_settings_spec.md](./oauth_and_settings_spec.md) |
 | 権限 | 署名検証に成功したリクエストのみ処理。Cookie 認証に頼らない |
 
 ## 購読イベント (初版)

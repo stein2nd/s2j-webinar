@@ -44,7 +44,14 @@
         "makepot": "wp i18n make-pot . languages/s2j-webinar.pot --domain=s2j-webinar",
         "dist:build": "npm run build:production",
         "dist:zip": "node tools/dist/make-dist-zip.mjs",
-        "dist": "npm run dist:build && npm run dist:zip"
+        "dist": "npm run dist:build && npm run dist:zip",
+        "wp-env": "wp-env",
+        "test:smoke:local": "bash tests/smoke-local.sh",
+        "phpunit:local": "vendor/bin/phpunit -c phpunit.xml.dist",
+        "test:unit:php:local": "composer test",
+        "pretest:unit:php": "wp-env start",
+        "test:unit:php": "wp-env run tests-wordpress wp-content/plugins/s2j-webinar/vendor/bin/phpunit -c wp-content/plugins/s2j-webinar/phpunit.wp-env.xml.dist",
+        "phpunit:wp-env": "npm run test:unit:php"
     },
     "dependencies": {
         "react": "^19.3.0",
@@ -67,9 +74,12 @@
         "@wordpress/block-editor": "^18.1.0",
         "@wordpress/blocks": "^16.2.0",
         "@wordpress/components": "^42.0.0",
+        "@wordpress/core-data": "^8.2.0",
         "@wordpress/data": "^10.57.0",
         "@wordpress/element": "^9.0.0",
+        "@wordpress/env": "^10.39.0",
         "@wordpress/i18n": "^6.30.0",
+        "@wordpress/plugins": "^7.57.0",
         "@wordpress/url": "^4.57.0",
         "autoprefixer": "^10.6.1",
         "eslint": "^10.12.0",

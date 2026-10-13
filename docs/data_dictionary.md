@@ -122,15 +122,19 @@ Settings API の group / name は、本キーとそろえます。秘密は配�
 
 | キー | 型 | 説明 |
 | --- | --- | --- |
-| `s2j_webinar_zoom_client_id` | string | Zoom アプリケーションの Client ID |
-| `s2j_webinar_zoom_client_secret` | string | Client Secret。保存後は再表示しない |
+| `s2j_webinar_zoom_client_id` | string | Zoom アプリケーションの クライアント ID |
+| `s2j_webinar_zoom_client_secret` | string | クライアント秘密鍵。保存後は再表示しない |
 | `s2j_webinar_zoom_access_token` | string | アクセス・トークン。WP option に保存し、配布物・ログ・画面に出さない。暗号化レイヤは初版の必須としない (後続可) |
 | `s2j_webinar_zoom_refresh_token` | string | リフレッシュトークン |
 | `s2j_webinar_zoom_token_expires_at` | int | UNIX 時刻。期限までアクセス・トークンを使い回す |
 | `s2j_webinar_zoom_account_email` | string | 接続ユーザーの表示用メール (任意) |
 | `s2j_webinar_webhook_secret` | string | Webhook 署名検証用。保存後は再表示しない |
+| `s2j_webinar_show_gatherpress_settings_tab` | bool | GatherPress 設定内 **Webinar** サブタブを登録するか。既定 `true`。OFF 時はタブ非表示 (設定 → S2J Webinar から復帰可) |
+| `s2j_webinar_provider` | string | サイト全体のウェビナープロバイダー slug。初版は `zoom` のみ使用 (未設定時も `zoom`)。UI 表示名は [`WebinarProvider`](../includes/Provider/WebinarProvider.php) |
 
 OAuth の `redirect_uri` は option に持たず、`admin-post.php` の固定アクション URL を都度組み立てます ([oauth_and_settings_spec.md](./oauth_and_settings_spec.md))。
+
+イベントメタの `_s2j_webinar_provider` は **レコード組立用** (イベント単位。空なら `zoom`)。サイト option `s2j_webinar_provider` は **画面・文言・将来の接続先選択** 用。初版は両方 `zoom` でよい。
 
 ## Survey メタ (所有は Survey プラグイン)
 
@@ -152,7 +156,7 @@ OAuth の `redirect_uri` は option に持たず、`admin-post.php` の固定ア
 | 対象 | 消す |
 | --- | --- |
 | 本プラグイン所有のイベントメタ | 上表の `_s2j_webinar_provider` … `_s2j_webinar_session` の全キー |
-| 本プラグインのサイト option | 上表の `s2j_webinar_zoom_*` / `s2j_webinar_webhook_secret` |
+| 本プラグインのサイト option | 上表の `s2j_webinar_zoom_*` / `s2j_webinar_webhook_secret` / `s2j_webinar_show_gatherpress_settings_tab` / `s2j_webinar_provider` |
 | `_s2j_webinar_survey` | **消さない** |
 | GatherPress メタ | 消さない |
 | Zoom 上の Webinar / アンケート | 変更しない |

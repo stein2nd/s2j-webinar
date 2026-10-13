@@ -1,0 +1,30 @@
+{
+    "name": "s2j/s2j-webinar",
+    "description": "GatherPress companion plugin for Zoom Webinar sync",
+    "type": "wordpress-plugin",
+    "license": "GPL-3.0-or-later",
+    "require": {
+        "php": ">=8.2",
+        "s2j/webinar-service": "^0.1.0"
+    },
+    "require-dev": {
+        "php-stubs/wordpress-stubs": "^6.8",
+        "phpunit/phpunit": "^10.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "S2J\\Webinar\\": "includes/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "S2J\\Webinar\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "config": {
+        "sort-packages": true
+    }
+}

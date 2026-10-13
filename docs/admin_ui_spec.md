@@ -2,11 +2,18 @@
 
 ## 設計意図 (ゴール)
 
-管理者が接続を済ませ、営業担当者がイベント編集パネルだけで Webinar の登録・更新・削除・「Zoom で開く」を終えられるようにします。
+管理者が接続を済ませ、営業担当者がイベント編集パネルだけで Webinar の登録・更新・削除・「プロバイダー名付きで開く」を終えられるようにします (初版プロバイダーは `zoom`)。
 
 ## サイト設定
 
-正本の項目と秘密扱いは [oauth_and_settings_spec.md](./oauth_and_settings_spec.md) です。メニュー見出しは「S2J Webinar」とします。
+正本の項目と秘密扱いは [oauth_and_settings_spec.md](./oauth_and_settings_spec.md) です。
+
+| 画面 | 内容 |
+| --- | --- |
+| **設定 → S2J Webinar** | GatherPress 依存状態 (plugin / event post type / alpha) と Webinar タブへのリンク (有効時)。GatherPress 設定内 Webinar タブの表示 ON/OFF。**Webinar provider** (初版は Zoom ラベルのみ。将来コンボ)。Save settings。フッター注記 (ブロックエディター)。 |
+| **GatherPress 設定 → Webinar** | クライアント ID/秘密鍵、リダイレクト URI、Webhook 秘密鍵/URL、Connection status (各ガイド付き)。Save settings。**Connect {provider}** (msgid `Connect %s`。Disconnect は接続時)。GatherPress 状態は出さない。 |
+
+GatherPress → Webinar タブの認証・Webhook 項目には用途ガイド (description) を付けます。ガイド中のプロバイダー名は `%s` msgid + [`WebinarProvider`](../includes/Provider/WebinarProvider.php) の表示名とします。
 
 ## イベント編集パネル
 
@@ -19,7 +26,7 @@
 
 ### パネルに出す項目 (初版)
 
-* 接続状態の要約 (未接続なら設定画面への誘導。Client 入力は出さない)
+* 接続状態の要約 (未接続なら `%s is not connected…` + 設定への誘導。Client 入力は出さない)
 * 録画方式 (`none` / `cloud` / `local`)。デフォルト表示はクラウド
 * 参加登録 (ラジオ: 必須・自動承認 / 必須・手動承認 / 不要)。デフォルトは必須・自動承認 (`0`)
 * 登壇者 (Panelist) の列 (氏名・メール。追加・削除・並べ替え。**同期には1人以上** (投稿保存では `[]` 可。詳細は下記)。0人のまま「同期」は無効または追加を促す。1人目が質問メール送信先である旨の補足)
@@ -27,13 +34,13 @@
 * `last_error` がある場合の適切なメッセージ文 (トークンを含まない)
 * 操作ボタン:
   * 同期 (作成・更新・登壇者差分・`ready` なら `attach_survey`。`error` かつ id 非空なら `intend_retry`。ラベルは状態に応じて変えてよい。アンケート専用ボタンは持たない)
-  * Zoom で開く (`build_webinar_request( 'get', … )` 直呼びの get 専用経路。再取得と同義。別の「再取得」ボタンは置かない。書き込み用 validate / plan は通さない)
-  * Zoom から削除 (確認ダイアログ必須)
+  * **Open in %s** — `build_webinar_request( 'get', … )` 直呼びの get 専用経路。`%s` は `providerLabel`。再取得と同義。別の「再取得」ボタンは置かない
+  * **Delete from %s** — 確認 `Remove this webinar from %s?` 必須
 * 定員を超えそうな場合は、ライブストリームを別途検討する旨の案内 (配信 URL / ストリームキーは送らない・入力しない)
 
 ### パネルに出さない項目 (初版)
 
-* 接続先プロバイダの選択一覧
+* 接続先プロバイダの選択 UI (サイト **設定 → S2J Webinar** で slug 表示のみ。イベントパネルには出さない)
 * パスコード、チャットデフォルト、継承7項目の個別編集
 * Q&A / HD / 認証の個別トグル (作成時はサービス材料の固定値)
 * Survey 設問の編集 (Survey プラグイン)
@@ -59,18 +66,21 @@ Survey プラグインの永続化にそろえます。**パネル編集キー**
 | --- | --- |
 | 投稿の明示更新 | パネル入力をイベントメタに保存 (登壇者 `[]` 可)。**自動では Zoom に送らない** |
 | 「同期」ボタン | 書き込みパイプライン ([sync_execution_spec.md](./sync_execution_spec.md))。`intend_get` は付けない。status が `error` かつ id 非空なら `intend_retry` |
-| 「Zoom で開く」 | `build_webinar_request( 'get', … )` のみ (`webinar_id` 非空ゲート)。`start_url` を保存せず開く。応答 `join_url` / `webinar_uuid` 非空の場合だけメタ (と `join_url` なら公開欄) を更新。空なら既存を消さない。失敗時は `last_error` 可 |
-| 「Zoom から削除」 | 確認後 `intend_delete` |
+| **Open in {provider}** (msgid `Open in %s`) | `build_webinar_request( 'get', … )` のみ (`webinar_id` 非空ゲート)。`start_url` を保存せず開く。応答 `join_url` / `webinar_uuid` 非空の場合だけメタ (と `join_url` なら公開欄) を更新。空なら既存を消さない。失敗時は `last_error` 可 |
+| **Delete from {provider}** (msgid `Delete from %s`) | 確認後 `intend_delete` |
 
 ## 不足・失敗の表示
 
 * サービスの不足コード / 例外メッセージから、適切なメッセージ文を表示する (国際化関数を経由)。
 * 画面に生の deficiency code やスタックを出さない。
-* 書き込み同期で不足がある場合は HTTP しない。「Zoom で開く」は topic 等の不足ではとめない。
+* 書き込み同期で不足がある場合は HTTP しない。「Open in %s」は topic 等の不足ではとめない。
 
 ## i18n
 
-* PHP / JS への日本語直書き原稿にしない。msgid は英語基本。
+* PHP / JS への日本語直書きスクリプトにしない。msgid は英語基本。プロバイダー名は msgid に含めず **`%s` / `%1$s` プレースホルダ** + 実行時の表示名 ([`WebinarProvider`](../includes/Provider/WebinarProvider.php) / Gutenberg の `providerLabel`)。
+* PHP の `__()` 等の第2引数 (text domain) は **`'s2j-webinar'` 文字列リテラル** とする (`wp i18n make-pot` が `Constants::TEXT_DOMAIN` だけでは抽出しないため)。
+* Gutenberg: `wp_set_script_translations` + `languages/*.json` (PO から `wp i18n make-json`)。
+* 管理 UI の Client / 接続フォームは **PHP 描画のみ** (GatherPress タブに admin JS フッターを二重表示しない)。
 * 仕様書中の日本語は製品文案・説明であり、実装ソースではない。
 
 ## 関連

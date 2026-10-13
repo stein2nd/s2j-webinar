@@ -2,6 +2,24 @@
 
 ## unreleased
 
+## 0.0.1 - 2026-10-13
+
+### Added
+
+* WordPress プラグイン初版スケルトン: `s2j-webinar.php`、`includes/` (設定、OAuth、メタ登録、レコード組立/dirty、`SyncRunner`、同期 REST)、`composer.json` + `s2j/webinar-service`
+* 管理 UI: Vite + React (`dist/`)。サイト設定、GatherPress イベントパネル Fill (同期ボタン)
+* テスト3段階: [docs/test-results.md](docs/test-results.md)、`tests/smoke-local.sh` (GatherPress 必須)、`.wp-env.json`、`studio/README.md` (Blueprint 未作成)
+* `readme.txt`、`.textlintignore`、`phpunit.xml.dist`、TypeScript (`vite-env.d.ts`、`@wordpress/plugins` シム)
+
+### Changed
+
+* 配布 zip: `vendor/`・`languages/` を同梱。CI `dist-zip` で `composer install --no-dev` を先行
+* PHPUnit CI: `npm run test:unit:php:local` (`composer test`)。`docs/status.md` に実装進捗を反映
+
+### Fixed
+
+* GatherPress **設定 → Webinar** の「Save settings」— `options.php` への POST 後にコアの権限チェックで wp_die となる場合があるため、OAuth / Webhook 資格情報の保存を `admin-post.php` ハンドラに変更 (**設定 → S2J Webinar** は従来どおり Settings API)
+
 ## 0.0.1 - 2026-10-12
 
 ### Added

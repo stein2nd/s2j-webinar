@@ -19,7 +19,16 @@ jobs:
           node-version: "20"
           cache: "npm"
 
-      - name: Install dependencies
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          tools: composer
+
+      - name: Install Composer dependencies (production)
+        run: composer install --no-interaction --prefer-dist --no-dev --optimize-autoloader
+
+      - name: Install Node dependencies
         run: npm ci --ignore-scripts
 
       - name: Build & zip

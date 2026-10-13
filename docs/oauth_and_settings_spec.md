@@ -18,14 +18,18 @@
 
 初版で要求するスコープには、アンケート添付用の `webinar:update:survey` を含めます。
 
-## サイト設定画面
+## サイト設定画面 (2画面)
 
-| 項目 | 内容 |
-| --- | --- |
-| メニュー見出し | S2J Webinar (製品名と同一でよい) |
-| 権限 | `manage_options` のみ |
-| 項目 | Client ID、Client Secret、接続状態、接続 / 切断、Webhook 秘密、Webhook URL の表示 |
-| 接続先選択 | 初版は出さない (Zoom 固定) |
+正本の画面分担は [admin_ui_spec.md](./admin_ui_spec.md) です。Client / Webhook / 接続の **入力と保存** は GatherPress 側タブに集約します。
+
+| 画面 | メニュー / タブ | 権限 | 内容 |
+| --- | --- | --- | --- |
+| **設定 → S2J Webinar** | WordPress `add_options_page` | `manage_options` | GatherPress 依存状態 (plugin / event post type / alpha)。GatherPress 内 **Webinar タブを表示するか** (`s2j_webinar_show_gatherpress_settings_tab`。OFF なら GP からタブ非表示)。**Webinar provider** (初版は `zoom` ラベルのみ表示。将来コンボ)。Save settings。フッター注記 (ブロックエディター)。 |
+| **GatherPress 設定 → Webinar** | `gatherpress_sub_pages` (`webinar_settings`)。Tools / Alpha 付近 | `manage_options` | クライアント ID/秘密鍵、リダイレクト URI、Webhook 秘密鍵/URL、Connection status (各ガイド)。Save settings。**Connect %s** / Disconnect。GatherPress 依存ブロックは **出さない**。 |
+
+* サイト全体のプロバイダー slug / 表示名の正本は [`WebinarProvider`](../includes/Provider/WebinarProvider.php) (`s2j_webinar_provider` option。未設定時 `zoom`)。
+* 接続ボタン・通知・ガイド文の msgid は **プロバイダー名を `%s` に埋め込む** (例: `Connect %s`、`%s account connected.`)。初版の slug は `zoom` のみ。
+* GatherPress タブ OFF 中も **設定 → S2J Webinar** からタブを再度 ON にできる。
 
 ### 秘密の扱い
 
@@ -46,7 +50,7 @@
 3. access / refresh / `expires_at` を option に保存。接続ユーザーのメールが取れたら表示用に保存。
 4. API 呼び出し前に期限を見て、必要ならリフレッシュ材料で更新する。
 5. アクセス・トークンは **期限まで使い回す** (毎回発行しない)。
-6. 「切断」でトークン系 option を消し、Client ID / Secret は残してよい (再接続用)。
+6. 「切断」でトークン系 option を消し、クライアント ID / 秘密鍵は残してよい (再接続用)。
 
 ## HTTP と Authorization
 
