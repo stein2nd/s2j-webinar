@@ -14,6 +14,15 @@
 
 **依存:** 段階1・2では **[GatherPress](https://github.com/stein2nd/gatherpress)** (フォーク可) を **有効化必須** です。wp.org 最新系では **GatherPress alpha** も同時に有効化する必要があります (GatherPress 本体が要求)。本プラグイン単体ではイベント post type / Slot が成立しません。
 
+**Webhook (段階1–2):** Zoom Event Subscriptions は **公衆 HTTPS** のエンドポイント URL が必須です。Local / Studio の `http://localhost` 等では Zoom 側で登録できません (*A secure URL using HTTPS is required*)。**段階1–2では Webhook URL / Webhook secret は未設定のまま** とし、OAuth・同期・スモークを優先します。`webinar.started` / `webinar.ended` の検証は [status.md の外部結合ゲート E3](./status.md#status-external) (HTTPS ステージング) で行います。
+
+**OAuth Connect (Local / Studio):** Zoom は **`localhost` ホスト名** を拒否します (4700)。本プラグインは **`127.0.0.1` に正規化** しますが、**`http://127.0.0.1:<port>` も Marketplace 側で 4700 になることがあります** (Allow list 不一致、または HTTP ループバック非対応)。
+
+1. General app → **Development** の **OAuth Redirect URL for OAuth** (必須・1本) に callback の **完全 URL** を登録。**OAuth allow list** は Zoom UI が **HTTPS + FQDN** を要求し、`http://127.0.0.1:…` は **Wrong URL format** になる (ループバック / HTTP はフォーム段階で拒否)。Allow list には **ベースのみ** (例: `https://staging.example.com`) を入れ、Redirect URL 欄にパス付き callback を入れる運用が一般的 ([Zoom OAuth Information](https://developers.zoom.us/docs/build-flow/basic-info/oauth-info/))。
+2. WordPress の Client ID / Secret は **Development** の資格情報と一致させる。
+3. それでも 4700 → **HTTPS の到達可能 URL** が必要 ([Zoom 開発者フォーラム](https://devforum.zoom.us/) では ngrok / ステージングを推奨)。例: `ngrok http 8884` → `https://….ngrok-free.app/wp-admin/admin-post.php?action=s2j_webinar_oauth_callback` を Zoom に登録し、必要なら `s2j_webinar_oauth_redirect_uri` フィルターで同 URL を指定 ([oauth_and_settings_spec.md](./oauth_and_settings_spec.md))。
+4. **段階1–2で Connect を省略** し、OAuth 実 Connect は [外部結合 E1](./status.md#status-external) (HTTPS ステージング) に回す — Webhook 後回しと同様 — でもよい。
+
 ---
 
 ## 第1段階: Local (結合スモーク)
@@ -95,8 +104,8 @@ npm run test:unit:php:local
 
 | 日付 | 段階 | 環境 | 結果 | メモ |
 | --- | --- | --- | --- | --- |
-| 2026-10-14 | 1 | Local (`blockpluginbase`) | PASS | `npm run test:smoke:local`（プラグインルート + 自動 `WP_PATH`）。手動 checklist は [第1段階](#第1段階-local-結合スモーク) 参照 |
-| 2026-10-14 | 2 | WordPress Studio (`webinar-smoke`) | PASS | プラグイン `~/Studio/webinar-smoke/wp-content/plugins/s2j-webinar` から `npm run test:smoke:local`（`WP_PATH` → Studio サイトルート）。wp-cli v2.12の PHP Deprecated (react/promise) は出力のみ・判定に影響なし。手動 checklist は [第1段階](#第1段階-local-結合スモーク) 参照 |
+| 2026-10-14 | 1 | Local (`blockpluginbase`) | PASS | `npm run test:smoke:local` (プラグインルート + 自動 `WP_PATH`)。手動 checklist は [第1段階](#第1段階-local-結合スモーク) 参照 |
+| 2026-10-14 | 2 | WordPress Studio (`webinar-smoke`) | PASS | プラグイン `~/Studio/webinar-smoke/wp-content/plugins/s2j-webinar` から `npm run test:smoke:local` (`WP_PATH` → Studio サイトルート)。wp-cli v2.12の PHP Deprecated (react/promise) は出力のみ・判定に影響なし。手動 checklist は [第1段階](#第1段階-local-結合スモーク) 参照 |
 | 2026-10-13 | 3 | CI / ローカル | PASS | `composer test` (ServiceBridge, StatusCalculator) |
 | 2026-10-14 | 3a | ローカル | PASS | 純 PHPUnit: 18 件 (OAuth refresh, SyncRunner, Get/Delete, Webhook 署名) |
 | 2026-10-14 | 3b | wp-env | (未実行) | 統合 4 件 — `npm run test:unit:php` (Docker 要) |

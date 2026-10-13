@@ -267,6 +267,7 @@ final class SettingsPage {
 
 	/** GatherPress Settings → Webinar: OAuth, webhooks, connection. */
 	public static function render_gatherpress_tab_inner(): void {
+		self::render_provider_setup_guide_link();
 		?>
 		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 			<input type="hidden" name="action" value="<?php echo esc_attr( Constants::ADMIN_POST_SAVE_GP_SETTINGS ); ?>" />
@@ -284,6 +285,45 @@ final class SettingsPage {
 			<?php endif; ?>
 		</p>
 		<?php
+	}
+
+	public static function provider_setup_guide_url(): string {
+		/**
+		 * URL to provider setup documentation (Marketplace ↔ WordPress fields).
+		 *
+		 * @param string $url Default GitHub docs URL.
+		 */
+		return (string) apply_filters(
+			's2j_webinar_provider_setup_guide_url',
+			Constants::DOCS_PROVIDER_SETUP_GUIDE_URL
+		);
+	}
+
+	private static function render_provider_setup_guide_link(): void {
+		$url = self::provider_setup_guide_url();
+		if ( $url === '' ) {
+			return;
+		}
+
+		$provider = self::webinar_provider_label();
+		echo '<p class="description s2j-webinar-settings__setup-guide">';
+		echo wp_kses(
+			sprintf(
+				/* translators: 1: webinar provider name, 2: opening anchor tag, 3: closing anchor tag */
+				__( 'Where to find each value in the %1$s developer console: %2$sProvider setup guide%3$s.', 's2j-webinar' ),
+				esc_html( $provider ),
+				'<a href="' . esc_url( $url ) . '" target="_blank" rel="noopener noreferrer">',
+				'</a>'
+			),
+			array(
+				'a' => array(
+					'href'   => array(),
+					'target' => array(),
+					'rel'    => array(),
+				),
+			)
+		);
+		echo '</p>';
 	}
 
 	private static function render_provider_row(): void {

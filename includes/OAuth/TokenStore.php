@@ -49,7 +49,16 @@ final class TokenStore {
 	}
 
 	public static function redirect_uri(): string {
-		return admin_url( 'admin-post.php?action=' . \S2J\Webinar\Constants::OAUTH_CALLBACK_ACTION );
+		$url = admin_url( 'admin-post.php?action=' . \S2J\Webinar\Constants::OAUTH_CALLBACK_ACTION );
+		// Zoom OAuth rejects hostname "localhost" (error 4700); loopback IP may still require allow-list / HTTPS.
+		$url = (string) preg_replace( '#^(https?)://localhost#i', '$1://127.0.0.1', $url );
+
+		/**
+		 * Override OAuth redirect URI (e.g. ngrok HTTPS) without changing siteurl.
+		 *
+		 * @param string $url Default admin-post callback URL.
+		 */
+		return (string) apply_filters( 's2j_webinar_oauth_redirect_uri', $url );
 	}
 
 	public static function disconnect(): void {

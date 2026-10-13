@@ -4,6 +4,13 @@
 
 Zoom から開催開始・終了を受け、セッション状態を固定します。検証・操作計画は使いません。公開リンクの出し分けは GatherPress に任せます。
 
+## Local / 段階1–2 (Webhook は後回し)
+
+Zoom Marketplace の Event Subscriptions は **HTTPS かつ公衆到達可能** な URL のみ受け付けます。Local・WordPress Studio の HTTP 開発 URL では登録できません。
+
+* **段階1–2:** GatherPress → Webinar の **Webhook secret / Zoom 側の Event Subscriptions は設定しない** (空のままでよい)。OAuth・Webinar 同期の確認を先にする。
+* **本番・ステージング:** 管理画面の **Webhook URL** を Zoom に転記し、Secret Token を **Webhook secret** に合わせる。Pass 記録は [status.md](./status.md#status-external) E3。
+
 ## 非対象
 
 * Zoom イベント名の追加購読 (初版は下記2つのみ)

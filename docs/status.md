@@ -63,7 +63,7 @@
 * [x] **設定 → S2J Webinar** — GatherPress 依存状態、GatherPress 内 Webinar タブ表示 ON/OFF、Webinar provider ([`SettingsPage.php`](../includes/Admin/SettingsPage.php))
 * [x] **GatherPress 設定 → Webinar** — クライアント ID/秘密鍵、リダイレクト URI、Webhook 秘密 / URL、接続状態、Save / Connect %s ([`SettingsTab.php`](../includes/GatherPress/SettingsTab.php))
 * [x] タブ OFF 時 — GP から Webinar タブ非表示 (ON で復帰) — `s2j_webinar_show_gatherpress_settings_tab`
-* [x] プロバイダー表示名 — [`WebinarProvider.php`](../includes/Provider/WebinarProvider.php)（初版 `zoom` のみ。管理・通知・ガイドは `%s` msgid）
+* [x] プロバイダー表示名 — [`WebinarProvider.php`](../includes/Provider/WebinarProvider.php) (初版 `zoom` のみ。管理・通知・ガイドは `%s` msgid)
 * [x] connect / callback / disconnect ([`OAuthFlow.php`](../includes/OAuth/OAuthFlow.php), [`TokenStore.php`](../includes/OAuth/TokenStore.php))
 * [x] Webinar REST — Bearer ([`ZoomHttpClient.php`](../includes/Http/ZoomHttpClient.php))
 * [x] 期限前 refresh — `ensure_access_token()` ([`ZoomHttpClient.php`](../includes/Http/ZoomHttpClient.php))
@@ -87,7 +87,7 @@
 * [x] **同期** / **Open in %s** / **Delete from %s** (確認 `Remove this webinar from %s?`)
 * [x] 登壇者0人 — Sync 無効
 * [x] REST — sync / open / delete ([`SyncController.php`](../includes/Rest/SyncController.php), [`EventActionsController.php`](../includes/Rest/EventActionsController.php))
-* [x] 設定画面分割 — [admin_ui_spec.md](./admin_ui_spec.md)（GP タブに GatherPress 状態を出さない）
+* [x] 設定画面分割 — [admin_ui_spec.md](./admin_ui_spec.md) (GP タブに GatherPress 状態を出さない)
 
 #### Test (PHPUnit / smoke)
 
@@ -188,7 +188,7 @@
 * [x] Gutenberg — メタ REST 双方向 ([`src/gutenberg/index.tsx`](../src/gutenberg/index.tsx))
 * [x] `@wordpress/core-data` — `useEntityProp`
 * [x] TS shims — [`src/types/wordpress-shims.d.ts`](../src/types/wordpress-shims.d.ts)
-* [x] i18n — `load_plugin_textdomain`、`languages/s2j-webinar-ja.mo`、`wp_set_script_translations`、`npm run makepot`（PHP は `'s2j-webinar'` リテラルで POT 抽出）
+* [x] i18n — `load_plugin_textdomain`、`languages/s2j-webinar-ja.mo`、`wp_set_script_translations`、`npm run makepot` (PHP は `'s2j-webinar'` リテラルで POT 抽出)
 
 ### アンインストール {#status-uninstall}
 
@@ -203,9 +203,9 @@
 * [x] `.wp-env.json` + [`phpunit.wp-env.xml.dist`](../phpunit.wp-env.xml.dist)
 * [x] CI — js-lint / docs-lint / dist-zip / phpunit
 * [x] Test: 純 PHPUnit 18 件 ([`tests/`](../tests/)、`Integration` 除外)
-* [x] 手動 — 日本語ロケールで管理 UI / Gutenberg 翻訳表示（2026-10-13 確認）
+* [x] 手動 — 日本語ロケールで管理 UI / Gutenberg 翻訳表示 (2026-10-13 確認)
 * [ ] 段階3b — `npm run test:unit:php` green (wp-env)
-* [ ] 段階1–2 — [test-results.md](./test-results.md) Pass 記録（段階1・2 自動 smoke: 2026-10-14 PASS。手動 checklist 未）
+* [ ] 段階1–2 — [test-results.md](./test-results.md) Pass 記録 (段階1・2 自動 smoke: 2026-10-14 PASS。手動 checklist 未)
 * [ ] Service [§プラグイン](https://github.com/stein2nd/s2j-webinar-service/blob/main/docs/status.md#status-plugin) — 本プラグイン 100% 到達後に Service 側を [x]
 
 ### 運用素材 {#status-operational}

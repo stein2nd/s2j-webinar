@@ -4,15 +4,15 @@
 
 ## 命名・パス (公開ドキュメント向け)
 
-* **Studio のサイト表示名**は任意です (開発者ごとに付けるだけ。リポジトリの手順では固定名を前提にしません)。
-* **WordPress ルート**は環境ごとに異なります。自動スモークでは環境変数 **`WP_PATH`** に、`wp-config.php` があるディレクトリを指定します (Local / Studio / その他 WP-CLI 可能なサイトで共通)。
-* Studio で `WP_PATH` が不明なときは、そのサイト用シェルで `wp core version` が通るカレント、または Studio が示す WordPress ルートを使います。ホームディレクトリ配下の具体パスはドキュメントに書きません。
+* **Studio のサイト表示名** は任意である (開発者ごとに付けるだけ。リポジトリの手順では、固定名を前提にしない)。
+* **WordPress ルート** は環境ごとに異なる。自動スモークでは環境変数 **`WP_PATH`** に、`wp-config.php` があるディレクトリを指定する (Local / Studio / その他 WP-CLI 可能なサイトで共通)。
+* Studio で `WP_PATH` が不明な場合は、そのサイト用シェルで `wp core version` が通るカレント、または Studio が示す WordPress ルートを使う。ホームディレクトリ配下の具体パスは、ドキュメントに書かない。
 
 ## ファイル
 
 | ファイル | 内容 |
 | --- | --- |
-| [`smoke-test-blueprint.json`](./smoke-test-blueprint.json) | Studio / Playground 形式 (PHP 8.2、WP latest、**GatherPress + GatherPress alpha**、Query Monitor、Plugin Check、シード mu-plugin) |
+| [`smoke-test-blueprint.json`](./smoke-test-blueprint.json) | Studio / Playground 形式 (PHP v8.2、WP latest、**GatherPress + GatherPress alpha**、Query Monitor、Plugin Check、シード mu-plugin) |
 | [`mu-plugin-smoke-seed.php`](./mu-plugin-smoke-seed.php) | Blueprint の `writeFile` に埋め込む mu-plugin の **ソース** (JSON 内 `data` と同期) |
 
 ## GatherPress について
@@ -37,8 +37,8 @@ wp plugin activate s2j-webinar
 
 1. Studio → **Add site** → **Upload a Blueprint** → [`smoke-test-blueprint.json`](./smoke-test-blueprint.json)。
 2. 上記のとおり **ビルド済み** 本プラグインを `wp-content/plugins/s2j-webinar` に配置し、`wp plugin activate s2j-webinar`。
-3. 管理画面を一度開く (mu-plugin が **GatherPress + S2J Webinar 両方 active** のとき、下書きイベントを1件追加)。
-4. **S2J Webinar** 設定画面 (Blueprint の `landingPage`) と GatherPress イベント編集で [test-results.md](../docs/test-results.md) 段階1チェックリストを確認。
+3. 管理画面を一度開く (mu-plugin が **GatherPress + S2J Webinar 両方 active** の場合、下書きイベントを1件追加)。
+4. **S2J Webinar** 設定画面 (Blueprint の `landingPage`) と GatherPress イベント編集で [test-results.md](../docs/test-results.md) 段階1チェックリストを確認 (**Webhook URL / secret は未設定** — Zoom は HTTPS 必須。段階2では後回し)。
 5. リポジトリルートで `WP_PATH='<WordPress ルート>' npm run test:smoke:local` (`WP_PATH` は段階1の Local でも同じ意味)。
 6. 結果を `docs/test-results.md` の「最新結果」に記録。
 

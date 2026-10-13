@@ -17,9 +17,19 @@ use function S2J\WebinarService\build_oauth_authorize_url;
 final class OAuthFlow {
 
 	public static function register(): void {
+		add_filter( 'allowed_redirect_hosts', array( self::class, 'allow_oauth_redirect_hosts' ) );
 		add_action( 'admin_post_' . Constants::OAUTH_CALLBACK_ACTION, array( self::class, 'handle_callback' ) );
 		add_action( 'admin_post_s2j_webinar_oauth_connect', array( self::class, 'handle_connect' ) );
 		add_action( 'admin_post_s2j_webinar_oauth_disconnect', array( self::class, 'handle_disconnect' ) );
+	}
+
+	/**
+	 * @param string[] $hosts
+	 * @return string[]
+	 */
+	public static function allow_oauth_redirect_hosts( array $hosts ): array {
+		$hosts[] = 'zoom.us';
+		return $hosts;
 	}
 
 	public static function handle_connect(): void {

@@ -2,6 +2,23 @@
 
 ## unreleased
 
+## 0.0.1 - 2026-10-14
+
+### Added
+
+* [docs/provider_setup_guides.md](docs/provider_setup_guides.md) — GatherPress → Webinar と Zoom Marketplace の対応手順
+* GatherPress **設定 → Webinar** タブ — **Provider setup guide** 外部リンク（`s2j_webinar_provider_setup_guide_url`）
+
+### Fixed
+
+* GatherPress **設定 → Webinar** — 「Save settings」を `admin-post.php` 保存に変更（`options.php` POST 時の wp_die 回避。**設定 → S2J Webinar** は Settings API のまま）
+* **Connect Zoom** — `allowed_redirect_hosts` に `zoom.us` を追加（`wp_safe_redirect` がダッシュボードにフォールバックしていた問題）
+* OAuth **Redirect URI** — `localhost` を `127.0.0.1` に正規化、`s2j_webinar_oauth_redirect_uri` フィルター（ngrok / ステージング用）
+
+### Changed
+
+* ドキュメント — 段階1–2で Webhook / OAuth Connect を後回しにできる旨（[test-results.md](docs/test-results.md)、[webhook_spec.md](docs/webhook_spec.md)、[oauth_and_settings_spec.md](docs/oauth_and_settings_spec.md)、[studio/README.md](studio/README.md)）
+
 ## 0.0.1 - 2026-10-13
 
 ### Added
@@ -15,10 +32,6 @@
 
 * 配布 zip: `vendor/`・`languages/` を同梱。CI `dist-zip` で `composer install --no-dev` を先行
 * PHPUnit CI: `npm run test:unit:php:local` (`composer test`)。`docs/status.md` に実装進捗を反映
-
-### Fixed
-
-* GatherPress **設定 → Webinar** の「Save settings」— `options.php` への POST 後にコアの権限チェックで wp_die となる場合があるため、OAuth / Webhook 資格情報の保存を `admin-post.php` ハンドラに変更 (**設定 → S2J Webinar** は従来どおり Settings API)
 
 ## 0.0.1 - 2026-10-12
 

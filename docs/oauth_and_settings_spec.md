@@ -41,6 +41,8 @@
 
 * 戻り口は `admin-post.php` の **固定アクション** とする (例: `admin-post.php?action=s2j_webinar_oauth_callback`)。
 * 実際の絶対 URL を Zoom アプリケーションの Redirect URL に登録する。サイト設定の option には持たない。
+* 開発サイトが `http://localhost:…` の場合、Zoom はホスト名 `localhost` を拒否する (4700) ため、[`TokenStore::redirect_uri()`](../includes/OAuth/TokenStore.php) は **`127.0.0.1` に正規化** した URL を使う。Zoom **Redirect URL** と **OAuth allow list** (Development) に **同一** の絶対 URL を登録する。
+* **`http://127.0.0.1:<port>` でも 4700 が続く** 場合は Zoom 側が HTTP ループバックを受け付けていない。HTTPS ステージング / ngrok 等の URL を登録し、必要なら `s2j_webinar_oauth_redirect_uri` フィルターで認可・トークン交換と同じ redirect を指定する ([test-results.md](./test-results.md))。
 * 認可開始時、サービス `build_oauth_authorize_url` (相当) に `client_id` / `redirect_uri` 等を渡す。
 
 ## トークンライフサイクル
@@ -69,6 +71,7 @@
 * サイト設定で保存する。
 * エンドポイント URL を画面に表示し、Zoom 側に転記できるようにする。
 * 検証手順の正本は [webhook_spec.md](./webhook_spec.md)。
+* **Local / Studio (HTTP):** Zoom は HTTPS 必須のため Event Subscriptions は登録しない。段階1–2では Webhook 項目は **未入力でよい** ([webhook_spec.md](./webhook_spec.md#local--段階12-webhook-は後回し))。
 
 ## アンインストール
 
@@ -77,5 +80,6 @@
 
 ## 関連
 
+* Marketplace 操作手順: [provider_setup_guides.md](./provider_setup_guides.md)
 * option キー: [data_dictionary.md](./data_dictionary.md)
 * 同期時のトークン使用: [sync_execution_spec.md](./sync_execution_spec.md)

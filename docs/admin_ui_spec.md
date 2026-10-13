@@ -15,6 +15,8 @@
 
 GatherPress → Webinar タブの認証・Webhook 項目には用途ガイド (description) を付けます。ガイド中のプロバイダー名は `%s` msgid + [`WebinarProvider`](../includes/Provider/WebinarProvider.php) の表示名とします。
 
+**Marketplace 手順 (Zoom ほか):** GatherPress → Webinar タブ先頭に **Provider setup guide** リンク (既定: GitHub [`provider_setup_guides.md`](./provider_setup_guides.md))。URL は `s2j_webinar_provider_setup_guide_url` フィルターで差し替え可。
+
 ## イベント編集パネル
 
 | 項目 | 内容 |

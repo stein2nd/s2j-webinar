@@ -29,6 +29,9 @@ final class Constants {
 
 	public const ZOOM_API_BASE = 'https://api.zoom.us';
 
+	/** Default GitHub URL for docs/provider_setup_guides.md (filterable in admin UI). */
+	public const DOCS_PROVIDER_SETUP_GUIDE_URL = 'https://github.com/stein2nd/s2j-webinar/blob/main/docs/provider_setup_guides.md';
+
 	/**
 	 * @return list<string>
 	 */
