@@ -27,6 +27,8 @@ final class Constants {
 
 	public const OPTION_WEBINAR_PROVIDER = 's2j_webinar_provider';
 
+	public const OPTION_SHOW_GP_SETTINGS_TAB = 's2j_webinar_show_gatherpress_settings_tab';
+
 	public const ZOOM_API_BASE = 'https://api.zoom.us';
 
 	/** Default GitHub URL for docs/provider_setup_guides.md (filterable in admin UI). */
@@ -69,11 +71,6 @@ final class Constants {
 			self::server_post_meta_keys()
 		);
 	}
-
-	/**
-	 * @return list<string>
-	 */
-	public const OPTION_SHOW_GP_SETTINGS_TAB = 's2j_webinar_show_gatherpress_settings_tab';
 
 	public static function owned_option_keys(): array {
 		return array(

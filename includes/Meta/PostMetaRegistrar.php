@@ -128,7 +128,9 @@ final class PostMetaRegistrar {
 					'type'              => 'string',
 					'single'            => true,
 					'show_in_rest'      => true,
-					'auth_callback'     => '__return_false',
+					// Block editor save includes REST-visible meta; __return_false breaks "Save draft".
+					// Values remain server-authoritative (sync / PanelMetaSaver); client pass-through only.
+					'auth_callback'     => array( self::class, 'can_edit_post_meta' ),
 					'sanitize_callback' => 'sanitize_text_field',
 				)
 			);

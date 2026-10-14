@@ -1,6 +1,8 @@
 {
     "intelephense.environment.includePaths": [
+        "${workspaceFolder}/includes",
         "${workspaceFolder}/stubs",
+        "${workspaceFolder}/vendor",
         "${workspaceFolder}/vendor/php-stubs/wordpress-stubs"
     ],
     "intelephense.stubs": [

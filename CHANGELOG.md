@@ -11,11 +11,15 @@
 
 ### Fixed
 
+* Gutenberg イベント編集 — `_s2j_webinar_status` / `_s2j_webinar_last_error` の REST `auth_callback` を `can_edit_post_meta` に変更 (`show_in_rest` + `__return_false` で下書き保存が失敗していた問題)
+
 * GatherPress **設定 → Webinar** —「Save settings」を `admin-post.php` 保存に変更 (`options.php` POST 時の wp_die 回避。**設定 → S2J Webinar** は Settings API のまま)
 * **Connect Zoom** — `allowed_redirect_hosts` に `zoom.us` を追加 (`wp_safe_redirect` がダッシュボードにフォールバックしていた問題)
 * OAuth **Redirect URI** — `localhost` を `127.0.0.1` に正規化、`s2j_webinar_oauth_redirect_uri` フィルター (ngrok / ステージング用)
 
 ### Changed
+
+* ドキュメント — GP タブ `admin-post` 保存・ Connect / callback 経路、`redirect_uri` 正規化とフィルター、外部結合ゲート E1– E6を [oauth_and_settings_spec.md](docs/oauth_and_settings_spec.md)、[admin_ui_spec.md](docs/admin_ui_spec.md)、[data_dictionary.md](docs/data_dictionary.md)、[test-results.md](docs/test-results.md) 等に反映
 
 * ドキュメント — 段階1–2で Webhook / OAuth Connect を後回しにできる旨 ([test-results.md](docs/test-results.md)、[webhook_spec.md](docs/webhook_spec.md)、[oauth_and_settings_spec.md](docs/oauth_and_settings_spec.md)、[studio/README.md](studio/README.md))
 
