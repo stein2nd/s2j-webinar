@@ -2,6 +2,30 @@
 
 ## unreleased
 
+## 0.0.1 - 2026-10-15
+
+### Fixed
+
+* Gutenberg イベント編集 — `_s2j_webinar_status` / `_s2j_webinar_last_error` の REST `auth_callback` を `can_edit_post_meta` に変更 (Source QR 結合テストで判明。`show_in_rest` + `__return_false` により下書き保存が失敗)
+* [`Constants`](includes/Constants.php) — `OPTION_SHOW_GP_SETTINGS_TAB` を誤った `@return` docblock 配下から他 option 定数と同列に移動
+
+### Changed
+
+* `dependencies` — `react` / `react-dom` 19.3.1
+* devDependencies を更新 (`ncu` / `npm install`。`@wordpress/env` **10→11**、`@s2j/docs-linter` 1.0.29、`@typescript-eslint/*` 8.71.2、`rollup` 4.64.7ほか)。`package-lock.json` 同期
+* textlint の許可パターンに `#status-*` アンカー ID を追加
+
+### セキュリティ (開発依存 - upstream 待ち)
+
+最終確認: **2026-10-15** — `npm audit`: **23** 件 (moderate: 13/high: 8/critical: 2)、`npm audit --omit=dev`: **0**。配布 zip に npm `node_modules` は含めない (ビルド済み `dist/` を同梱)。`npm audit fix --force` は採用しない (破壊的ダウングレード)。
+
+依存更新 (`ncu` / `npm install`) のたびに上記2コマンドを再実行し、件数と下記の解消状況をこの節で更新する。
+
+* **`@wordpress/env`** (`wp-env` / `npm run test:unit:php`): transitive **`simple-git` / `@simple-git/argv-parser`** (critical、[GHSA-v5rq-49vh-5v5c](https://github.com/advisories/GHSA-v5rq-49vh-5v5c))、**`qs`** (moderate)、**`@wp-playground/cli`** 経由。実行は開発、CI のみ。**待ち**: [WordPress `@wordpress/env`](https://github.com/WordPress/gutenberg/tree/trunk/packages/env) / Playground CLI の依存更新 (npm の自動 fix は `@wordpress/env@3` 提案のため不可)
+* **`@s2j/docs-linter`** (`npm run lint:docs`): **`textlint-rule-prh` / `prh`**、プリセット (`textlint-rule-preset-wp-docs-ja` 等)、**`sprintf-js`** (moderate、npm 上 fix なし)。**待ち**: [docs-linter](https://github.com/stein2nd/s2j-docs-linter) および textlint プリセット側
+* **`stylelint`** (`npm run lint:scss`): **`braces` / `micromatch` / `fast-glob` / `globby`** (high)。npm の自動 fix は stylelint v7ダウングレード提案のため不可。**待ち**: [stylelint/stylelint](https://github.com/stylelint/stylelint) の transitive 更新
+* **`vite-plugin-static-copy`** (`npm run build:*` / `dist`): 同梱 **chokidar** 経由の **`braces`** (high)。npm の自動 fix は v0系ダウングレード提案のため不可。**待ち**: [vite-plugin-static-copy](https://github.com/sapphi-red/vite-plugin-static-copy) の chokidar 更新
+
 ## 0.0.1 - 2026-10-14
 
 ### Added
@@ -10,8 +34,6 @@
 * GatherPress **設定 → Webinar** タブ — **Provider setup guide** 外部リンク (`s2j_webinar_provider_setup_guide_url`)
 
 ### Fixed
-
-* Gutenberg イベント編集 — `_s2j_webinar_status` / `_s2j_webinar_last_error` の REST `auth_callback` を `can_edit_post_meta` に変更 (`show_in_rest` + `__return_false` で下書き保存が失敗していた問題)
 
 * GatherPress **設定 → Webinar** —「Save settings」を `admin-post.php` 保存に変更 (`options.php` POST 時の wp_die 回避。**設定 → S2J Webinar** は Settings API のまま)
 * **Connect Zoom** — `allowed_redirect_hosts` に `zoom.us` を追加 (`wp_safe_redirect` がダッシュボードにフォールバックしていた問題)
