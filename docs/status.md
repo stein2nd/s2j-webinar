@@ -12,6 +12,8 @@
 * [gatherpress_boundary_spec.md](./gatherpress_boundary_spec.md) / [webhook_spec.md](./webhook_spec.md) / [survey_handoff_spec.md](./survey_handoff_spec.md)
 * [governance/documentation_governance.md](./governance/documentation_governance.md) — ドキュメント運用
 * [archive/README.md](./archive/README.md) — 完了イニシアチブ (まだなし)
+* [test-results.md](./test-results.md) — 段階1–3、外部結合の記録
+* コンパニオン [S2J Webinar Source QR — status.md](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/status.md) / [test-results.md](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/test-results.md) — P2 / 定義 REST 連携 (本 repo 実装待ち)
 
 ## 機能一覧
 
@@ -39,6 +41,29 @@
 ## 100% 完了条件チェックリスト
 
 各§は **プラグイン実装 → Test (PHPUnit / smoke) → Test (wp-env)** の順。Zoom / 手動は [§外部結合ゲート](#status-external)。
+
+**Test 見出しの環境タグ** ([S2J Webinar Source QR](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/status.md) と同型):
+
+| タグ | 意味 |
+| --- | --- |
+| **Local 可のみ** | Local / Studio / CI (`test:unit:php:unit-only`、`test:unit:php:local`、smoke、`lint:php`)。HTTPS 不要 |
+| **Local 可 (E*)** | localhost で可だが [§外部結合](#status-external) の **E*** 前提 (例: Source QR 定義 REST **E7**) |
+| **要 HTTPS** | 公衆 HTTPS (ステージング・トンネル等)。Zoom OAuth / 実 API / Webhook |
+
+### 推奨テスト実施順 (localhost 自動優先) {#status-test-order}
+
+[Source QR status §推奨テスト実施順](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/status.md#status-test-order) と同型。**段階1/2/3** × **localhost / HTTPS** で、先に localhost の **自動** を完了する。
+
+| 順 | 段階 | 環境 | やること |
+| --- | --- | --- | --- |
+| 0 | 3a | Local 可のみ | `npm run test:unit:php:unit-only` (**22**)、`npm run lint` / **`npm run lint:php`** (`prelint:php` → Composer dev 依存) |
+| 1 | 1 | Local 可のみ (CLI) | Local Site Shell / Studio — `npm run test:smoke:local` |
+| 2 | 3b | Local 可 (MySQL) | `npm run test:unit:php:local` — **22 + 6** (`.env.tests`、任意 `WP_TESTS_GATHERPRESS_DIR`) |
+| 3 | 2 | Local 可のみ | Studio Blueprint + 手動 checklist [#1–8](./test-results.md#第1段階-local-結合スモーク) (OAuth #6 SKIP 可) |
+| 4 | 1–3 | Local 可 (E5/E7) | 参加 URL 目視 (E5)。**P2a** 定義 REST 後 Source QR `catalogReady` (E7 — [Source QR 順4 E2](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/test-results.md#順4-オプション-local-可-e2e4)) |
+| 5 | 2–3 | 要 HTTPS | OAuth (E1)、実 Zoom sync (E2)、Webhook (E3)、Survey attach (E4) — Pass は [test-results.md](./test-results.md) |
+
+詳細コマンドは [test-results.md §推奨実施順](./test-results.md#推奨実施順-source-qr-同型localhost-自動テスト優先)。
 
 ### 仕様分割 {#status-spec-docs}
 
@@ -197,16 +222,29 @@
 
 ### 品質・スモーク {#status-quality}
 
-* [x] 段階3a — `composer test` + CI PHPUnit
-* [x] 段階1— [`tests/smoke-local.sh`](../tests/smoke-local.sh)
-* [x] 段階2— [`studio/smoke-test-blueprint.json`](../studio/smoke-test-blueprint.json)
-* [x] `.wp-env.json` + [`phpunit.wp-env.xml.dist`](../phpunit.wp-env.xml.dist)
-* [x] CI — js-lint / docs-lint / dist-zip / phpunit
-* [x] Test: 純 PHPUnit **22** 件 ([`tests/`](../tests/)、`Integration` 除外。`WebinarServicePipelineTest` 等)
-* [x] 手動 — 日本語ロケールで管理 UI / Gutenberg 翻訳表示 (2026-10-13確認)
-* [x] 段階3b — `npm run test:unit:php:local` green (MySQL + `.env.tests`。GatherPress 向け `WP_TESTS_GATHERPRESS_DIR` 任意) (2026-10-17確認 — unit **22** + integration **6**、55 + 30 assertions)
-* [x] 段階1–2— [test-results.md](./test-results.md) Pass 記録 (2026-10-17 — 手動 checklist #1–8 PASS。OAuth #6 は SKIP)
-* [ ] Service [§プラグイン](https://github.com/stein2nd/s2j-webinar-service/blob/main/docs/status.md#status-plugin) — 本プラグイン100% 到達後に Service 側を [x]
+#### Test (自動・ smoke) — Local 可のみ
+
+* [x] 段階3a — `composer test:unit` / CI [`phpunit.yml`](../.github/workflows/phpunit.yml) (`npm run test:unit:php:unit-only`、**22** tests)
+* [x] 段階1— [`tests/smoke-local.sh`](../tests/smoke-local.sh) (Local / Studio `WP_PATH`)
+* [x] 段階2— [`studio/smoke-test-blueprint.json`](../studio/smoke-test-blueprint.json) + [`studio/README.md`](../studio/README.md)
+* [x] `.wp-env.json` + [`phpunit.wp-env.xml.dist`](../phpunit.wp-env.xml.dist) (任意。日常3b は MySQL)
+* [x] CI — js-lint / docs-lint / dist-zip / phpunit (3a only)
+* [x] ローカル **`npm run lint:php`** — PHPStan + PHPCS + WPCS (`composer lint:php`、`prelint:php` で dev 依存)
+* [x] 段階3b — `npm run test:unit:php:local` green (**2026-10-17** — unit **22** (`55` assertions) + integration **6** (`30` assertions)。`.env.tests` + GatherPress)
+
+#### Test (記録) — Local 可のみ
+
+* [x] [test-results.md](./test-results.md) — localhost 可能 / 不可能の表、[§推奨実施順](./test-results.md#推奨実施順-source-qr-同型localhost-自動テスト優先)
+* [x] 段階1 PASS — Local + Studio smoke (2026-10-14: CLI、**2026-10-17** 手動 #1–8)
+* [x] 段階3b ローカル — [test-results.md §最新結果](./test-results.md#最新結果) **2026-10-17** 行 (**22 + 6**)
+* [x] 手動 — 日本語ロケールで管理 UI / Gutenberg 翻訳表示 (2026-10-13)
+* [ ] Blueprint **ゼロから** Studio 再現の Pass 記録 ([test-results.md §最新結果](./test-results.md#最新結果) 未記録行 — Source QR 同型)
+
+#### Test (外部結合・連携) — 要 HTTPS / Local 可 (E*)
+
+* [ ] Service [§プラグイン](https://github.com/stein2nd/s2j-webinar-service/blob/main/docs/status.md#status-plugin) — 本プラグイン 100% 到達後に Service 側を [x]
+* [ ] [E1–E4](#status-external) — Zoom OAuth / 実 API / Webhook / Survey attach (Pass は [test-results.md](./test-results.md))
+* [ ] Source QR [§品質 E2](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/status.md#status-quality) — [P2a](#status-operational) 定義 REST 実装後、localhost で `catalogReady` 連携 Pass
 
 ### 運用素材 {#status-operational}
 
@@ -237,6 +275,7 @@
 | E4 | Survey プラグイン `ready` → attach_survey 実 Zoom | **要 HTTPS** (E1・ E2後。Survey 保存・ UI は Local 可) |
 | E5 | フロント — 参加 URL 目視 | **Local 可** (`_s2j_webinar_join_url` / 公開欄が入っていること。E2またはテスト用メタ) |
 | E6 | 運用素材 | **項目依存** (プラグイン UI / REST のみ Local 可。外部配信・本番ドメインは **要 HTTPS**) |
+| E7 | Source QR — 定義 REST `200` + `sources.length >= 1` → `catalogReady` | **Local 可** ([P2a](#status-operational) 実装後。仕様 [source_qr_tracking_definitions_rest_spec.md](./source_qr_tracking_definitions_rest_spec.md)。Source QR 側 [E2](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/status.md#status-external) / [順4 E1–E2](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/test-results.md#順4-オプション-local-可-e2e4)) |
 
 ## 補足
 
@@ -246,4 +285,4 @@
 
 ## 実装ロードマップ (到達順)
 
-1. ~~フロント・ lint~~ → ~~メタ・レコード~~ → ~~同期~~ → ~~OAuth~~ → ~~get/delete~~ → ~~Survey~~ → ~~管理 UI (status / last_error)~~ → ~~公開リンク / Webhook テスト~~ → **品質 (wp-env 緑)** → **外部結合ゲート (test-results)**
+1. ~~フロント・ lint~~ → ~~メタ・レコード~~ → ~~同期~~ → ~~OAuth~~ → ~~get/delete~~ → ~~Survey~~ → ~~管理 UI~~ → ~~公開リンク / Webhook テスト~~ → [§推奨テスト実施順](#status-test-order) **順0–2** (3a **22**、`lint:php`、3b **6** — **2026-10-17**) → **順3** 手動 #1–8 PASS → **P1 / P2** (Source QR [status](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/status.md)) → **E1–E4** (HTTPS) / **E7** (定義 REST)

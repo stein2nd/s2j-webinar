@@ -1,4 +1,4 @@
-# プロバイダー設定ガイド (GatherPress 設定 → Webinar)
+# S2J Webinar - プロバイダー設定ガイド (GatherPress 設定 → Webinar)
 
 **GatherPress 設定 → Webinar** タブの各項目について、接続先 (Marketplace / 開発者コンソール) で **どこから値を取得し、どこに貼るか** をまとめます。画面ラベルの `%s` は [`WebinarProvider`](../includes/Provider/WebinarProvider.php) の表示名 (初版は Zoom) に対応します。
 

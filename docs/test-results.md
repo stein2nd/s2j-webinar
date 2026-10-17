@@ -1,6 +1,10 @@
-# テスト戦略と結果記録
+# S2J Webinar - テスト戦略と結果記録
 
-本プラグインの検証方針と実行記録です。環境の役割 (Local / Studio / PHPUnit) の共通定義は [wp-plugin-spec: SMOKE_AND_WP_ENVIRONMENTS.md](https://github.com/stein2nd/wp-plugin-spec/blob/main/docs/SMOKE_AND_WP_ENVIRONMENTS.md) を正とし、本ファイルは **このプラグイン固有の手順と結果** です。
+最終更新: 2026-10-17
+
+本プラグインの検証方針と実行記録です。環境の役割 (Local / Studio / PHPUnit) の共通定義は [wp-plugin-spec: SMOKE_AND_WP_ENVIRONMENTS.md](https://github.com/stein2nd/wp-plugin-spec/blob/main/docs/SMOKE_AND_WP_ENVIRONMENTS.md) を正とし、本ファイルは **このプラグイン固有の手順と結果** です。コンパニオン [S2J Webinar Source QR — test-results.md](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/test-results.md) は **同型の段階表・推奨順** を採用 (本 repo は OAuth / 同期 / Service パイプラインが中心)。
+
+[status.md](./status.md) — 実装％・[§推奨テスト実施順](./status.md#status-test-order)・[§外部結合](./status.md#status-external) (E7 = Source QR 定義 REST)。
 
 ## 段階的な導入 (3段階)
 
@@ -8,9 +12,50 @@
 | --- | --- | --- | --- |
 | **1** | WordPress 上で最低限動くこと (結合スモーク) | Local、Site Shell、WP-CLI | `tests/smoke-local.sh` / `npm run test:smoke:local` + 手動チェックリスト |
 | **2** | テストサイト構成の再現 (WP / PHP、**GatherPress 同梱**) | **WordPress Studio**、Blueprints | [`studio/smoke-test-blueprint.json`](../studio/smoke-test-blueprint.json) (S2J Webinar は手動配置) |
-| **3** | PHP 自動テスト、PR 時のゲート | PHPUnit、GitHub Actions | 3a: 純 PHPUnit (CI)。3b: MySQL + WP テスト lib (ローカル、`bin/phpunit-local.sh`) |
+| **3** | PHP 自動テスト、PR 時のゲート | PHPUnit、GitHub Actions | 3a: 純 PHPUnit (CI **`unit-only`**)。3b: MySQL + WP テスト lib (ローカル、`bin/phpunit-local.sh`)。任意: wp-env |
 
-段階1と2は「実際の WordPress サイト」、段階3の現状は **WordPress を起動しない** ユニットテストです。Local 開発 DB を PHPUnit が直接書き換える必要はありません。
+段階1と2は「実際の WordPress サイト」。段階 **3a** は WordPress を起動しない。段階 **3b** はテスト専用 DB のみ (Local 開発 DB を直接書き換えない)。
+
+### Docker なしの開発環境
+
+[S2J Webinar Source QR test-results §Docker なし](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/test-results.md#docker-なしの開発環境) と同型。
+
+| 段階 | Docker なしでローカル実行 | 代替 |
+| --- | --- | --- |
+| **3a** | **可能** — `npm run test:unit:php:unit-only` (= `composer test:unit`、**22** tests) | CI [`.github/workflows/phpunit.yml`](../.github/workflows/phpunit.yml) と同一 |
+| **3b** | **可能** — `npm run test:unit:php:local` (要 MySQL テスト DB、`.env.tests`、任意 `WP_TESTS_GATHERPRESS_DIR`) | **wp-env** — `npm run test:unit:php` (Docker 任意) |
+| **1** | **可能** — Local / Studio + `npm run test:smoke:local` | `WP_PATH` を Site Shell または Studio ルートに |
+| **2** | **可能** — Studio Blueprint + 手動 checklist | CLI は段階1と同じ smoke |
+
+日常のループ例: **`npm run test:unit:php:unit-only`** → **`npm run lint:php`** → (統合を触ったら) **`npm run test:unit:php:local`** (**22 + 6**)。
+
+## 推奨実施順 (Source QR 同型・ localhost 自動テスト優先) {#推奨実施順-source-qr-同型localhost-自動テスト優先}
+
+**段階 (1/2/3)** と **環境 (localhost / HTTPS)** は別軸です。先に **localhost で完結する自動テスト** をそろえ、Zoom OAuth / 実 API は後回しにします ([status.md §推奨テスト実施順](./status.md#status-test-order))。
+
+| 順 | 段階 | 環境 | 内容 | 本リポジトリ |
+| --- | --- | --- | --- | --- |
+| **0** | **3a** | **Local 可のみ** | 単体 PHPUnit ・ TS/SCSS lint ・ **PHPStan/PHPCS** | `npm run test:unit:php:unit-only` (**22**) / `npm run lint` / **`npm run lint:php`** |
+| **1** | **1** | **Local 可のみ** (CLI) | smoke — REST ルート・Service 到達 | `npm run test:smoke:local` |
+| **2** | **3b** | **Local 可** (MySQL) | 統合 PHPUnit — `tests/Integration/` (**6**、GP 読込時) | `npm run test:unit:php:local` |
+| **3** | **2** | **Local 可のみ** | Blueprint + 手動 [#1–8](#第1段階-local-結合スモーク) (OAuth #6 SKIP 可) | [studio/](../studio/) |
+| **4** | **1–3** | **Local 可 (E5/E7)** | 参加 URL 目視 (E5)。**P2a** 定義 REST 後 Source QR `catalogReady` ([Source QR 順4](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/test-results.md#順4-オプション-local-可-e2e4)) | [status §運用素材 P2a](./status.md#status-operational) |
+| **5** | **2–3** | **要 HTTPS** | OAuth (E1) ・実 Zoom sync (E2) ・ Webhook (E3) ・ Survey attach (E4) | [status §外部結合](./status.md#status-external) |
+
+**補足:** 段階1に HTTPS 版は通常なし。順 **0** は段階番号より先に回してよい。HTTPS 行は **CI 必須条件にしない**。
+
+### localhost で可能 / 不可能 (Source QR 対照)
+
+| 観点 | Local / Studio (`localhost`) | 備考 |
+| --- | --- | --- |
+| プラグイン有効化、REST (`sync` / open / delete / webhook ルート) | **可能** | 段階1 smoke |
+| Document Settings **S2J Webinar** パネル | **可能** (GatherPress 必須) | `npm run build:production:gutenberg` 済み `dist/` |
+| **同期** REST (`POST …/sync`) | **可能** | 未接続時 **422** も Pass (ルート到達)。Marketplace 不要の Service 検証は 3a/3b |
+| Zoom OAuth Connect | **不可** (localhost) | #6 SKIP → [E1](./status.md#status-external) |
+| Webhook — Zoom ダッシュボード登録 | **不可** (localhost) | 段階1–2は secret 未設定可 → [E3](./status.md#status-external) |
+| Gutenberg **日本語 UI** | **可能** | サイト **ja** + `languages/s2j-webinar-ja.mo` / script translations |
+| Source QR **定義 REST** → `catalogReady` | **条件付き** | 本 repo **[P2a 未実装](./status.md#status-operational)**。実装後 **Local 可** ([E7](./status.md#status-external)) |
+| Source QR **取り込み** (`tracking-sources`) | **条件付き** | **P2b** + `_s2j_webinar_id` + OAuth — 実 Zoom は **要 HTTPS** ([Source QR E3](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/status.md#status-external)) |
 
 **依存:** 段階1・2では **[GatherPress](https://github.com/stein2nd/gatherpress)** (フォーク可) を **有効化必須** です。wp.org 最新系では **GatherPress alpha** も同時に有効化する必要があります (GatherPress 本体が要求)。本プラグイン単体ではイベント post type / Slot が成立しません。
 
@@ -133,6 +178,8 @@ npm run test:unit:php:local
 
 **Pass の読み方:** ユニット **22** 件 OK のあと、統合 **6** 件（GP 読込時）が目安。GP 未読込時は `RestRoutesTest` のみ実行し、他は `markTestSkipped`（`SSS.` 等は **失敗ではなく成功**）。6 件すべて Pass にするには `.env.tests` で `WP_TESTS_GATHERPRESS_DIR` を設定 (必要なら alpha 同梱)。
 
+**統合スイート (現行、GP 読込時):** `tests/Integration/` — **6** tests — `RestRoutesTest`、`PanelMetaRestTest`、`EventScheduleIntegrationTest`、`OnlineEventLinkIntegrationTest`、`SyncRestServiceIntegrationTest` 等。3a **22** + 3b **6** = 計 **28** tests (**55** + **30** assertions)。
+
 ---
 
 ## 最新結果
@@ -148,9 +195,12 @@ npm run test:unit:php:local
 | 2026-10-14 | 3b | wp-env | (未実行) | 統合4 件 — `npm run test:unit:php` (Docker 要) |
 | 2026-10-17 | 1 | Local (`blockpluginbase`) | PASS (manual) | 手動 checklist #1–8 — [記録表](#手動チェックリスト結果-pass-記録) |
 | 2026-10-17 | 2 | WordPress Studio | PASS (manual) | 同上 (2026-10-14 自動 smoke 済み + 手動 checklist) |
+| 2026-10-17 | 0 | Local (`blockpluginbase`) | PASS | **`npm run lint:php`** — PHPStan + PHPCS + WPCS (`prelint:php` → Composer dev 依存)。[Source QR 同型行](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/test-results.md#最新結果) |
+| (未記録) | 2 | Studio | — | Blueprint **ゼロから** 再現 + 手動 #1–8 一括 ([Source QR 未記録行](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/test-results.md#最新結果) 同型) |
+| (未記録) | 4 | Local or Studio | — | **E7** — P2a 定義 REST 実装後 Source QR `catalogReady` / Save draft **200** ([Source QR 順4 E1–E2](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/test-results.md#順4-オプション-local-可-e2e4)) |
 
 実行後、日付、Pass/Fail、メモを追記してください。
 
-### 外部結合ゲート (E1– E6)
+### 外部結合ゲート (E1– E7)
 
-Zoom 実 API ・OAuth 完了・ Webhook 等の Pass は [status.md §外部結合ゲート](./status.md#status-external) を参照。**Local (`http` localhost / 127.0.0.1) で Pass しにくい項目 (E1– E4等)** と **要 HTTPS (ステージング / ngrok)** の区別は同表の **Local 可 / 要 HTTPS** 列に記載。段階1–2の smoke Pass だけでは E1– E6は満たさない。
+Zoom 実 API ・OAuth 完了・ Webhook 等の Pass は [status.md §外部結合ゲート](./status.md#status-external) を参照。**Local (`http` localhost / 127.0.0.1) で Pass しにくい項目 (E1– E4等)** と **要 HTTPS (ステージング / ngrok)** の区別は同表の **Local 可 / 要 HTTPS** 列に記載。**E7** (Source QR 定義 REST) は **P2a 実装後 Local 可**。段階1–2の smoke Pass だけでは E1– E7は満たさない。
