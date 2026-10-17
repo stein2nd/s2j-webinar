@@ -32,5 +32,5 @@ jobs:
       - name: Install Composer dependencies
         run: composer install --no-interaction --prefer-dist
 
-      - name: Run PHPUnit (stage 3 — pure unit)
-        run: npm run test:unit:php:local
+      - name: Run PHPUnit (stage 3a — pure unit)
+        run: npm run test:unit:php:unit-only

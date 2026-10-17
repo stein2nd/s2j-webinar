@@ -1,6 +1,6 @@
 # S2J Webinar - 実装状況
 
-最終更新: 2026-10-14
+最終更新: 2026-10-17
 
 索引は [specs.md](./specs.md) です。計算規則の正本は [Webinar Service の `docs/`](https://github.com/stein2nd/s2j-webinar-service/blob/main/docs/specs.md) です。
 
@@ -33,7 +33,7 @@
 | Survey `ready` → `attach_survey` | 一部 | 100 | [§ Survey 引き渡し](#status-survey) (3/3) |
 | フロント資産 (Vite / lint / i18n) | 実装済み | 100 | [§フロント・lint](#status-frontend) (8/8) |
 | アンインストール | 実装済み | 100 | [§アンインストール](#status-uninstall) (2/2) |
-| テスト・CI (段階1–3) | 一部 | 83 | [§品質・スモーク](#status-quality) (10/12) |
+| テスト・ CI (段階1–3) | 一部 | 92 | [§品質・スモーク](#status-quality) (11/12) |
 | 運用素材 | 未着手 | 0 | [§運用素材](#status-operational) (0/3) |
 
 ## 100% 完了条件チェックリスト
@@ -45,7 +45,7 @@
 * [x] 正本が `docs/`、大きな改訂案は `docs_mod/` ([governance/documentation_governance.md](./governance/documentation_governance.md))
 * [x] CI: `docs-lint` ([`.github/workflows/docs-lint.yml`](../.github/workflows/docs-lint.yml))
 
-### Composer・配布 {#status-composer-dist}
+### Composer ・配布 {#status-composer-dist}
 
 * [x] `composer.json` — Packagist 名のみで `s2j/webinar-service`
 * [x] `s2j-webinar.php` — `vendor/autoload.php`
@@ -54,21 +54,21 @@
 * [x] CI: [`.github/workflows/dist-zip.yml`](../.github/workflows/dist-zip.yml)
 * [x] Survey メタ除外 — `uninstall.php`
 
-### OAuth・設定 {#status-oauth}
+### OAuth ・設定 {#status-oauth}
 
 正本: [oauth_and_settings_spec.md](./oauth_and_settings_spec.md)
 
 #### プラグイン実装
 
-* [x] **設定 → S2J Webinar** — GatherPress 依存状態、GatherPress 内 Webinar タブ表示 ON/OFF、Webinar provider ([`SettingsPage.php`](../includes/Admin/SettingsPage.php))
+* [x] **設定 → S2J Webinar** — GatherPress 依存状態、GatherPress 内 Webinar タブ表示 オン／オフ、Webinar provider ([`SettingsPage.php`](../includes/Admin/SettingsPage.php))
 * [x] **GatherPress 設定 → Webinar** — クライアント ID/秘密鍵、リダイレクト URI、Webhook 秘密 / URL、接続状態、Save / Connect %s ([`SettingsTab.php`](../includes/GatherPress/SettingsTab.php))
 * [x] タブ OFF 時 — GP から Webinar タブ非表示 (ON で復帰) — `s2j_webinar_show_gatherpress_settings_tab`
-* [x] プロバイダー表示名 — [`WebinarProvider.php`](../includes/Provider/WebinarProvider.php) (初版 `zoom` のみ。管理・通知・ガイドは `%s` msgid)
+* [x] プロバイダ表示名 — [`WebinarProvider.php`](../includes/Provider/WebinarProvider.php) (初版 `zoom` のみ。管理・通知・ガイドは `%s` msgid)
 * [x] connect / callback / disconnect ([`OAuthFlow.php`](../includes/OAuth/OAuthFlow.php), [`TokenStore.php`](../includes/OAuth/TokenStore.php))
 * [x] Webinar REST — Bearer ([`ZoomHttpClient.php`](../includes/Http/ZoomHttpClient.php))
 * [x] 期限前 refresh — `ensure_access_token()` ([`ZoomHttpClient.php`](../includes/Http/ZoomHttpClient.php))
 * [x] OAuth token / refresh — Basic + form body (材料 URL 前置なし)
-* [x] 接続アカウント email — 保存・表示 ([`TokenStore::persist_token_response`](../includes/OAuth/TokenStore.php))
+* [x] 接続アカウント メール — 保存・表示 ([`TokenStore::persist_token_response`](../includes/OAuth/TokenStore.php))
 
 #### Test (PHPUnit / smoke)
 
@@ -81,7 +81,7 @@
 
 #### プラグイン実装
 
-* [x] Slot Fill **Webinar** ([`src/gutenberg/index.tsx`](../src/gutenberg/index.tsx))
+* [x] Document Settings パネル **S2J Webinar** (`PluginDocumentSettingPanel`) ([`src/gutenberg/index.tsx`](../src/gutenberg/index.tsx))
 * [x] 未接続時の誘導 — `%s is not connected…` + `providerLabel` ([`AssetLoader.php`](../includes/Admin/AssetLoader.php))
 * [x] 録画 / 参加登録 / 登壇者 — `useEntityProp` + REST メタ
 * [x] **同期** / **Open in %s** / **Delete from %s** (確認 `Remove this webinar from %s?`)
@@ -125,7 +125,7 @@
 * [x] context — retry / panelists / survey / `webinar_title` ([`SyncContextBuilder.php`](../includes/Sync/SyncContextBuilder.php))
 * [x] `last_sent` / `last_panelists` 永続化 ([`RecordMetaWriter.php`](../includes/Record/RecordMetaWriter.php))
 * [x] `join_url` / `uuid` — 空で既存を消さない ([`RecordMetaWriter.php`](../includes/Record/RecordMetaWriter.php))
-* [x] 不足 — i18n + プロバイダー名 (`%s`) ([`DeficiencyMessages.php`](../includes/Messages/DeficiencyMessages.php))
+* [x] 不足 — i18n + プロバイダ名 (`%s`) ([`DeficiencyMessages.php`](../includes/Messages/DeficiencyMessages.php))
 * [x] HTTP 差し替え — [`WebinarHttpExecutor.php`](../includes/Http/WebinarHttpExecutor.php)
 
 #### Test (PHPUnit / smoke)
@@ -179,9 +179,9 @@
 * [x] レコード本体に Survey を載せない ([`RecordAssembler.php`](../includes/Record/RecordAssembler.php))
 * [x] 通常 sync に plan 任せ (専用ボタンなし)
 
-### フロント・lint {#status-frontend}
+### フロント・ lint {#status-frontend}
 
-* [x] Vite 4 エントリ / 本番 `dist/`
+* [x] Vite4 エントリ / 本番 `dist/`
 * [x] `npm run lint` — TS + SCSS
 * [x] CI: [`.github/workflows/js-lint.yml`](../.github/workflows/js-lint.yml)
 * [x] 設定 UI — PHP のみ (GP Webinar タブ + **設定 → S2J Webinar**。admin JS フッター二重化なし)
@@ -198,43 +198,52 @@
 ### 品質・スモーク {#status-quality}
 
 * [x] 段階3a — `composer test` + CI PHPUnit
-* [x] 段階1 — [`tests/smoke-local.sh`](../tests/smoke-local.sh)
-* [x] 段階2 — [`studio/smoke-test-blueprint.json`](../studio/smoke-test-blueprint.json)
+* [x] 段階1— [`tests/smoke-local.sh`](../tests/smoke-local.sh)
+* [x] 段階2— [`studio/smoke-test-blueprint.json`](../studio/smoke-test-blueprint.json)
 * [x] `.wp-env.json` + [`phpunit.wp-env.xml.dist`](../phpunit.wp-env.xml.dist)
 * [x] CI — js-lint / docs-lint / dist-zip / phpunit
-* [x] Test: 純 PHPUnit 18 件 ([`tests/`](../tests/)、`Integration` 除外)
-* [x] 手動 — 日本語ロケールで管理 UI / Gutenberg 翻訳表示 (2026-10-13 確認)
-* [ ] 段階3b — `npm run test:unit:php` green (wp-env)
-* [ ] 段階1–2 — [test-results.md](./test-results.md) Pass 記録 (段階1・2 自動 smoke: 2026-10-14 PASS。手動 checklist 未)
-* [ ] Service [§プラグイン](https://github.com/stein2nd/s2j-webinar-service/blob/main/docs/status.md#status-plugin) — 本プラグイン 100% 到達後に Service 側を [x]
+* [x] Test: 純 PHPUnit **22** 件 ([`tests/`](../tests/)、`Integration` 除外。`WebinarServicePipelineTest` 等)
+* [x] 手動 — 日本語ロケールで管理 UI / Gutenberg 翻訳表示 (2026-10-13確認)
+* [x] 段階3b — `npm run test:unit:php:local` green (MySQL + `.env.tests`。GatherPress 向け `WP_TESTS_GATHERPRESS_DIR` 任意) (2026-10-17確認 — unit **22** + integration **6**、55 + 30 assertions)
+* [x] 段階1–2— [test-results.md](./test-results.md) Pass 記録 (2026-10-17 — 手動 checklist #1–8 PASS。OAuth #6 は SKIP)
+* [ ] Service [§プラグイン](https://github.com/stein2nd/s2j-webinar-service/blob/main/docs/status.md#status-plugin) — 本プラグイン100% 到達後に Service 側を [x]
 
 ### 運用素材 {#status-operational}
 
-* [ ] Source QR / tracking REST
-* [ ] CoverArt / フライヤー
-* [ ] 配配メール (ラクス) — 別途
+正本: [operational_material_index.md](./operational_material_index.md) §実装優先順位
+
+| 優先 | 項 | Marketplace / HTTPS | 理由 |
+| --- | --- | --- | --- |
+| **P1** | CoverArt / フライヤー | 不要 | 接続先 HTTP なし。パネル + メタのみ。Local で完結 |
+| **P2a** | ソース定義 REST (`tracking-source-definitions`) | 不要 | 接続先 HTTP なし。Source QR 行の正本 |
+| **P2b** | tracking 取り込み REST (`tracking-sources`) | **GET のみ** (作成はポータル) | [s2j/webinar-service](https://github.com/stein2nd/s2j-webinar-service) 写像は Packagist 済み。実 Zoom GET は E2 後 |
+| **P3** | 配配メール (ラクス) | — | v0.0.2 **対象外** ([operational_material_index.md](./operational_material_index.md)) |
+
+* [ ] **P1** — CoverArt / フライヤー ([coverart_flyer_spec.md](./coverart_flyer_spec.md))
+* [ ] **P2** — Source QR / tracking REST (定義 → 取り込みの順)
+* [ ] **P3** — 配配メール (ラクス) — 別途 (status 100% 外)
 
 ## 外部結合ゲート {#status-external}
 
 **100% 分母外。** Pass は [test-results.md](./test-results.md) に記録。
 
-**Local 可 / 要 HTTPS:** **Local** は Local / Studio の `http://localhost` または `http://127.0.0.1:<port>` (Zoom から到達不可) で **ゲートとして Pass できるか**。**要 HTTPS** は公衆 HTTPS (ステージング、ngrok / Cloudflare Tunnel 等) が必要。同一 PC 上の Local + トンネルは **要 HTTPS** 側で実施する ([test-results.md](./test-results.md))。
+**Local 可 / 要 HTTPS:** **Local** は Local / Studio の `http://localhost` または `http://127.0.0.1:<port>` (Zoom から到達不可) で **ゲートとして Pass できるか**。**要 HTTPS** は公衆 HTTPS (ステージング、ngrok / CloudFlare Tunnel 等) が必要。同一 PC 上の Local + トンネルは **要 HTTPS** 側で実施する ([test-results.md](./test-results.md))。
 
 | # | 内容 | Local 可 / 要 HTTPS |
 | --- | --- | --- |
-| E1 | ステージング Zoom — OAuth connect | **要 HTTPS** (`127.0.0.1` / HTTP は Zoom `4700` エラー・Allow list 不可。Client 保存・Connect 試行まで Local 可) |
+| E1 | ステージング Zoom — OAuth connect | **要 HTTPS** (`127.0.0.1` / HTTP は Zoom `4700` エラー・ Allow list 不可。Client 保存・ Connect 試行まで Local 可) |
 | E2 | create / update / get / delete 実 API | **要 HTTPS** (E1完了後。未接続時の REST 到達は段階1、実 API 成功は本ゲート) |
 | E3 | Webhook — Zoom ダッシュボードから started / ended | **要 HTTPS** (Event Subscriptions。Local では未設定でよい — [webhook_spec.md](./webhook_spec.md)) |
-| E4 | Survey プラグイン `ready` → attach_survey 実 Zoom | **要 HTTPS** (E1・E2後。Survey 保存・UI は Local 可) |
-| E5 | フロント — 参加 URL 目視 | **Local 可** (`_s2j_webinar_join_url` / 公開欄が入っていること。E2 またはテスト用メタ) |
+| E4 | Survey プラグイン `ready` → attach_survey 実 Zoom | **要 HTTPS** (E1・ E2後。Survey 保存・ UI は Local 可) |
+| E5 | フロント — 参加 URL 目視 | **Local 可** (`_s2j_webinar_join_url` / 公開欄が入っていること。E2またはテスト用メタ) |
 | E6 | 運用素材 | **項目依存** (プラグイン UI / REST のみ Local 可。外部配信・本番ドメインは **要 HTTPS**) |
 
 ## 補足
 
 * **実装％** はプラグイン検証可能項のみ (上記)。Zoom ステージングは Pass 記録があっても % に含めない。
-* 初版プロバイダー slug は `zoom` のみ ([`WebinarProvider`](../includes/Provider/WebinarProvider.php))。UI 文言は `%s` / `providerLabel` で差し替え。
+* 初版プロバイダ slug は `zoom` のみ ([`WebinarProvider`](../includes/Provider/WebinarProvider.php))。UI 文言は `%s` / `providerLabel` で差し替え。
 * HTTP Adapter は本プラグイン、計算は Service ([plugin_spec.md](./plugin_spec.md))。
 
 ## 実装ロードマップ (到達順)
 
-1. ~~フロント・lint~~ → ~~メタ・レコード~~ → ~~同期~~ → ~~OAuth~~ → ~~get/delete~~ → ~~Survey~~ → ~~管理 UI (status / last_error)~~ → ~~公開リンク / Webhook テスト~~ → **品質 (wp-env 緑)** → **外部結合ゲート (test-results)**
+1. ~~フロント・ lint~~ → ~~メタ・レコード~~ → ~~同期~~ → ~~OAuth~~ → ~~get/delete~~ → ~~Survey~~ → ~~管理 UI (status / last_error)~~ → ~~公開リンク / Webhook テスト~~ → **品質 (wp-env 緑)** → **外部結合ゲート (test-results)**

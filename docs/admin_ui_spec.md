@@ -32,8 +32,8 @@ Local / Studio での Zoom Marketplace 制約 (Webhook / OAuth) と外部ゲー�
 
 | 項目 | 内容 |
 | --- | --- |
-| 見出し | Webinar (実装は i18n。msgid は英語基本) |
-| 置き場 | GatherPress イベント編集。Slot `EventPluginDocumentSettings` の Fill |
+| 見出し | S2J Webinar (実装は i18n。msgid は英語基本) |
+| 置き場 | GatherPress イベント編集。`PluginDocumentSettingPanel`（S2J Slug Generater / Survey と同列の Document Settings パネル） |
 | Survey | 別プラグインのパネルと同居。設問 UI は持たない |
 | 権限 | そのイベントを編集できるユーザー |
 

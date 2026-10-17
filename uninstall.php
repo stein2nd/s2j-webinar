@@ -18,12 +18,13 @@ use S2J\Webinar\Constants;
 global $wpdb;
 
 foreach ( Constants::owned_post_meta_keys() as $meta_key ) {
-	// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+	// phpcs:disable WordPress.DB.DirectDatabaseQuery, WordPress.DB.SlowDBQuery -- uninstall: bulk delete owned meta keys.
 	$wpdb->delete(
 		$wpdb->postmeta,
 		array( 'meta_key' => $meta_key ),
 		array( '%s' )
 	);
+	// phpcs:enable
 }
 
 foreach ( Constants::owned_option_keys() as $option_key ) {

@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
-         bootstrap="tests/bootstrap.php"
-         colors="true"
-         cacheDirectory=".phpunit.cache">
+         bootstrap="tests/bootstrap.integration.php"
+         colors="true">
 	<testsuites>
-		<testsuite name="S2J Webinar">
-			<directory>tests</directory>
-			<exclude>tests/Integration</exclude>
+		<testsuite name="S2J Webinar integration">
+			<directory>tests/Integration</directory>
 		</testsuite>
 	</testsuites>
 </phpunit>

@@ -16,7 +16,8 @@
         "dom",
         "mbstring",
         "SPL",
-        "libxml"
+        "libxml",
+        "date"
     ],
     "php.stubs": [
         "*",

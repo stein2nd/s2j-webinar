@@ -43,4 +43,34 @@ namespace {
 			return 0;
 		}
 	}
+
+	if ( ! class_exists( 'DateTimeZone', false ) ) {
+		class DateTimeZone {
+			public function __construct( string $timezone ) {
+				unset( $timezone );
+			}
+		}
+	}
+
+	if ( ! class_exists( 'DateTimeImmutable', false ) ) {
+		class DateTimeImmutable {
+			public function __construct( string $datetime, ?DateTimeZone $timezone = null ) {
+				unset( $datetime, $timezone );
+			}
+
+			public static function createFromFormat( string $format, string $datetime, ?DateTimeZone $timezone = null ): DateTimeImmutable|false {
+				unset( $format, $datetime, $timezone );
+				return false;
+			}
+
+			public function format( string $format ): string {
+				unset( $format );
+				return '';
+			}
+
+			public function getTimestamp(): int {
+				return 0;
+			}
+		}
+	}
 }

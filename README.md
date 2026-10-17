@@ -49,6 +49,7 @@ npm run makepot          # languages/s2j-webinar.pot
 | --- | --- |
 | 1: Local 結合 | プラグインルートで `WP_PATH='<WordPress public>' npm run test:smoke:local` — [docs/test-results.md](docs/test-results.md) |
 | 2: WordPress Studio | GatherPress 必須。[`studio/smoke-test-blueprint.json`](studio/smoke-test-blueprint.json) — [studio/README.md](studio/README.md) |
-| 3: PHPUnit | `composer test` または `npm run test:unit:php:local` |
+| 3a: PHPUnit (unit) | `composer test` または `npm run test:unit:php:unit-only` |
+| 3b: PHPUnit (integration) | `.env.tests` 設定後 `npm run test:unit:php:local` (MySQL + 初回 svn)。任意: `npm run test:unit:php` (wp-env) |
 
 `readme.txt` は textlint 対象外 (`.textlintignore`) です。

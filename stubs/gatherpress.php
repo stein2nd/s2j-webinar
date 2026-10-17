@@ -1,46 +1,52 @@
 <?php
 /**
- * IDE stubs only — GatherPress is not bundled with this plugin.
+ * PHPStan / IDE stubs — GatherPress is not bundled with this plugin.
  *
  * @package S2J_Webinar
  */
 
 declare(strict_types=1);
 
-namespace GatherPress\Core {
+namespace GatherPress\Core;
 
-	class Settings {
-		public static function get_instance(): self {
-			return new self();
-		}
-
-		public function render_settings_form( string $page ): void {
-		}
+class Settings
+{
+	public static function get_instance(): self
+	{
+		return new self();
 	}
 
-	class Utility {
-		public static function prefix_key( string $key ): string {
-			return $key;
-		}
+	public function render_settings_form( string $page ): void
+	{
+		unset( $page );
+	}
+}
 
-		public static function unprefix_key( string $key ): string {
-			return $key;
-		}
+class Utility
+{
+	public static function prefix_key( string $key ): string
+	{
+		return $key;
 	}
 
-	class Event {
-		public static function get_instance( int $post_id ): self {
-			unset( $post_id );
-			return new self();
-		}
+	public static function unprefix_key( string $key ): string
+	{
+		return $key;
+	}
+}
 
-		/** @return array<string, mixed> */
-		public function get_datetime(): array {
-			return array();
-		}
+namespace GatherPress\Core\Event;
 
-		public function set_online( string $join_url ): void {
-			unset( $join_url );
-		}
+class Event
+{
+	public function __construct( int $post_id )
+	{
+		unset( $post_id );
+	}
+
+	/** @return array<string, mixed> */
+	public function get_datetime(): array
+	{
+		return array();
 	}
 }

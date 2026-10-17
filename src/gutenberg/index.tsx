@@ -1,8 +1,8 @@
-import { Fill } from '@wordpress/components';
 import { registerPlugin } from '@wordpress/plugins';
+import { PluginDocumentSettingPanel as PluginDocumentSettingPanelFromEditPost } from '@wordpress/edit-post';
+import * as editorPackage from '@wordpress/editor';
 import { __, sprintf } from '@wordpress/i18n';
 import {
-	PanelBody,
 	PanelRow,
 	Button,
 	Notice,
@@ -13,10 +13,24 @@ import {
 import { useSelect, dispatch } from '@wordpress/data';
 import { useEntityProp } from '@wordpress/core-data';
 import apiFetch from '@wordpress/api-fetch';
-import { useState, useCallback } from '@wordpress/element';
+import { useState, useCallback, type ReactNode } from '@wordpress/element';
 import '../styles/gutenberg.scss';
 
-const SLOT = 'EventPluginDocumentSettings';
+const FieldSection = ({ title, children }: { title: string; children: ReactNode }) => (
+	<div className="s2j-webinar-field">
+		<h3 className="s2j-webinar-field__title">{title}</h3>
+		<div className="s2j-webinar-field__content">{children}</div>
+	</div>
+);
+
+type DocumentSettingPanel = typeof PluginDocumentSettingPanelFromEditPost;
+
+/** Avoid minifier reusing one-letter vars with inner panel state (breaks Panel component ref). */
+const s2jWebinarDocumentSettings = {
+	panelComponent:
+		(editorPackage as { PluginDocumentSettingPanel?: DocumentSettingPanel })
+			.PluginDocumentSettingPanel || PluginDocumentSettingPanelFromEditPost,
+};
 
 type Panelist = { name: string; email: string };
 
@@ -55,7 +69,7 @@ const webinarProviderLabel = (): string => {
 	return label !== undefined && label !== '' ? label : 'Zoom';
 };
 
-const WebinarPanel = () => {
+const WebinarPanelFields = () => {
 	const postId = useSelect((select) => {
 		const editor = select('core/editor') as { getCurrentPostId?: () => number };
 		return editor.getCurrentPostId?.() ?? 0;
@@ -81,7 +95,7 @@ const WebinarPanel = () => {
 	const [lastError] = useEntityProp('postType', postType, '_s2j_webinar_last_error');
 
 	const panelistList: Panelist[] = Array.isArray(panelists) ? (panelists as Panelist[]) : [];
-	const lastErrorText = typeof lastError === 'string' ? lastError.trim() : '';
+	const webinarLastErrorText = typeof lastError === 'string' ? lastError.trim() : '';
 
 	const [busy, setBusy] = useState(false);
 	const [notice, setNotice] = useState<string | null>(null);
@@ -159,115 +173,130 @@ const WebinarPanel = () => {
 	};
 
 	return (
-		<Fill name={SLOT}>
-			<PanelBody title={__('Webinar', 's2j-webinar')} initialOpen={false}>
-				{!connected && (
-					<Notice status="warning" isDismissible={false}>
-						{sprintf(
-							/* translators: %s: webinar provider name, e.g. Zoom */
-							__(
-								'%s is not connected. Open Settings → S2J Webinar (or GatherPress Settings → Webinar).',
-								's2j-webinar',
-							),
-							webinarProviderLabel(),
-						)}
+		<>
+			{!connected && (
+				<Notice status="warning" isDismissible={false}>
+					{sprintf(
+						/* translators: %s: webinar provider name, e.g. Zoom */
+						__(
+							'%s is not connected. Open Settings → S2J Webinar (or GatherPress Settings → Webinar).',
+							's2j-webinar',
+						),
+						webinarProviderLabel(),
+					)}
+				</Notice>
+			)}
+			<FieldSection title={__('Status', 's2j-webinar')}>
+				<p className="s2j-webinar-field__value">{webinarStatusLabel(webinarStatus)}</p>
+			</FieldSection>
+			{webinarLastErrorText !== '' && (
+				<PanelRow>
+					<Notice status="error" isDismissible={false}>
+						{webinarLastErrorText}
 					</Notice>
-				)}
-				<PanelRow>
-					<p>
-						<strong>{__('Status', 's2j-webinar')}</strong>
-						<br />
-						{webinarStatusLabel(webinarStatus)}
-					</p>
 				</PanelRow>
-				{lastErrorText !== '' && (
-					<PanelRow>
-						<Notice status="error" isDismissible={false}>
-							{lastErrorText}
-						</Notice>
-					</PanelRow>
-				)}
-				<PanelRow>
-					<SelectControl
-						label={__('Recording', 's2j-webinar')}
-						value={normalizeAutoRecording(autoRecording)}
-						options={AUTO_RECORDING_OPTIONS}
-						onChange={(value) => setAutoRecording(normalizeAutoRecording(value))}
-					/>
-				</PanelRow>
-				<PanelRow>
-					<RadioControl
-						label={__('Registration', 's2j-webinar')}
-						selected={typeof approvalType === 'string' ? approvalType : '0'}
-						options={[
-							{ label: __('Required — auto approve', 's2j-webinar'), value: '0' },
-							{ label: __('Required — manual approve', 's2j-webinar'), value: '1' },
-							{ label: __('Not required', 's2j-webinar'), value: '2' },
-						]}
-						onChange={(value) => setApprovalType(value)}
-					/>
-				</PanelRow>
-				<PanelRow>
-					<p>{__('Panelists (at least one required to sync)', 's2j-webinar')}</p>
-				</PanelRow>
+			)}
+			<FieldSection title={__('Recording', 's2j-webinar')}>
+				<SelectControl
+					label={__('Recording', 's2j-webinar')}
+					hideLabelFromVision
+					value={normalizeAutoRecording(autoRecording)}
+					options={AUTO_RECORDING_OPTIONS}
+					onChange={(value) => setAutoRecording(normalizeAutoRecording(value))}
+				/>
+			</FieldSection>
+			<FieldSection title={__('Registration', 's2j-webinar')}>
+				<RadioControl
+					label={__('Registration', 's2j-webinar')}
+					hideLabelFromVision
+					selected={typeof approvalType === 'string' ? approvalType : '0'}
+					options={[
+						{ label: __('Required — auto approve', 's2j-webinar'), value: '0' },
+						{ label: __('Required — manual approve', 's2j-webinar'), value: '1' },
+						{ label: __('Not required', 's2j-webinar'), value: '2' },
+					]}
+					onChange={(value) => setApprovalType(value)}
+				/>
+			</FieldSection>
+			<FieldSection title={__('Panelists (at least one required to sync)', 's2j-webinar')}>
 				{panelistList.map((row, index) => (
-					<PanelRow key={`panelist-${index}`}>
-						<div className="s2j-webinar-panelist-row">
-							<TextControl
-								label={__('Name', 's2j-webinar')}
-								value={row.name}
-								onChange={(value) => updatePanelist(index, 'name', value)}
-							/>
-							<TextControl
-								label={__('Email', 's2j-webinar')}
-								type="email"
-								value={row.email}
-								onChange={(value) => updatePanelist(index, 'email', value)}
-							/>
-							<Button isDestructive onClick={() => removePanelist(index)} disabled={busy}>
-								{__('Remove', 's2j-webinar')}
-							</Button>
-						</div>
-					</PanelRow>
+					<div key={`panelist-${index}`} className="s2j-webinar-panelist-row">
+						<TextControl
+							label={__('Name', 's2j-webinar')}
+							value={row.name}
+							onChange={(value) => updatePanelist(index, 'name', value)}
+						/>
+						<TextControl
+							label={__('Email', 's2j-webinar')}
+							type="email"
+							value={row.email}
+							onChange={(value) => updatePanelist(index, 'email', value)}
+						/>
+						<Button isDestructive onClick={() => removePanelist(index)} disabled={busy}>
+							{__('Remove', 's2j-webinar')}
+						</Button>
+					</div>
 				))}
+				<Button onClick={addPanelist} disabled={busy}>
+					{__('Add panelist', 's2j-webinar')}
+				</Button>
+			</FieldSection>
+			<PanelRow>
+				<Button
+					variant="primary"
+					onClick={() => runAction(`/s2j-webinar/v1/events/${postId}/sync`)}
+					disabled={busy || !canSync}
+				>
+					{__('Sync', 's2j-webinar')}
+				</Button>
+				<Button
+					onClick={() => runAction(`/s2j-webinar/v1/events/${postId}/open`, true)}
+					disabled={busy || !connected || !postId}
+				>
+					{sprintf(
+						/* translators: %s: webinar provider name, e.g. Zoom */
+						__('Open in %s', 's2j-webinar'),
+						webinarProviderLabel(),
+					)}
+				</Button>
+				<Button isDestructive onClick={confirmDelete} disabled={busy || !connected || !postId}>
+					{sprintf(
+						/* translators: %s: webinar provider name, e.g. Zoom */
+						__('Delete from %s', 's2j-webinar'),
+						webinarProviderLabel(),
+					)}
+				</Button>
+			</PanelRow>
+			{notice && (
 				<PanelRow>
-					<Button onClick={addPanelist} disabled={busy}>
-						{__('Add panelist', 's2j-webinar')}
-					</Button>
+					<p>{notice}</p>
 				</PanelRow>
-				<PanelRow>
-					<Button
-						variant="primary"
-						onClick={() => runAction(`/s2j-webinar/v1/events/${postId}/sync`)}
-						disabled={busy || !canSync}
-					>
-						{__('Sync', 's2j-webinar')}
-					</Button>
-					<Button
-						onClick={() => runAction(`/s2j-webinar/v1/events/${postId}/open`, true)}
-						disabled={busy || !connected || !postId}
-					>
-						{sprintf(
-							/* translators: %s: webinar provider name, e.g. Zoom */
-							__('Open in %s', 's2j-webinar'),
-							webinarProviderLabel(),
-						)}
-					</Button>
-					<Button isDestructive onClick={confirmDelete} disabled={busy || !connected || !postId}>
-						{sprintf(
-							/* translators: %s: webinar provider name, e.g. Zoom */
-							__('Delete from %s', 's2j-webinar'),
-							webinarProviderLabel(),
-						)}
-					</Button>
-				</PanelRow>
-				{notice && (
-					<PanelRow>
-						<p>{notice}</p>
-					</PanelRow>
+			)}
+		</>
+	);
+};
+
+const WebinarPanel = () => {
+	const DocumentPanel = s2jWebinarDocumentSettings.panelComponent;
+	if (!DocumentPanel) {
+		return (
+			<Notice status="error" isDismissible={false}>
+				{__(
+					'PluginDocumentSettingPanel is unavailable in this WordPress version.',
+					's2j-webinar',
 				)}
-			</PanelBody>
-		</Fill>
+			</Notice>
+		);
+	}
+
+	return (
+		<DocumentPanel
+			name="s2j-webinar-event-panel"
+			title={__('S2J Webinar', 's2j-webinar')}
+			className="s2j-webinar-document-panel"
+		>
+			<WebinarPanelFields />
+		</DocumentPanel>
 	);
 };
 

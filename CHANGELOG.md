@@ -2,6 +2,36 @@
 
 ## unreleased
 
+### Added
+
+* テスト — `WebinarServicePipelineTest` (Marketplace 不要の Service validate/plan/build)、`SyncRestServiceIntegrationTest` (REST sync + モック HTTP)。ローカル通し **unit: 22 + integration: 6** (`npm run test:unit:php:local`)
+* ローカル PHPUnit (wp-env 非必須): `bin/phpunit-local.sh`、`bin/install-wp-tests.sh`、`phpunit.unit.xml.dist`、`tests/bootstrap.integration.php`、`.env.tests.example` (`tests/bootstrap.wp-env.php` 廃止)
+* `.gitignore` — ローカル `.env.tests` (MySQL / `WP_TESTS_GATHERPRESS_DIR`)
+* dev — `yoast/phpunit-polyfills`。静的解析 — `phpcs.xml.dist` / `phpcs.wpcs.xml.dist` / `phpcs.wpcs-includes.xml.dist` / `phpstan.neon.dist`、`phpstan-bootstrap.php`、`composer lint:php`
+
+### Changed
+
+* Gutenberg — Document Settings に **S2J Webinar** トップレベルパネル (`PluginDocumentSettingPanel`、GatherPress Fill から変更)。見出し **S2J Webinar**、フィールド見出しを `h3.s2j-webinar-field__title` に統一。レコーディング `SelectControl` は `PanelRow` 外 (日本語ラベル崩れ回避)
+* Gutenberg ビルド — Vite で `@wordpress/edit-post` → global `wp.editPost`、minify 後も `PluginDocumentSettingPanel` を `s2jWebinarDocumentSettings.panelComponent` 経由で参照 (`vite.config.ts` / `src/gutenberg/index.tsx`)。エディター bundle 依存に `wp-edit-post`
+* `composer test` / `npm run test:unit:php:unit-only` — 純ユニットのみ。MySQL 統合は `npm run test:unit:php:local`。GitHub Actions PHPUnit は段階 **3a** (`unit-only`) のみ
+* `package.json` — MediaLibrary Date Corrector 同型の PHPUnit npm スクリプト (`pretest:unit:php:local` で `composer install`)
+* **`includes/`** — PSR-12整形 (`phpcbf`)。WPCS は bootstrap PHP + `includes` i18n / Security 分割
+* `composer.json` — `test:integration` / `test:all` / `lint:php`
+* PHPStan — `ServiceBridge::build_request()`、GatherPress / WP スタブ (`stubs/gatherpress.php`、`stubs/wordpress/…` 等)
+* ドキュメント — [admin_ui_spec.md](docs/admin_ui_spec.md) / [gatherpress_boundary_spec.md](docs/gatherpress_boundary_spec.md) (パネル配置)、[operational_material_index.md](docs/operational_material_index.md) (Marketplace 不要な、実装の優先順位)、[README.md](README.md) / [test-results.md](docs/test-results.md) / [status.md](docs/status.md) (段階3a/3b、**22+6**、段階3b [x] 2026-10-17)
+* ドキュメント — [test-results.md](docs/test-results.md) 段階1〜2手動 checklist Pass (2026-10-17。Local / Studio。OAuth Connect は checklist 項目6として SKIP)。[status.md](docs/status.md) §品質・スモーク 段階1–2 [x] (残: Service §プラグイン相互 `[x]`)
+* ドキュメント — [operational_material_index.md](docs/operational_material_index.md) §実装優先順、[status.md](docs/status.md) §運用素材 優先表 (CoverArt → tracking 定義/取り込み REST → 配配メールは v0.0.2対象外)
+
+### Fixed
+
+* PHPUnit **9.6** (WP テスト lib × PHPUnit v10非互換)。`phpunit.*.xml.dist` から v10専用 `cacheDirectory` 削除
+* **GatherPress 日時** — `EventSchedule` を現行 GP (`GatherPress\Core\Event\Event`、`gatherpress_datetime_*` / JSON)
+* **REST 統合** — `gatherpress_events`、`PUT` 更新、`PostMetaRegistrar` の post type 登録と tearDown 後の再登録 (`GatherPressEventTestCase`)
+* **公開リンク** — GP `Event\Event` に `set_online` がない環境は `gatherpress_online_event_link` メタへフォールバック
+* **設定 → S2J Webinar** — 保存時 `$_POST` を `sanitize_text_field` 経由 (WPCS)
+* **統合テスト** — 日時 fixture を `gatherpress_datetime_*` メタ直書き (GP datetimes テーブル非依存)
+* IDE — Intelephense の `DateTimeZone` (`stubs/php-internal.php`、`.vscode` `intelephense.stubs` に `date`)
+
 ## 0.0.1 - 2026-10-15
 
 ### Fixed

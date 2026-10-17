@@ -4,9 +4,16 @@ declare(strict_types=1);
 
 namespace S2J\Webinar\Tests\Integration;
 
+use S2J\Webinar\Meta\PostMetaRegistrar;
 use WP_UnitTestCase;
 
 abstract class GatherPressEventTestCase extends WP_UnitTestCase {
+
+	protected function setUp(): void {
+		parent::setUp();
+		// WP_UnitTestCase tearDown clears registered meta between tests.
+		PostMetaRegistrar::register_meta();
+	}
 
 	protected function event_post_type(): string {
 		foreach ( get_post_types( array( 'public' => true ), 'names' ) as $type ) {

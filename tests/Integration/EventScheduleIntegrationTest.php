@@ -12,15 +12,9 @@ final class EventScheduleIntegrationTest extends GatherPressEventTestCase {
 	public function test_gatherpress_datetime_yields_non_empty_start_at(): void {
 		$post_id = $this->create_event_post();
 
-		update_post_meta(
-			$post_id,
-			'gatherpress_datetime',
-			array(
-				'dateTime' => '2026-12-15T14:30:00',
-				'timezone' => 'Asia/Tokyo',
-				'duration' => 45,
-			)
-		);
+		update_post_meta( $post_id, 'gatherpress_datetime_start', '2026-12-15 14:30:00' );
+		update_post_meta( $post_id, 'gatherpress_datetime_end', '2026-12-15 15:15:00' );
+		update_post_meta( $post_id, 'gatherpress_timezone', 'Asia/Tokyo' );
 
 		$schedule = EventSchedule::read( $post_id );
 		$this->assertNotSame( '', $schedule['start_at'] );

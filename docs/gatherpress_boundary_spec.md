@@ -14,10 +14,9 @@
 
 | 項目 | 方針 |
 | --- | --- |
-| Slot | `EventPluginDocumentSettings` |
-| 方式 | WordPress の Fill のみ。Slot 定義をフォークに足さない |
+| 方式 | `PluginDocumentSettingPanel`（Document Settings の **S2J Webinar** パネル。GatherPress フォーク改変なし） |
 | 権限 | そのイベントを編集できるユーザー |
-| Survey | Survey プラグインが別 Fill を載せる。本パネルと同居してよい |
+| Survey | Survey プラグインの Document Settings パネルと同居してよい |
 
 ## GatherPress 設定内 Webinar タブ
 
