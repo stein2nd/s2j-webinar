@@ -33,7 +33,7 @@
 | `_s2j_webinar_provider` | string | 接続先 ID。初版は常に `zoom`。未設定時はレコード組立で `zoom` |
 | `_s2j_webinar_auto_recording` | string | `none` / `cloud` / `local`。未設定時はレコード組立で `cloud` |
 | `_s2j_webinar_approval_type` | string\|int | `0` / `1` / `2`。未設定時はレコード組立で `0` (必須・自動承認) |
-| `_s2j_webinar_panelists` | array | 登壇者 `{ name, email }[]`。順序あり。投稿保存では `[]` 可 (下書き)。同期時は1人以上 (UI + サービス)。1人目が質問メール送信先 |
+| `_s2j_webinar_panelists` | array | 登壇者 `{ name, email }[]`。順序あり。投稿保存では `[]` 可 (下書き)。同期時は1人以上 (UI + サービス)。1人目が質問メール送信先。Gutenberg 書き込みは [admin_ui_spec §Gutenberg クライアント](./admin_ui_spec.md#gutenberg-クライアント) (`editPost`)。サーバー保存時はメール非空・`sanitize_email` 通過行のみ ([`sanitize_panelists`](../includes/Meta/PostMetaRegistrar.php)) |
 
 ### サーバー管理キー (`show_in_rest` しない)
 

@@ -37,8 +37,10 @@ final class OnlineEventLinkWriter
         if (! is_callable(array( $event, 'set_online' ))) {
             return false;
         }
-        call_user_func(array( $event, 'set_online' ), $join_url);
-        return true;
+        // GatherPress >= 0.36: set_online( bool $is_online, string $link = '' ).
+        $saved = call_user_func(array( $event, 'set_online' ), true, $join_url);
+
+        return $saved === true;
     }
 
     public static function clear(int $post_id): void

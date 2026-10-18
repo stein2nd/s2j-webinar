@@ -82,7 +82,7 @@ export default defineConfig({
 			},
 			input: buildConfig.entry,
 			output: {
-				banner: `window.S2JReactJSXRuntime=window.S2JReactJSXRuntime||{jsx:wp.element.createElement,jsxs:wp.element.createElement,Fragment:wp.element.Fragment};`,
+				banner: `window.S2JReactJSXRuntime=window.S2JReactJSXRuntime||(function(){var c=wp.element.createElement;var j=function(t,p,k){if(k!==undefined&&k!==null){p=Object.assign({},p||{},{key:k});}return c(t,p);};return{jsx:j,jsxs:j,Fragment:wp.element.Fragment};})();`,
 				globals: (id) => {
 					if (id.startsWith('@wordpress/')) {
 						const parts = id.split('/');

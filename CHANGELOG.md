@@ -2,6 +2,22 @@
 
 ## unreleased
 
+## 0.0.1 - 2026-10-18
+
+### Fixed
+
+* [`OnlineEventLinkWriter`](includes/GatherPress/OnlineEventLinkWriter.php) — GatherPress `Event::set_online( true, $join_url )` (1引数のみだと link 空で公開欄 meta が更新されない)
+* Gutenberg — 登壇者 `_s2j_webinar_panelists` を `editPost({ meta })` 経由で REST 保存 (`useEntityProp` はスカラ meta のみ)
+* Gutenberg ビルド — Vite JSX shim: `key` を `props.key` へ (`panelist-0` 等の DOM 露出)
+* Studio Blueprint — wp.org `gatherpress-alpha` step 削除 (404)
+
+### Changed
+
+* Gutenberg — 登壇者行 (Panelist N / Remove panelist、[`gutenberg.scss`](src/styles/gutenberg.scss))
+* i18n — 登壇者 UI 文言 (`languages/s2j-webinar-ja.po` / `.mo` / JED)
+* Studio — Alpha 手動での導入手順 ([studio/README.md](studio/README.md))
+* ドキュメント — Gutenberg 保存経路、Blueprint **2026-10-18** Pass ([admin_ui_spec.md](docs/admin_ui_spec.md)、[status.md](docs/status.md)、[test-results.md](docs/test-results.md)、[cross_plugin_remaining_matrix.md](docs/cross_plugin_remaining_matrix.md) 他)
+
 ## 0.0.1 - 2026-10-17
 
 ### Added

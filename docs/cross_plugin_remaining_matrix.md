@@ -23,7 +23,7 @@
 | リポジトリ | Local | Webinar 実装待ち | HTTPS + Zoom | 備考 |
 | --- | ---: | ---: | ---: | --- |
 | [S2J Webinar Survey](#s2j-webinar-survey) | 9 | 0 | 0 (+ E3/E4 ゲート) | Zoom 非接触は Local 検証 |
-| [S2J Webinar](#s2j-webinar) | 2 | 2 | 1 (+ E1–E4 ゲート) | P3 は v0.0.2 対象外 |
+| [S2J Webinar](#s2j-webinar) | 2 | 2 | 1 (+ E1–E4 ゲート) | 順3 Blueprint Pass **2026-10-18**。P3 は v0.0.2 対象外 |
 | [S2J Webinar Source QR](#s2j-webinar-source-qr) | 10 | 5 | 3 (+ E1/E3 ゲート) | 任意・handoff 含む |
 
 ---
@@ -58,11 +58,20 @@
 
 正本: [status.md §100%](./status.md#100-完了条件チェックリスト) / [test-results.md](./test-results.md)
 
+**Local 記録 (Pass 済 — [status §品質・スモーク](./status.md#status-quality) / [test-results §最新結果](./test-results.md#最新結果)):**
+
+| 項目 | 記録日 | メモ |
+| --- | --- | --- |
+| 段階1 smoke + 手動 #1–8 | 2026-10-17 | Local + Studio (`webinar-smoke`)。OAuth #6 SKIP |
+| Blueprint **ゼロから** + 手動 #1–8 | **2026-10-18** | 新規 Blueprint サイト。GP + Alpha (Releases)。#7 — `_s2j_webinar_panelists` 2名・スーパーリロード後も保持 |
+| 段階3a+3b / `lint:php` | 2026-10-17 | **22 + 6**、順0 |
+
+**未完了 `[ ]` (分類):**
+
 | § | 未完了 `[ ]` | Local | Webinar 実装待ち | HTTPS + Zoom |
 | --- | --- | :---: | :---: | :---: |
-| 品質 | Blueprint **ゼロから** Studio 再現 Pass 記録 | ● | | |
 | 品質 | Service §プラグイン — 本プラグイン 100% 後に Service [x] | ● | | プロセス (Service repo) |
-| 品質 | Source QR 連携 — P2a 後 localhost `catalogReady` Pass | | ● | |
+| 品質 | Source QR 連携 — P2a 後 localhost `catalogReady` Pass (**E7**) | | ● | |
 | 品質 | **[E1–E4]** — OAuth / 実 API / Webhook / Survey attach | | | ● |
 | 運用 P1 | CoverArt / フライヤー | ● | | HTTP なし |
 | 運用 P2 | Source QR / tracking REST (定義 → 取り込み) | | ● | P2b 実 GET は E2 |
@@ -120,7 +129,8 @@
 
 ## 推奨の進め方 (依存順)
 
-1. **Local 自動** — 各 repo [status §推奨テスト実施順](./status.md#status-test-order) 順0–2 (Survey: smoke / option テスト等を追加)。
+1. **Local 自動** — 各 repo [status §推奨テスト実施順](./status.md#status-test-order) 順0–2。
+    * **Webinar** は順0–2 (**2026-10-17**) + **順3** 手動 #1–8 + Blueprint ゼロから (**2026-10-18**) まで Pass 済。残: **E7** (P2a 後)、[test-results §最新結果](./test-results.md#最新結果) の E7 未記録行。
 2. **Webinar P2a** — 定義 REST → Source QR **E2** / Webinar **E7** / Save draft 200 (Local)。
 3. **Webinar P1 / Source QR sanitize・UI 残** — Local のみ。
 4. **HTTPS ステージング** — Webinar **E1 → E2 → E3**、続けて Survey **E3/E4**、Source QR **E3** (Import)。

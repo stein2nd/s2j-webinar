@@ -106,7 +106,7 @@ Composer で `s2j/webinar-service` を require します。参照は [S2J Slug G
 * `dirty` は本体項目の変更のみ。登壇者だけ・アンケートだけは `synced` のまま。`error`+id の「同期」は `intend_retry` (サービスは dirty と同計画)。
 * 削除はパネルの明示操作だけ。ゴミ箱移動では delete を呼ばない。
 * `start_url` は保存しない。「Zoom で開く」は `build_webinar_request( 'get', … )` 直呼び。create / update / get いずれも `join_url` / `webinar_uuid` 非空ならメタ (と `join_url` なら公開欄) を更新 (空なら既存を消さない。空にするのは delete 成功時のみ)。
-* パネルは Slot `EventPluginDocumentSettings` の Fill のみ。メタ保存は明示の投稿更新 + `save_post` (Survey に倣う)。Zoom HTTP は明示ボタンのみ。Authorization の種別は [oauth_and_settings_spec.md](./oauth_and_settings_spec.md)。
+* パネルは Document Settings の `PluginDocumentSettingPanel` ([admin_ui_spec.md](./admin_ui_spec.md))。メタ保存は明示の投稿更新 + `save_post` (Survey に倣う)。Gutenberg ではスカラー meta は `useEntityProp`、`_s2j_webinar_panelists` は `editPost` ([§Gutenberg クライアント](./admin_ui_spec.md#gutenberg-クライアント))。Zoom HTTP は明示ボタンのみ。Authorization の種別は [oauth_and_settings_spec.md](./oauth_and_settings_spec.md)。
 * Survey 未完了を create の条件にしない。`ready` は context の `survey_document` のみ (レコードに載せない)。通常の「同期」が `attach_survey` する (専用ボタンなし)。
 * Webhook `webinar.ended` では公開リンクを空にしない。空にするのは Zoom 削除成功時のみ。
 * アンインストールは本プラグイン所有キーの明示リスト + サイト option のみ。`_s2j_webinar_survey` は触らない。Zoom は変更しない。
@@ -126,3 +126,4 @@ Composer で `s2j/webinar-service` を require します。参照は [S2J Slug G
 | 2026-10-09 | 第7監査 BP: concept 操作表と specs 読み方のパイプライン表記を正本にそろえた、と記録 |
 | 2026-10-09 | 第8監査 BP: status の get 完了条件に webinar_uuid を含めた、と記録 |
 | 2026-10-10 | OAuth は REST=Bearer / token・refresh=Basic+フル URL、update は intend_retry も、last_panelists は希望列丸ごと、Survey は context のみ、と記録 |
+| 2026-10-18 | Gutenberg — `_s2j_webinar_panelists` は `editPost` で dirty 付け (配列 meta の REST 保存)。`sanitize_panelists` で有効メール行のみ永続。Studio Blueprint ゼロから手動 #7 Pass ([test-results.md](./test-results.md)) |

@@ -71,6 +71,17 @@ Survey プラグインの永続化にそろえます。**パネル編集キー**
 除外 (メタの正規化書き込みも Zoom HTTP もしない): autosave、リビジョン、Quick Edit、一括編集、WP-CLI、**本プラグイン独自のカスタム REST によるメタ保存** (初版)。  
 **許可:** エディター経由のコア投稿更新 REST (パネル編集キーの `show_in_rest` 搬送) + `save_post` でのサーバー正規化。
 
+### Gutenberg クライアント {#gutenberg-クライアント}
+
+実装: [`src/gutenberg/index.tsx`](../src/gutenberg/index.tsx)。
+
+| パネル編集キー | クライアントでの dirty 付け |
+| --- | --- |
+| `_s2j_webinar_auto_recording`、`_s2j_webinar_approval_type` 等 (スカラー) | `@wordpress/core-data` の `useEntityProp` |
+| `_s2j_webinar_panelists` (配列 `{ name, email }[]`) | `core/editor` の `editPost({ meta: { …編集中 meta, _s2j_webinar_panelists: next } })`。`useEntityProp` のみだと配列 meta が投稿更新 REST に載らないことがあるため |
+
+読み取りも編集中 meta (`getEditedPostAttribute('meta')`) から行う。サーバー側は [`PostMetaRegistrar::sanitize_panelists`](../includes/Meta/PostMetaRegistrar.php) で **有効なメールアドレスを持つ行だけ** 残す (空メール行は除去。氏名のみでは保存されない)。
+
 **Zoom HTTP は明示ボタンのみ** です。投稿保存では Zoom に送りません。
 
 登壇者0人: 投稿の明示更新では `[]` をメタに残してよい (下書き途中)。「同期」は UI で無効化または追加を促す。サーバー到達時の最終判定はサービスの `panelists_empty` (安全網)。

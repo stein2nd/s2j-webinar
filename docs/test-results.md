@@ -1,6 +1,6 @@
 # S2J Webinar - テスト戦略と結果記録
 
-最終更新: 2026-10-17
+最終更新: 2026-10-18
 
 本プラグインの検証方針と実行記録です。環境の役割 (Local / Studio / PHPUnit) の共通定義は [wp-plugin-spec: SMOKE_AND_WP_ENVIRONMENTS.md](https://github.com/stein2nd/wp-plugin-spec/blob/main/docs/SMOKE_AND_WP_ENVIRONMENTS.md) を正とし、本ファイルは **このプラグイン固有の手順と結果** です。コンパニオン [S2J Webinar Source QR — test-results.md](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/test-results.md) は **同型の段階表・推奨順** を採用 (本 repo は OAuth / 同期 / Service パイプラインが中心)。
 
@@ -57,7 +57,7 @@
 | Source QR **定義 REST** → `catalogReady` | **条件付き** | 本 repo **[P2a 未実装](./status.md#status-operational)**。実装後 **Local 可** ([E7](./status.md#status-external)) |
 | Source QR **取り込み** (`tracking-sources`) | **条件付き** | **P2b** + `_s2j_webinar_id` + OAuth — 実 Zoom は **要 HTTPS** ([Source QR E3](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/status.md#status-external)) |
 
-**依存:** 段階1・2では **[GatherPress](https://github.com/stein2nd/gatherpress)** (フォーク可) を **有効化必須** です。wp.org 最新系では **GatherPress alpha** も同時に有効化する必要があります (GatherPress 本体が要求)。本プラグイン単体ではイベント post type / Slot が成立しません。
+**依存:** 段階1・2では **[GatherPress](https://github.com/stein2nd/gatherpress)** (フォーク可) を **有効化必須** です。wp.org 最新系 GatherPress では **GatherPress Alpha** コンパニオンも **GatherPress と同じバージョン** で有効化が必要です (開発・互換用。**[WordPress.org には未公開](https://wordpress.org/plugins/search/gatherpress-alpha/)** — [GitHub Releases](https://github.com/GatherPress/gatherpress-alpha/releases) の `gatherpress-alpha.zip`。手順: [studio/README.md §GatherPress Alpha](../studio/README.md#gatherpress-alpha-blueprint-後手動))。本プラグイン単体ではイベント post type が成立しません。
 
 **Webhook (段階1–2):** Zoom Event Subscriptions は **公衆 HTTPS** のエンドポイント URL が必須です。Local / Studio の `http://localhost` 等では Zoom 側で登録できません (*A secure URL using HTTPS is required*)。**段階1–2では Webhook URL / Webhook secret は未設定のまま** とし、OAuth ・同期・スモークを優先します。`webinar.started` / `webinar.ended` の検証は [status.md の外部結合ゲート E3](./status.md#status-external) (HTTPS ステージング) で行います。
 
@@ -82,7 +82,7 @@
 | 4 | 管理メニュー **S2J Webinar** | 設定画面が開く。クライアント ID / 秘密鍵保存可 |
 | 5 | GatherPress **イベント** 編集 (ブロックエディター) | Document Settings に **S2J Webinar** パネル（**S2J Slug Generater** と同列）。未接続時は警告 |
 | 6 | Zoom 接続 (任意・テストアカウント) | OAuth コールバック後「connected」通知 |
-| 7 | イベント保存 | パネルメタ (`_s2j_webinar_*`) が REST 経由で保存される |
+| 7 | イベント保存 | パネルメタ (`_s2j_webinar_*`) が REST 経由で保存される。**登壇者**は有効メール付き行が `_s2j_webinar_panelists` に残る (保存後スーパーリロードでも表示)。サーバーは無効/空メール行を除去 ([`PostMetaRegistrar::sanitize_panelists`](../includes/Meta/PostMetaRegistrar.php)) |
 | 8 | **同期** ボタン | REST `POST /wp-json/s2j-webinar/v1/events/{id}/sync` が422/200を返す (Zoom 未設定時は失敗も可。ルート到達を確認) |
 
 **自動 (段階1の一部):** Local の **Site Shell** では、まず **本プラグインのディレクトリ** (`wp-content/plugins/s2j-webinar`) に `cd` してから実行します。Site Shell の初期カレントは多くの場合 WordPress の `public` だけで、そこには `test:smoke:local` がありません (`npm error Missing script`)。
@@ -104,17 +104,20 @@ GatherPress + 本プラグイン有効化、REST ルート、Service 関数到�
 | --- | --- | --- | --- | --- | --- |
 | Local (`blockpluginbase`) | 2026-10-17 | PASS | SKIP | PASS | **PASS** |
 | WordPress Studio (`webinar-smoke`) | 2026-10-17 | PASS | SKIP | PASS | **PASS** |
+| WordPress Studio (Blueprint **ゼロから**) | 2026-10-18 | PASS | SKIP | PASS | **PASS** |
 
 | # | 項目 | Local メモ |
 | --- | --- | --- |
 | 1 | build + vendor/dist | `composer install` / `npm run build:production` 済み |
-| 2 | GatherPress 有効 | GP + alpha 有効 |
+| 2 | GatherPress + Alpha 有効 | 本体と [Alpha が同バージョン](https://github.com/GatherPress/gatherpress-alpha#how-to-determine-which-version-to-install) |
 | 3 | S2J Webinar 有効 | `s2j/webinar-service` ^0.1 同梱 |
 | 4 | 設定 → S2J Webinar | 画面・Client ID / Secret 保存可 |
 | 5 | Gutenberg パネル | Document Settings に S2J Webinar (未接続警告含む) |
 | 6 | OAuth Connect | 省略 (E1 / HTTPS ステージングに回す) |
-| 7 | イベント保存 | `_s2j_webinar_*` REST 保存 |
+| 7 | イベント保存 | `_s2j_webinar_auto_recording` / `_s2j_webinar_approval_type` / `_s2j_webinar_panelists` (2名・スーパーリロード後も UI 保持) |
 | 8 | 同期 REST | `POST …/sync` 到達 (422/200) |
+
+**WordPress Studio (Blueprint ゼロから、2026-10-18):** 新規 Blueprint サイト。GatherPress + Alpha (Releases 同バージョン)、本プラグイン symlink + 本番ビルド。サイト言語 **ja** — Gutenberg パネル日本語表示。未接続のため **同期** は無効 (仕様どおり)。#7 — 録画/参加登録に加え登壇者 **2名** (有効 Gmail) を保存し、**スーパーリロード後も** Document Settings に残ることを確認 (実装: [admin_ui_spec §Gutenberg クライアント](./admin_ui_spec.md#gutenberg-クライアント))。
 
 ---
 
@@ -196,7 +199,7 @@ npm run test:unit:php:local
 | 2026-10-17 | 1 | Local (`blockpluginbase`) | PASS (manual) | 手動 checklist #1–8 — [記録表](#手動チェックリスト結果-pass-記録) |
 | 2026-10-17 | 2 | WordPress Studio | PASS (manual) | 同上 (2026-10-14 自動 smoke 済み + 手動 checklist) |
 | 2026-10-17 | 0 | Local (`blockpluginbase`) | PASS | **`npm run lint:php`** — PHPStan + PHPCS + WPCS (`prelint:php` → Composer dev 依存)。[Source QR 同型行](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/test-results.md#最新結果) |
-| (未記録) | 2 | Studio | — | Blueprint **ゼロから** 再現 + 手動 #1–8 一括 ([Source QR 未記録行](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/test-results.md#最新結果) 同型) |
+| 2026-10-18 | 2 | WordPress Studio (Blueprint **ゼロから**) | PASS (manual) | [`studio/smoke-test-blueprint.json`](../studio/smoke-test-blueprint.json) から新規サイト。GP + Alpha (GitHub Releases 同バージョン)、プラグイン symlink + `build:production`。PHP **8.5** (Blueprint は 8.2 指定)。`localhost:8887`。手動 #1–8 (#6 SKIP)。#7 — 登壇者2名 (有効 Gmail) 保存 → スーパーリロード後もパネルに残存 |
 | (未記録) | 4 | Local or Studio | — | **E7** — P2a 定義 REST 実装後 Source QR `catalogReady` / Save draft **200** ([Source QR 順4 E1–E2](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/test-results.md#順4-オプション-local-可-e2e4)) |
 
 実行後、日付、Pass/Fail、メモを追記してください。

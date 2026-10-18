@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: S2J Webinar 0.0.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/s2j-webinar\n"
-"POT-Creation-Date: 2026-10-17T01:27:32+00:00\n"
-"PO-Revision-Date: 2026-10-17 10:33+0900\n"
+"POT-Creation-Date: 2026-10-18T06:50:59+00:00\n"
+"PO-Revision-Date: 2026-10-18 15:54+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ja\n"
@@ -449,16 +449,20 @@ msgid "Panelists (at least one required to sync)"
 msgstr "パネリスト (同期には少なくとも1名が必要)"
 
 #: dist/js/s2j-webinar-gutenberg.js:1
+msgid "Panelist %d"
+msgstr "パネリスト %d"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "Remove panelist"
+msgstr "パネリストを削除"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
 msgid "Name"
 msgstr "名前"
 
 #: dist/js/s2j-webinar-gutenberg.js:1
 msgid "Email"
 msgstr "メール"
-
-#: dist/js/s2j-webinar-gutenberg.js:1
-msgid "Remove"
-msgstr "削除"
 
 #: dist/js/s2j-webinar-gutenberg.js:1
 msgid "Add panelist"
@@ -479,3 +483,12 @@ msgstr "%s からこのウェビナーを削除しますか ?"
 #: dist/js/s2j-webinar-gutenberg.js:1
 msgid "Delete from %s"
 msgstr "%s から削除"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "PluginDocumentSettingPanel is unavailable in this WordPress version."
+msgstr ""
+"この WordPress のバージョンでは、PluginDocumentSettingPanel は利用できませ"
+"ん。"
+
+#~ msgid "Remove"
+#~ msgstr "削除"

@@ -10,7 +10,7 @@ import {
 	RadioControl,
 	TextControl,
 } from '@wordpress/components';
-import { useSelect, dispatch } from '@wordpress/data';
+import { useSelect, useDispatch, dispatch } from '@wordpress/data';
 import { useEntityProp } from '@wordpress/core-data';
 import apiFetch from '@wordpress/api-fetch';
 import { useState, useCallback, type ReactNode } from '@wordpress/element';
@@ -24,6 +24,8 @@ const FieldSection = ({ title, children }: { title: string; children: ReactNode 
 );
 
 type DocumentSettingPanel = typeof PluginDocumentSettingPanelFromEditPost;
+
+const EDITOR_STORE = 'core/editor';
 
 /** Avoid minifier reusing one-letter vars with inner panel state (breaks Panel component ref). */
 const s2jWebinarDocumentSettings = {
@@ -90,11 +92,26 @@ const WebinarPanelFields = () => {
 		postType,
 		'_s2j_webinar_approval_type',
 	);
-	const [panelists, setPanelists] = useEntityProp('postType', postType, '_s2j_webinar_panelists');
 	const [webinarStatus] = useEntityProp('postType', postType, '_s2j_webinar_status');
 	const [lastError] = useEntityProp('postType', postType, '_s2j_webinar_last_error');
 
-	const panelistList: Panelist[] = Array.isArray(panelists) ? (panelists as Panelist[]) : [];
+	const { editPost } = useDispatch(EDITOR_STORE);
+	const meta = useSelect(
+		(select) => {
+			const edited = select(EDITOR_STORE).getEditedPostAttribute('meta');
+			return edited && typeof edited === 'object' ? (edited as Record<string, unknown>) : {};
+		},
+		[],
+	);
+	const panelistList: Panelist[] = Array.isArray(meta._s2j_webinar_panelists)
+		? (meta._s2j_webinar_panelists as Panelist[])
+		: [];
+	const setPanelists = useCallback(
+		(next: Panelist[]) => {
+			editPost({ meta: { ...meta, _s2j_webinar_panelists: next } });
+		},
+		[editPost, meta],
+	);
 	const webinarLastErrorText = typeof lastError === 'string' ? lastError.trim() : '';
 
 	const [busy, setBusy] = useState(false);
@@ -221,6 +238,24 @@ const WebinarPanelFields = () => {
 			<FieldSection title={__('Panelists (at least one required to sync)', 's2j-webinar')}>
 				{panelistList.map((row, index) => (
 					<div key={`panelist-${index}`} className="s2j-webinar-panelist-row">
+						<div className="s2j-webinar-panelist-row__toolbar">
+							<span className="s2j-webinar-panelist-row__index">
+								{sprintf(
+									/* translators: %d: 1-based panelist row number in the editor UI. */
+									__('Panelist %d', 's2j-webinar'),
+									index + 1,
+								)}
+							</span>
+							<Button
+								variant="link"
+								isDestructive
+								className="s2j-webinar-panelist-row__remove"
+								onClick={() => removePanelist(index)}
+								disabled={busy}
+							>
+								{__('Remove panelist', 's2j-webinar')}
+							</Button>
+						</div>
 						<TextControl
 							label={__('Name', 's2j-webinar')}
 							value={row.name}
@@ -232,9 +267,6 @@ const WebinarPanelFields = () => {
 							value={row.email}
 							onChange={(value) => updatePanelist(index, 'email', value)}
 						/>
-						<Button isDestructive onClick={() => removePanelist(index)} disabled={busy}>
-							{__('Remove', 's2j-webinar')}
-						</Button>
 					</div>
 				))}
 				<Button onClick={addPanelist} disabled={busy}>

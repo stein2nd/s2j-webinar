@@ -37,16 +37,6 @@
 			"step": "installPlugin",
 			"pluginData": {
 				"resource": "wordpress.org/plugins",
-				"slug": "gatherpress-alpha"
-			},
-			"options": {
-				"activate": true
-			}
-		},
-		{
-			"step": "installPlugin",
-			"pluginData": {
-				"resource": "wordpress.org/plugins",
 				"slug": "query-monitor"
 			},
 			"options": {

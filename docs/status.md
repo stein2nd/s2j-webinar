@@ -1,6 +1,6 @@
 # S2J Webinar - 実装状況
 
-最終更新: 2026-10-17
+最終更新: 2026-10-18
 
 索引は [specs.md](./specs.md) です。計算規則の正本は [Webinar Service の `docs/`](https://github.com/stein2nd/s2j-webinar-service/blob/main/docs/specs.md) です。
 
@@ -71,7 +71,7 @@
 * [x] 正本が `docs/`、大きな改訂案は `docs_mod/` ([governance/documentation_governance.md](./governance/documentation_governance.md))
 * [x] CI: `docs-lint` ([`.github/workflows/docs-lint.yml`](../.github/workflows/docs-lint.yml))
 
-### Composer ・配布 {#status-composer-dist}
+### Composer、配布 {#status-composer-dist}
 
 * [x] `composer.json` — Packagist 名のみで `s2j/webinar-service`
 * [x] `s2j-webinar.php` — `vendor/autoload.php`
@@ -109,7 +109,7 @@
 
 * [x] Document Settings パネル **S2J Webinar** (`PluginDocumentSettingPanel`) ([`src/gutenberg/index.tsx`](../src/gutenberg/index.tsx))
 * [x] 未接続時の誘導 — `%s is not connected…` + `providerLabel` ([`AssetLoader.php`](../includes/Admin/AssetLoader.php))
-* [x] 録画 / 参加登録 / 登壇者 — `useEntityProp` + REST メタ
+* [x] 録画 / 参加登録 — `useEntityProp` + REST メタ。登壇者配列 — `core/editor` の `editPost({ meta })` ([admin_ui_spec §Gutenberg クライアント](./admin_ui_spec.md#gutenberg-クライアント))
 * [x] **同期** / **Open in %s** / **Delete from %s** (確認 `Remove this webinar from %s?`)
 * [x] 登壇者0人 — Sync 無効
 * [x] REST — sync / open / delete ([`SyncController.php`](../includes/Rest/SyncController.php), [`EventActionsController.php`](../includes/Rest/EventActionsController.php))
@@ -207,12 +207,12 @@
 
 ### フロント・ lint {#status-frontend}
 
-* [x] Vite4 エントリ / 本番 `dist/`
+* [x] Vite v4エントリ / 本番 `dist/`
 * [x] `npm run lint` — TS + SCSS
 * [x] CI: [`.github/workflows/js-lint.yml`](../.github/workflows/js-lint.yml)
 * [x] 設定 UI — PHP のみ (GP Webinar タブ + **設定 → S2J Webinar**。admin JS フッター二重化なし)
 * [x] Gutenberg — メタ REST 双方向 ([`src/gutenberg/index.tsx`](../src/gutenberg/index.tsx))
-* [x] `@wordpress/core-data` — `useEntityProp`
+* [x] `@wordpress/core-data` — スカラー meta は `useEntityProp`、`_s2j_webinar_panelists` は `editPost` ([admin_ui_spec](./admin_ui_spec.md#gutenberg-クライアント))
 * [x] TS shims — [`src/types/wordpress-shims.d.ts`](../src/types/wordpress-shims.d.ts)
 * [x] i18n — `load_plugin_textdomain`、`languages/s2j-webinar-ja.mo`、`wp_set_script_translations`、`npm run makepot` (PHP は `'s2j-webinar'` リテラルで POT 抽出)
 
@@ -223,7 +223,7 @@
 
 ### 品質・スモーク {#status-quality}
 
-#### Test (自動・ smoke) — Local 可のみ
+#### Test (自動、smoke) — Local 可のみ
 
 * [x] 段階3a — `composer test:unit` / CI [`phpunit.yml`](../.github/workflows/phpunit.yml) (`npm run test:unit:php:unit-only`、**22** tests)
 * [x] 段階1— [`tests/smoke-local.sh`](../tests/smoke-local.sh) (Local / Studio `WP_PATH`)
@@ -231,7 +231,7 @@
 * [x] `.wp-env.json` + [`phpunit.wp-env.xml.dist`](../phpunit.wp-env.xml.dist) (任意。日常3b は MySQL)
 * [x] CI — js-lint / docs-lint / dist-zip / phpunit (3a only)
 * [x] ローカル **`npm run lint:php`** — PHPStan + PHPCS + WPCS (`composer lint:php`、`prelint:php` で dev 依存)
-* [x] 段階3b — `npm run test:unit:php:local` green (**2026-10-17** — unit **22** (`55` assertions) + integration **6** (`30` assertions)。`.env.tests` + GatherPress)
+* [x] 段階3b — `npm run test:unit:php:local` green (**2026-10-17** — unit **22** (assertions `55`) + integration **6** (assertions `30`)。`.env.tests` + GatherPress)
 
 #### Test (記録) — Local 可のみ
 
@@ -239,7 +239,7 @@
 * [x] 段階1 PASS — Local + Studio smoke (2026-10-14: CLI、**2026-10-17** 手動 #1–8)
 * [x] 段階3b ローカル — [test-results.md §最新結果](./test-results.md#最新結果) **2026-10-17** 行 (**22 + 6**)
 * [x] 手動 — 日本語ロケールで管理 UI / Gutenberg 翻訳表示 (2026-10-13)
-* [ ] Blueprint **ゼロから** Studio 再現の Pass 記録 ([test-results.md §最新結果](./test-results.md#最新結果) 未記録行 — Source QR 同型)
+* [x] Blueprint **ゼロから** Studio 再現の Pass 記録 (**2026-10-18** — [test-results.md §最新結果](./test-results.md#最新結果)。手動 #7 登壇者2名・スーパーリロード後も `_s2j_webinar_panelists` 保持)
 
 #### Test (外部結合・連携) — 要 HTTPS / Local 可 (E*)
 
@@ -287,4 +287,4 @@
 
 ## 実装ロードマップ (到達順)
 
-1. ~~フロント・ lint~~ → ~~メタ・レコード~~ → ~~同期~~ → ~~OAuth~~ → ~~get/delete~~ → ~~Survey~~ → ~~管理 UI~~ → ~~公開リンク / Webhook テスト~~ → [§推奨テスト実施順](#status-test-order) **順0–2** (3a **22**、`lint:php`、3b **6** — **2026-10-17**) → **順3** 手動 #1–8 PASS → **P1 / P2** (Source QR [status](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/status.md)) → **E1–E4** (HTTPS) / **E7** (定義 REST)
+1. ~~フロント・ lint~~ → ~~メタ・レコード~~ → ~~同期~~ → ~~OAuth~~ → ~~get/delete~~ → ~~Survey~~ → ~~管理 UI~~ → ~~公開リンク / Webhook テスト~~ → [§推奨テスト実施順](#status-test-order) **順0–2** (3a **22**、`lint:php`、3b **6** — **2026-10-17**) → **順3** 手動 #1–8 PASS (**2026-10-17** Local/Studio、**2026-10-18** Blueprint ゼロから) → **P1 / P2** (Source QR [status](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/status.md)) → **E1–E4** (HTTPS) / **E7** (定義 REST)
