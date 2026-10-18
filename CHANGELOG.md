@@ -2,12 +2,15 @@
 
 ## unreleased
 
+## 0.0.1 - 2026-10-17
+
 ### Added
 
 * テスト — `WebinarServicePipelineTest` (Marketplace 不要の Service validate/plan/build)、`SyncRestServiceIntegrationTest` (REST sync + モック HTTP)。ローカル通し **unit: 22 + integration: 6** (`npm run test:unit:php:local`)
 * ローカル PHPUnit (wp-env 非必須): `bin/phpunit-local.sh`、`bin/install-wp-tests.sh`、`phpunit.unit.xml.dist`、`tests/bootstrap.integration.php`、`.env.tests.example` (`tests/bootstrap.wp-env.php` 廃止)
 * `.gitignore` — ローカル `.env.tests` (MySQL / `WP_TESTS_GATHERPRESS_DIR`)
 * dev — `yoast/phpunit-polyfills`。静的解析 — `phpcs.xml.dist` / `phpcs.wpcs.xml.dist` / `phpcs.wpcs-includes.xml.dist` / `phpstan.neon.dist`、`phpstan-bootstrap.php`、`composer lint:php`
+* npm — `makemo` / `makejson` / `makei18n`、`postbuild:production:gutenberg` (本番 Gutenberg ビルド後に JED 再生成)
 
 ### Changed
 
@@ -21,6 +24,8 @@
 * ドキュメント — [admin_ui_spec.md](docs/admin_ui_spec.md) / [gatherpress_boundary_spec.md](docs/gatherpress_boundary_spec.md) (パネル配置)、[operational_material_index.md](docs/operational_material_index.md) (Marketplace 不要な、実装の優先順位)、[README.md](README.md) / [test-results.md](docs/test-results.md) / [status.md](docs/status.md) (段階3a/3b、**22+6**、段階3b [x] 2026-10-17)
 * ドキュメント — [test-results.md](docs/test-results.md) 段階1〜2手動 checklist Pass (2026-10-17。Local / Studio。OAuth Connect は checklist 項目6として SKIP)。[status.md](docs/status.md) §品質・スモーク 段階1–2 [x] (残: Service §プラグイン相互 `[x]`)
 * ドキュメント — [operational_material_index.md](docs/operational_material_index.md) §実装優先順、[status.md](docs/status.md) §運用素材 優先表 (CoverArt → tracking 定義/取り込み REST → 配配メールは v0.0.2対象外)
+* ドキュメント — [status.md](docs/status.md) / [test-results.md](docs/test-results.md) を [Source QR](https://github.com/stein2nd/s2j-webinar-source-qr) 同型 (§推奨テスト順、Docker なし表、品質 §分割、外部結合 **E7**、`lint:php` Pass)。[provider_setup_guides.md](docs/provider_setup_guides.md) 見出しを `S2J Webinar - …` に統一
+* i18n — Gutenberg パネル **S2J Webinar** に合わせ `languages/*-{hash}.json` / `s2j-webinar-ja.mo` を再生成 (旧 msgid `Webinar` を廃止)
 
 ### Fixed
 
