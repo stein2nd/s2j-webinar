@@ -30,10 +30,13 @@ S2J Webinar Source QR が保存した文書を、**本プラグインのイベ�
 | 項目 | 内容 |
 | --- | --- |
 | 入口 | 「ソース追跡 / QR を編集」等 (i18n)。Source QR のメンテナンス UI を開く |
+| エディター hook | **`s2j_webinar.open_source_qr`** — Webinar Gutenberg が `doAction( hook, postId )`。Source QR が `@wordpress/hooks` の `addAction` で同一 `MaintenanceModal` を開く ([`Handoff::OPEN_HOOK`](../includes/SourceQr/Handoff.php)) |
 | サマリー | メタ文書の `status` (`draft` / `ready`)、チャネル数、`updated_at` (あれば) |
 | 編集 UI | **持たない** (Survey の設問 UI を持たないのと同型) |
 | Source QR 未インストール | 短い案内を出してよい (任意) |
 | Webinar 無効 | Source QR 単体の編集は可能 (Survey と同型) |
+| 実装 (Webinar) | Gutenberg [`src/gutenberg/index.tsx`](../src/gutenberg/index.tsx)。PHP [`Handoff.php`](../includes/SourceQr/Handoff.php)、[`AssetLoader.php`](../includes/Admin/AssetLoader.php) (`sourceQrActive` / `sourceQrOpenHook`) |
+| 実装 (Source QR 側) | 同一 hook で `addAction` → 既存 `MaintenanceModal` (**E5** Pass 待ち) |
 
 ## 読み取り条件
 
@@ -110,3 +113,5 @@ Source QR は OAuth / token option を **直接読みません**。接続先 HTT
 | 2026-10-11 | REST 詳細を [source_qr_tracking_rest_spec.md](./source_qr_tracking_rest_spec.md) に分離 |
 | 2026-10-12 | 定義 REST を [source_qr_tracking_definitions_rest_spec.md](./source_qr_tracking_definitions_rest_spec.md) に分離。Source QR 正本 `docs/` にリンク更新 |
 | 2026-10-12 | 正本 `docs/source_qr_handoff_spec.md` に反映 |
+| 2026-10-19 | hook 名 **`s2j_webinar.open_source_qr`** (postId) を確定。Webinar Gutenberg 入口実装 |
+| 2026-10-19 | 手動 Pass — Webinar「Edit source tracking / QR」= Source QR「Open…」同一モーダル ([test-results.md](./test-results.md)) |

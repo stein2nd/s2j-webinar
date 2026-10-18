@@ -109,7 +109,8 @@ Composer で `s2j/webinar-service` を require します。参照は [S2J Slug G
 * パネルは Document Settings の `PluginDocumentSettingPanel` ([admin_ui_spec.md](./admin_ui_spec.md))。メタ保存は明示の投稿更新 + `save_post` (Survey に倣う)。Gutenberg ではスカラー meta は `useEntityProp`、`_s2j_webinar_panelists` は `editPost` ([§Gutenberg クライアント](./admin_ui_spec.md#gutenberg-クライアント))。Zoom HTTP は明示ボタンのみ。Authorization の種別は [oauth_and_settings_spec.md](./oauth_and_settings_spec.md)。
 * Survey 未完了を create の条件にしない。`ready` は context の `survey_document` のみ (レコードに載せない)。通常の「同期」が `attach_survey` する (専用ボタンなし)。
 * Webhook `webinar.ended` では公開リンクを空にしない。空にするのは Zoom 削除成功時のみ。
-* アンインストールは本プラグイン所有キーの明示リスト + サイト option のみ。`_s2j_webinar_survey` は触らない。Zoom は変更しない。
+* アンインストールは本プラグイン所有キーの明示リスト + サイト option のみ。`_s2j_webinar_survey` / `_s2j_webinar_source_qr` は触らない。Zoom は変更しない。
+* Source QR — 定義 REST (P2a) + パネル handoff (`s2j_webinar.open_source_qr`)。取り込み REST (P2b) は未。正本 [source_qr_handoff_spec.md](./source_qr_handoff_spec.md)、[source_qr_tracking_definitions_rest_spec.md](./source_qr_tracking_definitions_rest_spec.md)。
 
 ## 改訂履歴
 
@@ -127,3 +128,4 @@ Composer で `s2j/webinar-service` を require します。参照は [S2J Slug G
 | 2026-10-09 | 第8監査 BP: status の get 完了条件に webinar_uuid を含めた、と記録 |
 | 2026-10-10 | OAuth は REST=Bearer / token・refresh=Basic+フル URL、update は intend_retry も、last_panelists は希望列丸ごと、Survey は context のみ、と記録 |
 | 2026-10-18 | Gutenberg — `_s2j_webinar_panelists` は `editPost` で dirty 付け (配列 meta の REST 保存)。`sanitize_panelists` で有効メール行のみ永続。Studio Blueprint ゼロから手動 #7 Pass ([test-results.md](./test-results.md)) |
+| 2026-10-19 | 運用素材 P2a — `GET …/tracking-source-definitions`。Source QR handoff hook + Gutenberg 入口 ([operational_material_index.md](./operational_material_index.md)) |

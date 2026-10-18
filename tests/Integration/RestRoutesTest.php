@@ -18,6 +18,9 @@ final class RestRoutesTest extends WP_UnitTestCase {
 		$this->assertNotEmpty( $this->matching_routes( $routes, 's2j-webinar/v1/events', '/sync' ) );
 		$this->assertNotEmpty( $this->matching_routes( $routes, 's2j-webinar/v1/events', '/open' ) );
 		$this->assertNotEmpty( $this->matching_routes( $routes, 's2j-webinar/v1/events', '/delete' ) );
+		$this->assertNotEmpty(
+			$this->matching_routes( $routes, 's2j-webinar/v1/events', '/tracking-source-definitions' )
+		);
 		$this->assertNotEmpty( $this->matching_routes( $routes, 's2j-webinar/v1/webhook/zoom', '' ) );
 	}
 

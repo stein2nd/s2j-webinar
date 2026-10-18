@@ -15,7 +15,7 @@ OAuth、HTTP、メタ、画面を WordPress 側に閉じ、計算を `s2j/webina
 | 層 | 責務 | 非責務 |
 | --- | --- | --- |
 | Admin UI | **設定 → S2J Webinar** / **GatherPress → Webinar** — PHP フォーム。Gutenberg パネル — React ([`src/gutenberg/`](../src/gutenberg/)) | Zoom REST 規則 |
-| PHP アダプタ | OAuth (`admin-post` connect/callback)、HTTP、メタ、Webhook (REST) | 検証・差分の本体 |
+| PHP アダプタ | OAuth (`admin-post` connect/callback)、HTTP、メタ、Webhook (REST)、Source QR 向け **定義 GET** ([`TrackingSourceDefinitionsController.php`](../includes/Rest/TrackingSourceDefinitionsController.php)) | 検証・差分の本体 |
 | Webinar Service | 純関数 | I/O、WP |
 | GatherPress | イベント UI、公開リンク | Webinar メタ |
 

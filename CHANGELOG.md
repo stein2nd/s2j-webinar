@@ -4,14 +4,27 @@
 
 ## 0.0.1 - 2026-10-18
 
+### Added
+
+* REST — `GET /s2j-webinar/v1/events/{id}/tracking-source-definitions` (P2a、Zoom デフォルト `web` / `sns` / `other` + `s2j_webinar_tracking_source_definitions` フィルター)
+* Source QR handoff — Gutenberg「Edit source tracking / QR」→ `doAction( 's2j_webinar.open_source_qr', postId )` ([`Handoff.php`](includes/SourceQr/Handoff.php)、[`TrackingSourceDefinitions.php`](includes/SourceQr/TrackingSourceDefinitions.php))
+* Gutenberg — **Source tracking / QR** 行 (`_s2j_webinar_source_qr` サマリー、Source QR 未有効時 Notice)
+* [`AssetLoader.php`](includes/Admin/AssetLoader.php) — `s2jWebinarConfig.sourceQrActive` / `sourceQrOpenHook`
+* Test — [`TrackingSourceDefinitionsRestTest.php`](tests/Integration/TrackingSourceDefinitionsRestTest.php) (統合 **8** 件)。[`tests/smoke-local.sh`](tests/smoke-local.sh) — 定義 REST ルート
+
 ### Fixed
+
+* TypeScript — Gutenberg 向け `@wordpress/edit-post` / `@wordpress/editor` / `@wordpress/data` shim (`src/types/shims/`、`tsconfig.json` paths)
+* Gutenberg ビルド — エディター bundle に `wp-hooks` 依存 (handoff `doAction`)
 
 * [`OnlineEventLinkWriter`](includes/GatherPress/OnlineEventLinkWriter.php) — GatherPress `Event::set_online( true, $join_url )` (1引数のみだと link 空で公開欄 meta が更新されない)
 * Gutenberg — 登壇者 `_s2j_webinar_panelists` を `editPost({ meta })` 経由で REST 保存 (`useEntityProp` はスカラ meta のみ)
-* Gutenberg ビルド — Vite JSX shim: `key` を `props.key` へ (`panelist-0` 等の DOM 露出)
+* Gutenberg ビルド — Vite JSX shim: `key` を `props.key` に (`panelist-0` 等の DOM 露出)
 * Studio Blueprint — wp.org `gatherpress-alpha` step 削除 (404)
 
 ### Changed
+
+* ドキュメント — P2a / handoff 仕様 §実装、[status.md](docs/status.md) / [test-results.md](docs/test-results.md) **E7** Pass (2026-10-19、Studio `:8888` post **8**、P2a 本番ルート + Source QR `catalogReady` / Save draft / Apply。証跡 Source QR [studio-2026-1019-e7-real-p2a](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/screenshots/studio-2026-1019-e7-real-p2a/) **01–09**)、[cross_plugin_remaining_matrix.md](docs/cross_plugin_remaining_matrix.md) 3リポジトリ同期
 
 * Gutenberg — 登壇者行 (Panelist N / Remove panelist、[`gutenberg.scss`](src/styles/gutenberg.scss))
 * i18n — 登壇者 UI 文言 (`languages/s2j-webinar-ja.po` / `.mo` / JED)
@@ -48,7 +61,7 @@
 * PHPUnit **9.6** (WP テスト lib × PHPUnit v10非互換)。`phpunit.*.xml.dist` から v10専用 `cacheDirectory` 削除
 * **GatherPress 日時** — `EventSchedule` を現行 GP (`GatherPress\Core\Event\Event`、`gatherpress_datetime_*` / JSON)
 * **REST 統合** — `gatherpress_events`、`PUT` 更新、`PostMetaRegistrar` の post type 登録と tearDown 後の再登録 (`GatherPressEventTestCase`)
-* **公開リンク** — GP `Event\Event` に `set_online` がない環境は `gatherpress_online_event_link` メタへフォールバック
+* **公開リンク** — GP `Event\Event` に `set_online` がない環境は `gatherpress_online_event_link` メタにフォールバック
 * **設定 → S2J Webinar** — 保存時 `$_POST` を `sanitize_text_field` 経由 (WPCS)
 * **統合テスト** — 日時 fixture を `gatherpress_datetime_*` メタ直書き (GP datetimes テーブル非依存)
 * IDE — Intelephense の `DateTimeZone` (`stubs/php-internal.php`、`.vscode` `intelephense.stubs` に `date`)

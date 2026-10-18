@@ -64,7 +64,7 @@ v0.0.1コア (OAuth → 同期 → Webhook → Survey `attach_survey`) **完了�
 | 順 | 成果物 | 依存 | Marketplace / 実 Zoom |
 | --- | --- | --- | --- |
 | **P1** | CoverArt / フライヤー UI + メタ | なし | **不要** (Local / Studio で検証可) |
-| **P2a** | `GET …/tracking-source-definitions` | P1 と独立可 | **不要** (フィルター + デフォルト `web` / `sns` / `other`) |
+| **P2a** | `GET …/tracking-source-definitions` | P1 と独立可 | **不要** (フィルター + デフォルト `web` / `sns` / `other`) — **実装済 (2026-10-19)** [§実装](./source_qr_tracking_definitions_rest_spec.md#実装-本プラグイン) |
 | **P2b** | `GET …/tracking-sources` + Service 写像 | P2a 推奨 (行 id と `source_name` 整合) | GET は Service 済み。**実行**は `_s2j_webinar_id` 非空 → 多くは **E2 後** (OAuth 済み Webinar) |
 | **P3** | 配配メール (ラクス) | — | **v0.0.2 対象外** (別イニシアチブ) |
 
@@ -113,14 +113,16 @@ API は更新され得るため、**実装着手時に [Zoom Meeting API](https:
 | **[s2j-webinar-service](https://github.com/stein2nd/s2j-webinar-service)** | Webinar 同期 + Source Tracking **取り込み** Adapter (v0.0.2: `zoom`) |
 | **[S2J Webinar Survey](https://github.com/stein2nd/s2j-webinar-survey)** | コンパニオン UX の参照モデル (本プラグインは Survey handoff のみ) |
 
-## 実装反映時に追随する正本 (未着手)
+## 実装反映時に追随する正本
 
 仕様は `docs/` に確定済みです。コード実装 PR では、おおむね次も同バッチで更新します。
 
 * [plugin_spec.md](./plugin_spec.md) — 非目標の分割、実装順、関連リポジトリ表
-* [overview.md](./overview.md) / [status.md](./status.md)
-* [admin_ui_spec.md](./admin_ui_spec.md) — CoverArt / フライヤーをパネルに載せる。QR は「プラグインに」入口のみ
-* [data_dictionary.md](./data_dictionary.md) — CoverArt / フライヤー メタキー
+* [status.md](./status.md) / [test-results.md](./test-results.md) — P2a / handoff / E7 記録
+* [admin_ui_spec.md](./admin_ui_spec.md) — CoverArt / フライヤー (未)。Source QR は **handoff 入口** 反映済
+* [data_dictionary.md](./data_dictionary.md) — CoverArt / フライヤー メタキー (未)
+
+**P2a / handoff (Webinar) 反映済 (2026-10-19):** 定義 REST、hook `s2j_webinar.open_source_qr`、Gutenberg セクション。**残:** P2b 取り込み REST、P1 CoverArt、Source QR `addAction` (E5)。
 
 ## 改訂履歴
 
@@ -132,3 +134,4 @@ API は更新され得るため、**実装着手時に [Zoom Meeting API](https:
 | 2026-10-11 | S2J Webinar Source QR との関係節を追加 |
 | 2026-10-12 | 定義 REST 索引、Source QR `docs/` リンク、進捗ラベル統一 |
 | 2026-10-12 | 正本 `docs/operational_material_index.md` に反映 |
+| 2026-10-19 | P2a 実装済、handoff hook + Gutenberg 入口。P2b / P1 / Source QR E5 は未 |

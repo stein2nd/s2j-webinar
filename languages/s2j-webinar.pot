@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-18T06:50:59+00:00\n"
+"POT-Creation-Date: 2026-10-18T22:50:19+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: s2j-webinar\n"
@@ -291,7 +291,7 @@ msgstr ""
 msgid "Could not sync. Check event fields and %s connection."
 msgstr ""
 
-#: includes/Plugin.php:65
+#: includes/Plugin.php:67
 msgid "S2J Webinar: Composer dependencies are missing. Run composer install in the plugin directory."
 msgstr ""
 
@@ -310,6 +310,26 @@ msgstr ""
 
 #: includes/Rest/SyncController.php:58
 msgid "Forbidden."
+msgstr ""
+
+#: includes/Rest/TrackingSourceDefinitionsController.php:50
+msgid "Invalid post ID."
+msgstr ""
+
+#: includes/Rest/TrackingSourceDefinitionsController.php:57
+msgid "Connect this event to a webinar before loading source definitions."
+msgstr ""
+
+#: includes/SourceQr/TrackingSourceDefinitions.php:37
+msgid "Web"
+msgstr ""
+
+#: includes/SourceQr/TrackingSourceDefinitions.php:41
+msgid "SNS"
+msgstr ""
+
+#: includes/SourceQr/TrackingSourceDefinitions.php:45
+msgid "Other"
 msgstr ""
 
 #: dist/js/s2j-webinar-gutenberg.js:1
@@ -379,6 +399,28 @@ msgstr ""
 
 #: dist/js/s2j-webinar-gutenberg.js:1
 msgid "Not required"
+msgstr ""
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "Source tracking / QR"
+msgstr ""
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "Install and activate S2J Webinar Source QR to edit registration URLs and QR codes."
+msgstr ""
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+#, js-format
+msgid "Document: %1$s · Channels: %2$d"
+msgstr ""
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+#, js-format
+msgid "Updated: %s"
+msgstr ""
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "Edit source tracking / QR"
 msgstr ""
 
 #: dist/js/s2j-webinar-gutenberg.js:1

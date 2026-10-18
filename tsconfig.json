@@ -11,7 +11,9 @@
 		"isolatedModules": true,
 		"resolveJsonModule": true,
 		"paths": {
-			"@/*": ["./src/*"]
+			"@/*": ["./src/*"],
+			"@wordpress/edit-post": ["./src/types/shims/wordpress-edit-post.d.ts"],
+			"@wordpress/editor": ["./src/types/shims/wordpress-editor.d.ts"]
 		},
 		"types": ["@types/react", "@types/react-dom"]
 	},

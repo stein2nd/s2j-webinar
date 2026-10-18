@@ -33,7 +33,7 @@ Local / Studio での Zoom Marketplace 制約 (Webhook / OAuth) と外部ゲー�
 | 項目 | 内容 |
 | --- | --- |
 | 見出し | S2J Webinar (実装は i18n。msgid は英語基本) |
-| 置き場 | GatherPress イベント編集。`PluginDocumentSettingPanel`（S2J Slug Generater / Survey と同列の Document Settings パネル） |
+| 置き場 | GatherPress イベント編集。`PluginDocumentSettingPanel` (S2J Slug Generater / Survey と同列の Document Settings パネル) |
 | Survey | 別プラグインのパネルと同居。設問 UI は持たない |
 | 権限 | そのイベントを編集できるユーザー |
 
@@ -42,6 +42,7 @@ Local / Studio での Zoom Marketplace 制約 (Webhook / OAuth) と外部ゲー�
 * 接続状態の要約 (未接続なら `%s is not connected…` + 設定への誘導。Client 入力は出さない)
 * 録画方式 (`none` / `cloud` / `local`)。デフォルト表示はクラウド
 * 参加登録 (ラジオ: 必須・自動承認 / 必須・手動承認 / 不要)。デフォルトは必須・自動承認 (`0`)
+* **Source tracking / QR** (handoff) — サマリー (任意: `_s2j_webinar_source_qr` 文書の `status` / チャネル数 / `updated_at`)。**Edit source tracking / QR** → `doAction( 's2j_webinar.open_source_qr', postId )`。QR 編集 UI は持たない ([source_qr_handoff_spec.md](./source_qr_handoff_spec.md))。Source QR 未導入時は案内のみ
 * 登壇者 (Panelist) の列 (氏名・メール。追加・削除・並べ替え。**同期には1人以上** (投稿保存では `[]` 可。詳細は下記)。0人のまま「同期」は無効または追加を促す。1人目が質問メール送信先である旨の補足)
 * レコード status の表示 (`not_created` / `synced` / `dirty` / `error`)。生コードではなく適切なラベル文 (i18n)
 * `last_error` がある場合の適切なメッセージ文 (トークンを含まない)
@@ -57,7 +58,7 @@ Local / Studio での Zoom Marketplace 制約 (Webhook / OAuth) と外部ゲー�
 * パスコード、チャットデフォルト、継承7項目の個別編集
 * Q&A / HD / 認証の個別トグル (作成時はサービス材料の固定値)
 * Survey 設問の編集 (Survey プラグイン)
-* CoverArt / QR / フライヤー
+* CoverArt / フライヤー (QR **編集 UI** は Source QR。本パネルは handoff **入口のみ**)
 
 ### タイトル・説明・日時
 
@@ -81,6 +82,8 @@ Survey プラグインの永続化にそろえます。**パネル編集キー**
 | `_s2j_webinar_panelists` (配列 `{ name, email }[]`) | `core/editor` の `editPost({ meta: { …編集中 meta, _s2j_webinar_panelists: next } })`。`useEntityProp` のみだと配列 meta が投稿更新 REST に載らないことがあるため |
 
 読み取りも編集中 meta (`getEditedPostAttribute('meta')`) から行う。サーバー側は [`PostMetaRegistrar::sanitize_panelists`](../includes/Meta/PostMetaRegistrar.php) で **有効なメールアドレスを持つ行だけ** 残す (空メール行は除去。氏名のみでは保存されない)。
+
+**Source QR handoff (Gutenberg):** [`AssetLoader`](../includes/Admin/AssetLoader.php) が `sourceQrActive` / `sourceQrOpenHook` を `s2jWebinarConfig` に渡す。`_s2j_webinar_source_qr` は **読み取りのみ** (Source QR が `show_in_rest` 登録)。
 
 **Zoom HTTP は明示ボタンのみ** です。投稿保存では Zoom に送りません。
 

@@ -16,7 +16,7 @@
 | 用語 | 意味 |
 | --- | --- |
 | **チャネル行** | Source QR 文書 `channels[]` の1行。`id` は **S2J Webinar ソース定義** の `source_name` と同一キー |
-| **ソース定義一覧** | 本プラグイン REST `GET …/tracking-source-definitions` の `sources[]` ([source_qr_tracking_definitions_rest_spec.md](./source_qr_tracking_definitions_rest_spec.md))。行の **件数・順序・ラベル** の正本。固定 id 列挙は **本リポジトリに置かない** |
+| **ソース定義一覧** | 本プラグイン REST `GET …/tracking-source-definitions` の `sources[]` ([source_qr_tracking_definitions_rest_spec.md](./source_qr_tracking_definitions_rest_spec.md) — **P2a 実装済**)。行の **件数・順序・ラベル** の正本。固定 id 列挙は **本リポジトリに置かない** (デフォルト + フィルター) |
 | **Source Tracking** | 接続先が提供する「ソース名付き登録 URL」の機能 (Zoom: ソース追跡リンク) |
 | **`source_name`** | 接続先 API / ポータル上のソース名 (Zoom GET `tracking_sources`)。チャネル行 `id` および定義 REST の `source_name` との **完全一致** で取り込み時に自動割り当て |
 | **`registration_url`** | メタ文書・チャネル行が持つ **登録用 URL** (接続先発行)。QR に埋め込む文字列。Zoom では GET 応答の `tracking_url` を Adapter がここに写す |

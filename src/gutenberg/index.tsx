@@ -13,7 +13,9 @@ import {
 import { useSelect, useDispatch, dispatch } from '@wordpress/data';
 import { useEntityProp } from '@wordpress/core-data';
 import apiFetch from '@wordpress/api-fetch';
-import { useState, useCallback, type ReactNode } from '@wordpress/element';
+import { doAction } from '@wordpress/hooks';
+import type { ReactNode } from 'react';
+import { useState, useCallback } from '@wordpress/element';
 import '../styles/gutenberg.scss';
 
 const FieldSection = ({ title, children }: { title: string; children: ReactNode }) => (
@@ -35,6 +37,12 @@ const s2jWebinarDocumentSettings = {
 };
 
 type Panelist = { name: string; email: string };
+
+type SourceQrDocument = {
+	status?: string;
+	channels?: { id?: string }[];
+	updated_at?: string;
+};
 
 type AutoRecording = 'cloud' | 'local' | 'none';
 
@@ -98,7 +106,11 @@ const WebinarPanelFields = () => {
 	const { editPost } = useDispatch(EDITOR_STORE);
 	const meta = useSelect(
 		(select) => {
-			const edited = select(EDITOR_STORE).getEditedPostAttribute('meta');
+			const getEditedPostAttribute = select(EDITOR_STORE).getEditedPostAttribute;
+			if (typeof getEditedPostAttribute !== 'function') {
+				return {};
+			}
+			const edited = getEditedPostAttribute('meta');
 			return edited && typeof edited === 'object' ? (edited as Record<string, unknown>) : {};
 		},
 		[],
@@ -108,7 +120,7 @@ const WebinarPanelFields = () => {
 		: [];
 	const setPanelists = useCallback(
 		(next: Panelist[]) => {
-			editPost({ meta: { ...meta, _s2j_webinar_panelists: next } });
+			editPost?.({ meta: { ...meta, _s2j_webinar_panelists: next } });
 		},
 		[editPost, meta],
 	);
@@ -117,6 +129,26 @@ const WebinarPanelFields = () => {
 	const [busy, setBusy] = useState(false);
 	const [notice, setNotice] = useState<string | null>(null);
 	const connected = window.s2jWebinarConfig?.connected ?? false;
+	const sourceQrActive = window.s2jWebinarConfig?.sourceQrActive ?? false;
+	const sourceQrOpenHook =
+		window.s2jWebinarConfig?.sourceQrOpenHook ?? 's2j_webinar.open_source_qr';
+	const sourceQrDoc = meta._s2j_webinar_source_qr as SourceQrDocument | undefined;
+	const sourceQrSummary = (() => {
+		if (!sourceQrDoc || typeof sourceQrDoc !== 'object') {
+			return null;
+		}
+		const status = typeof sourceQrDoc.status === 'string' ? sourceQrDoc.status : '';
+		const channelCount = Array.isArray(sourceQrDoc.channels) ? sourceQrDoc.channels.length : 0;
+		const updatedAt =
+			typeof sourceQrDoc.updated_at === 'string' ? sourceQrDoc.updated_at.trim() : '';
+		return { status, channelCount, updatedAt };
+	})();
+
+	const openSourceQr = () => {
+		if (postId > 0) {
+			doAction(sourceQrOpenHook, postId);
+		}
+	};
 
 	const panelistCount = panelistList.filter((p) => p.email?.trim()).length;
 	const canSync = connected && postId > 0 && panelistCount > 0;
@@ -152,7 +184,11 @@ const WebinarPanelFields = () => {
 				setNotice(__('Request could not complete. Check settings and event fields.', 's2j-webinar'));
 			} finally {
 				if (postId > 0 && postType !== '') {
-					dispatch('core').invalidateResolution('getEntityRecord', ['postType', postType, postId]);
+					dispatch('core').invalidateResolution?.('getEntityRecord', [
+						'postType',
+						postType,
+						postId,
+					]);
 				}
 				setBusy(false);
 			}
@@ -234,6 +270,36 @@ const WebinarPanelFields = () => {
 					]}
 					onChange={(value) => setApprovalType(value)}
 				/>
+			</FieldSection>
+			<FieldSection title={__('Source tracking / QR', 's2j-webinar')}>
+				{!sourceQrActive && (
+					<p className="s2j-webinar-field__hint">
+						{__(
+							'Install and activate S2J Webinar Source QR to edit registration URLs and QR codes.',
+							's2j-webinar',
+						)}
+					</p>
+				)}
+				{sourceQrActive && sourceQrSummary && (
+					<p className="s2j-webinar-field__value">
+						{sourceQrSummary.status !== '' &&
+							sprintf(
+								/* translators: 1: document status (draft/ready), 2: channel count */
+								__('Document: %1$s · Channels: %2$d', 's2j-webinar'),
+								sourceQrSummary.status,
+								sourceQrSummary.channelCount,
+							)}
+						{sourceQrSummary.updatedAt !== '' &&
+							` · ${sprintf(
+								/* translators: %s: ISO datetime from Source QR document */
+								__('Updated: %s', 's2j-webinar'),
+								sourceQrSummary.updatedAt,
+							)}`}
+					</p>
+				)}
+				<Button onClick={openSourceQr} disabled={busy || !postId || !sourceQrActive}>
+					{__('Edit source tracking / QR', 's2j-webinar')}
+				</Button>
 			</FieldSection>
 			<FieldSection title={__('Panelists (at least one required to sync)', 's2j-webinar')}>
 				{panelistList.map((row, index) => (

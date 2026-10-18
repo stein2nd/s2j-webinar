@@ -1,6 +1,6 @@
 # S2J ウェビナー系 — 100% チェックリスト未完了の分類
 
-最終更新: 2026-10-18
+最終更新: 2026-10-19
 
 **配置:** 本ファイルは **S2J Webinar** リポジトリのコピーです。同一内容を [S2J Webinar Survey](https://github.com/stein2nd/s2j-webinar-survey/blob/main/docs/cross_plugin_remaining_matrix.md) / [S2J Webinar Source QR](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/cross_plugin_remaining_matrix.md) にも置き、`status.md` の `[ ]` 更新時に **3 ファイルを同期** してください。
 
@@ -23,7 +23,7 @@
 | リポジトリ | Local | Webinar 実装待ち | HTTPS + Zoom | 備考 |
 | --- | ---: | ---: | ---: | --- |
 | [S2J Webinar Survey](#s2j-webinar-survey) | 9 | 0 | 0 (+ E3/E4 ゲート) | Zoom 非接触は Local 検証 |
-| [S2J Webinar](#s2j-webinar) | 2 | 2 | 1 (+ E1–E4 ゲート) | 順3 Blueprint Pass **2026-10-18**。P3 は v0.0.2 対象外 |
+| [S2J Webinar](#s2j-webinar) | 2 | 1 | 1 (+ E1–E4 ゲート) | P2a + handoff + **E7** **2026-10-19**。P2b 未。P3 は v0.0.2 対象外 |
 | [S2J Webinar Source QR](#s2j-webinar-source-qr) | 10 | 5 | 3 (+ E1/E3 ゲート) | 任意・handoff 含む |
 
 ---
@@ -64,17 +64,18 @@
 | --- | --- | --- |
 | 段階1 smoke + 手動 #1–8 | 2026-10-17 | Local + Studio (`webinar-smoke`)。OAuth #6 SKIP |
 | Blueprint **ゼロから** + 手動 #1–8 | **2026-10-18** | 新規 Blueprint サイト。GP + Alpha (Releases)。#7 — `_s2j_webinar_panelists` 2名・スーパーリロード後も保持 |
-| 段階3a+3b / `lint:php` | 2026-10-17 | **22 + 6**、順0 |
+| 段階3a+3b / `lint:php` | 2026-10-17–19 | **22 + 8** (定義 REST Integration 追加)、順0 |
+| P2a 定義 REST + handoff (Webinar) | **2026-10-19** | コード + **E5** handoff + **E7** Pass (Studio post **8**、stub 無効、REST + **ブラウザ** 証跡 [Source QR studio-2026-1019-e7-real-p2a](../s2j-webinar-source-qr/docs/screenshots/studio-2026-1019-e7-real-p2a/)) |
 
 **未完了 `[ ]` (分類):**
 
 | § | 未完了 `[ ]` | Local | Webinar 実装待ち | HTTPS + Zoom |
 | --- | --- | :---: | :---: | :---: |
 | 品質 | Service §プラグイン — 本プラグイン 100% 後に Service [x] | ● | | プロセス (Service repo) |
-| 品質 | Source QR 連携 — P2a 後 localhost `catalogReady` Pass (**E7**) | | ● | |
+| 品質 | Source QR 連携 — localhost `catalogReady` Pass 記録 (**E7**) | | | **2026-10-19** Pass ([test-results §最新結果](./test-results.md#最新結果)) |
 | 品質 | **[E1–E4]** — OAuth / 実 API / Webhook / Survey attach | | | ● |
 | 運用 P1 | CoverArt / フライヤー | ● | | HTTP なし |
-| 運用 P2 | Source QR / tracking REST (定義 → 取り込み) | | ● | P2b 実 GET は E2 |
+| 運用 P2b | `GET …/tracking-sources` (取り込み) | | ● | P2a **実装済**。P2b 実 GET は E2 |
 | 運用 P3 | 配配メール (ラクス) | — | — | status 100% 外 |
 
 ### 外部結合ゲート (詳細)
@@ -86,7 +87,7 @@
 | E3 | Webhook started / ended | | ● |
 | E4 | Survey `ready` → attach_survey 実 Zoom | Survey UI は Local | ● |
 | E5 | 参加 URL 目視 | ● | |
-| E7 | Source QR 定義 REST → `catalogReady` | ● (P2a 後) | |
+| E7 | Source QR 定義 REST → `catalogReady` | **Pass 2026-10-19** (Studio post **8**) | |
 
 ---
 
@@ -100,29 +101,29 @@
 | REST | `save_post` 再正規化 — 任意 | ● | | |
 | REST | meta sanitize / 経路ガード文書化 | ● | | |
 | REST | 4xx 拡張 — 任意 | ● | | |
-| 管理 UI | Apply **成功時** UI (Step4 ブラウザ記録) | ● | | API は Integration PASS |
+| 管理 UI | Apply **成功時** UI (Step4 ブラウザ記録) | | | **2026-10-19** P2a 実定義 post **8** — [Source QR 証跡](../s2j-webinar-source-qr/docs/screenshots/studio-2026-1019-e7-real-p2a/05-step4-apply-success-ready-ja.png) |
 | 管理 UI | dirty / Notice `code` 分岐 | ● | | |
-| 管理 UI | handoff から同一モーダル | | ● | hook 名 |
-| 管理 UI | `catalogReady` true で Save draft 200 | | ● | Webinar 定義 REST |
+| 管理 UI | handoff から同一モーダル | | | **E5 Pass 2026-10-19** |
+| 管理 UI | `catalogReady` true で Save draft 200 | | | **2026-10-19** 実 REST draft **200** |
 | 管理 UI | Import → POST draft — 実 `tracking-sources` | | | ● E1/E3 |
-| カタログ | 定義 REST 200 → `catalogReady` true (実 Webinar) | | ● | stub で UI 代替済 |
+| カタログ | 定義 REST 200 → `catalogReady` true (実 Webinar) | | | **2026-10-19** Pass |
 | 取り込み | 実 Zoom 登録 URL → draft 永続化 | | | ● |
-| handoff | Webinar hook 名確定 | | ● | |
-| handoff | open リスナ + 同一 Modal | | ● | |
-| handoff | Webinar から同一モーダル open (Test) | | ● | E5 Local 可 |
+| handoff | open リスナ + 同一 Modal | | | **E5 Pass 2026-10-19** |
+| handoff | Webinar から同一モーダル open (Test) | | | **E5 Pass 2026-10-19** |
 | 品質 | Blueprint ゼロから Studio Pass 記録 | ● | | |
-| 品質 | **E2** 定義 REST — Webinar 実装後 localhost Pass | | ● | |
+| 品質 | **E2** 定義 REST — localhost Pass 記録 | | | **Pass 2026-10-19** |
 | 品質 | **E3** 取り込み | | | ● |
-| 品質 | Webinar § Source QR — 定義 REST 実装後 E2E | | ● | |
+| 品質 | Webinar § Source QR — 定義 REST E2E | | | **E7 Pass 2026-10-19** |
 
 ### 外部結合ゲート (参照)
 
 | # | 内容 | Local | HTTPS + Zoom |
 | --- | --- | :---: | :---: |
 | E1 | Webinar OAuth / `_s2j_webinar_id` | | ● |
-| E2 | 定義 REST 200 + `sources.length >= 1` | ● (P2a 後) | |
+| E2 | 定義 REST 200 + `sources.length >= 1` | **Pass 2026-10-19** | |
 | E3 | 取り込み `tracking-sources` | | ● |
-| E4 | Save draft / Apply (`catalogReady`) | ● (E2 後) | |
+| E4 | Save draft / Apply (`catalogReady`) | **Pass 2026-10-18** (stub) + **2026-10-19** (P2a 実定義 UI) | |
+| E5 | handoff 同一モーダル | **Pass 2026-10-19** | |
 | E6 | QR PNG Apply E2E | ● (Integration PASS) | |
 
 ---
@@ -130,9 +131,9 @@
 ## 推奨の進め方 (依存順)
 
 1. **Local 自動** — 各 repo [status §推奨テスト実施順](./status.md#status-test-order) 順0–2。
-    * **Webinar** は順0–2 (**2026-10-17**) + **順3** 手動 #1–8 + Blueprint ゼロから (**2026-10-18**) まで Pass 済。残: **E7** (P2a 後)、[test-results §最新結果](./test-results.md#最新結果) の E7 未記録行。
-2. **Webinar P2a** — 定義 REST → Source QR **E2** / Webinar **E7** / Save draft 200 (Local)。
-3. **Webinar P1 / Source QR sanitize・UI 残** — Local のみ。
+    * **Webinar** — 順0–3 Pass 済 + **P2a / handoff / E7 (2026-10-19)**。[test-results §最新結果](./test-results.md#最新結果)。
+2. ~~**Local 連携記録** — stub 無効 → Source QR **E2** / Webinar **E7** / Save draft 200~~ — **2026-10-19** Pass。
+3. **Webinar P1 / P2b / Source QR UI 残** — Local または HTTPS (P2b/E3)。
 4. **HTTPS ステージング** — Webinar **E1 → E2 → E3**、続けて Survey **E3/E4**、Source QR **E3** (Import)。
 
 ---

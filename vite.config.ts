@@ -92,6 +92,7 @@ export default defineConfig({
 						if (id === '@wordpress/components') return 'wp.components';
 						if (id === '@wordpress/i18n') return 'wp.i18n';
 						if (id === '@wordpress/api-fetch') return 'wp.apiFetch';
+						if (id === '@wordpress/hooks') return 'wp.hooks';
 						if (id === '@wordpress/edit-post') return 'wp.editPost';
 						if (id === '@wordpress/editor') return 'wp.editor';
 						if (id === '@wordpress/plugins') return 'wp.plugins';

@@ -110,6 +110,7 @@ if ( ! did_action( 'rest_api_init' ) ) {
 	array( 's2j-webinar/v1/events', '/open' ),
 	array( 's2j-webinar/v1/events', '/delete' ),
 	array( 's2j-webinar/v1/webhook/zoom', '' ),
+	array( 's2j-webinar/v1/events', '/tracking-source-definitions' ),
 );
 foreach ( \$need as \$pair ) {
 	\$found = false;

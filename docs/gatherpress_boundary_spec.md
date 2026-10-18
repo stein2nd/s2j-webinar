@@ -14,7 +14,7 @@
 
 | 項目 | 方針 |
 | --- | --- |
-| 方式 | `PluginDocumentSettingPanel`（Document Settings の **S2J Webinar** パネル。GatherPress フォーク改変なし） |
+| 方式 | `PluginDocumentSettingPanel` (Document Settings の **S2J Webinar** パネル。GatherPress フォーク改変なし) |
 | 権限 | そのイベントを編集できるユーザー |
 | Survey | Survey プラグインの Document Settings パネルと同居してよい |
 

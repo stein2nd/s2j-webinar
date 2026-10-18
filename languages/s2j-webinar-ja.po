@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: S2J Webinar 0.0.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/s2j-webinar\n"
-"POT-Creation-Date: 2026-10-18T06:50:59+00:00\n"
-"PO-Revision-Date: 2026-10-18 15:54+0900\n"
+"POT-Creation-Date: 2026-10-18T22:50:19+00:00\n"
+"PO-Revision-Date: 2026-10-19 08:22+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ja\n"
@@ -345,7 +345,7 @@ msgstr "このプロバイダーはサポートされていません。"
 msgid "Could not sync. Check event fields and %s connection."
 msgstr "同期できませんでした。イベント項目と %s 接続を確認してください。"
 
-#: includes/Plugin.php:65
+#: includes/Plugin.php:67
 msgid ""
 "S2J Webinar: Composer dependencies are missing. Run composer install in the "
 "plugin directory."
@@ -369,6 +369,26 @@ msgstr "GatherPress イベントではありません。"
 #: includes/Rest/SyncController.php:58
 msgid "Forbidden."
 msgstr "禁止されています。"
+
+#: includes/Rest/TrackingSourceDefinitionsController.php:50
+msgid "Invalid post ID."
+msgstr "不正な投稿 ID です。"
+
+#: includes/Rest/TrackingSourceDefinitionsController.php:57
+msgid "Connect this event to a webinar before loading source definitions."
+msgstr "ソース定義をロードする前に、このイベントをウェビナーに関連付けます。"
+
+#: includes/SourceQr/TrackingSourceDefinitions.php:37
+msgid "Web"
+msgstr "Web"
+
+#: includes/SourceQr/TrackingSourceDefinitions.php:41
+msgid "SNS"
+msgstr "SNS"
+
+#: includes/SourceQr/TrackingSourceDefinitions.php:45
+msgid "Other"
+msgstr "Other"
 
 #: dist/js/s2j-webinar-gutenberg.js:1
 msgid "Cloud"
@@ -443,6 +463,30 @@ msgstr "必須 — 手動承認"
 #: dist/js/s2j-webinar-gutenberg.js:1
 msgid "Not required"
 msgstr "必須ではありません"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "Source tracking / QR"
+msgstr "ソース追跡 / QR"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid ""
+"Install and activate S2J Webinar Source QR to edit registration URLs and QR "
+"codes."
+msgstr ""
+"ウェビナー登録 URL や QR コードを編集するには、S2J Webinar Source QR をインス"
+"トールして有効化しましょう。"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "Document: %1$s · Channels: %2$d"
+msgstr "ドキュメント: %1$s · チャンネル: %2$d"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "Updated: %s"
+msgstr "更新日時: %s"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "Edit source tracking / QR"
+msgstr "ソース追跡 / QR の編集"
 
 #: dist/js/s2j-webinar-gutenberg.js:1
 msgid "Panelists (at least one required to sync)"

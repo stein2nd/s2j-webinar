@@ -84,8 +84,8 @@ Webinar の検証・操作計画・リクエスト材料・応答写像の規則
 | [Survey 受け渡し](./survey_handoff_spec.md) | `ready` 文書と `attach_survey` |
 | [運用素材 (v0.0.2) 索引](./operational_material_index.md) | CoverArt / フライヤー / Source QR。`zoom` 調査メモ |
 | [CoverArt / フライヤー](./coverart_flyer_spec.md) | イベントパネル、メタ、検証 |
-| [Source QR 受け渡し](./source_qr_handoff_spec.md) | パネル handoff、同期非載せ |
-| [ソース定義 REST](./source_qr_tracking_definitions_rest_spec.md) | `GET …/tracking-source-definitions` |
+| [Source QR 受け渡し](./source_qr_handoff_spec.md) | パネル handoff (`s2j_webinar.open_source_qr`)、同期非載せ |
+| [ソース定義 REST](./source_qr_tracking_definitions_rest_spec.md) | `GET …/tracking-source-definitions` (**P2a 実装済** — [§実装](./source_qr_tracking_definitions_rest_spec.md#実装-本プラグイン)) |
 | [Source Tracking 取り込み REST](./source_qr_tracking_rest_spec.md) | `GET …/tracking-sources` |
 | [運用素材用語](./glossary_operational.md) | v0.0.2 - 横断用語 |
 

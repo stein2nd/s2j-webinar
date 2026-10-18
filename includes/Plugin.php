@@ -19,6 +19,7 @@ use S2J\Webinar\Meta\PostMetaRegistrar;
 use S2J\Webinar\OAuth\OAuthFlow;
 use S2J\Webinar\Rest\EventActionsController;
 use S2J\Webinar\Rest\SyncController;
+use S2J\Webinar\Rest\TrackingSourceDefinitionsController;
 use S2J\Webinar\Rest\WebhookController;
 
 final class Plugin
@@ -52,6 +53,7 @@ final class Plugin
         OAuthFlow::register();
         SyncController::register();
         EventActionsController::register();
+        TrackingSourceDefinitionsController::register();
         WebhookController::register();
         AssetLoader::register();
     }

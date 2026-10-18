@@ -106,6 +106,17 @@ WordPress REST 慣習: `{ "code", "message", "data": { "status": N } }`。`messa
 
 * Source QR 初版 UI は **本 REST 成功 + 非空 `sources`** を編集モードの前提とする (厳格モード)。
 
+## 実装 (本プラグイン)
+
+| 層 | パス |
+| --- | --- |
+| REST ルート | [`includes/Rest/TrackingSourceDefinitionsController.php`](../includes/Rest/TrackingSourceDefinitionsController.php) — `Plugin.php` で register |
+| 定義解決 | [`includes/SourceQr/TrackingSourceDefinitions.php`](../includes/SourceQr/TrackingSourceDefinitions.php) — プロバイダ別デフォルト + `s2j_webinar_tracking_source_definitions` |
+| 認可 | [`SyncController::can_edit_event`](../includes/Rest/SyncController.php) と同型 (OAuth 不要) |
+| テスト | [`tests/Integration/TrackingSourceDefinitionsRestTest.php`](../tests/Integration/TrackingSourceDefinitionsRestTest.php)、[`tests/smoke-local.sh`](../tests/smoke-local.sh) ルート確認 |
+
+Studio / Local の **mu-plugin 定義 stub** は本ルートと競合するため、Webinar 本番ルート検証時は **無効化** する。
+
 ## 関連
 
 * handoff: [source_qr_handoff_spec.md](./source_qr_handoff_spec.md)
@@ -118,3 +129,4 @@ WordPress REST 慣習: `{ "code", "message", "data": { "status": N } }`。`messa
 | --- | --- |
 | 2026-10-12 | 初版 (定義 GET、`_s2j_webinar_id` 必須、フィルター拡張) |
 | 2026-10-12 | 正本 `docs/source_qr_tracking_definitions_rest_spec.md` に反映 |
+| 2026-10-19 | §実装 — P2a 本番 REST (Controller / TrackingSourceDefinitions / Integration) |

@@ -12,6 +12,7 @@ namespace S2J\Webinar\Admin;
 
 use S2J\Webinar\Constants;
 use S2J\Webinar\OAuth\TokenStore;
+use S2J\Webinar\SourceQr\Handoff;
 
 final class AssetLoader
 {
@@ -46,6 +47,8 @@ final class AssetLoader
                 'nonce'         => wp_create_nonce('wp_rest'),
                 'providerSlug'  => SettingsPage::webinar_provider_slug(),
                 'providerLabel' => SettingsPage::webinar_provider_label(),
+                'sourceQrActive' => Handoff::is_companion_active(),
+                'sourceQrOpenHook' => Handoff::OPEN_HOOK,
             )
         );
     }
@@ -76,6 +79,7 @@ final class AssetLoader
                 'wp-data',
                 'wp-core-data',
                 'wp-api-fetch',
+                'wp-hooks',
             ),
             $version,
             true
