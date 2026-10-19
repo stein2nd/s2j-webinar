@@ -92,16 +92,31 @@ UI で絞り込み、サーバーで必ず再検証します (REST 改ざん・�
 
 ## 保存経路
 
-Survey / v0.0.1パネルと同じです。
+Survey / v0.0.1 パネルと同型です。
 
-* パネル編集キーは `show_in_rest` + GatherPress イベント編集からの明示の投稿「更新」+ `save_post` でサーバー正規化。
-* autosave、Quick Edit、一括編集、本プラグイン独自 REST によるメタ保存 (v0.0.1方針) では正規化しない。
+* パネル編集キーは `show_in_rest` + GatherPress イベント編集からの **コア投稿 REST** (`PUT /wp/v2/…`) または明示の投稿「更新」。
+* `register_post_meta` の `sanitize_callback` は attachment ID を **非負整数** に正規化するのみ ([`OperationalMaterialMeta::sanitize_attachment_id`](../includes/Meta/OperationalMaterialMeta.php))。
+* **MIME / サイズ / attachment 実在** の検証は [`OperationalMaterialMeta`](../includes/Meta/OperationalMaterialMeta.php) の **`update_post_metadata` フィルター** で行う:
+  * 正の ID が [採用](#coverart-採用) / [フライヤー 採用](#フライヤー-採用) を満たさない → 更新を **中止** (既存 ID を維持)。
+  * `0` / 空相当 → メタ **削除** (未登録)。`0` を DB に残さない。
+* `save_post` (優先度 15) で残存メタを再スキャンし、不正 ID / `0` を削除 (autosave・リビジョンは除外)。
+* autosave、Quick Edit、一括編集、**本プラグイン独自 REST** によるメタ保存は対象外 (v0.0.1 方針)。コア REST 経由のパネルキーは上記フィルターが適用される。
 
 ## Service 境界
 
 **s2j-webinar-service は関与しません。**
 
-検証は本プラグインの `save_post` 正規化です ([CoverArt 採用](#coverart-採用)、[フライヤー 採用](#フライヤー-採用))。
+検証は本プラグインの [`OperationalMaterialMeta`](../includes/Meta/OperationalMaterialMeta.php) のみ ([CoverArt 採用](#coverart-採用)、[フライヤー 採用](#フライヤー-採用))。
+
+## 実装 (本プラグイン)
+
+| 層 | パス |
+| --- | --- |
+| メタ登録 | [`includes/Meta/PostMetaRegistrar.php`](../includes/Meta/PostMetaRegistrar.php) — `_s2j_webinar_cover_art_id` / `_s2j_webinar_flyer_id` |
+| 検証 | [`includes/Meta/OperationalMaterialMeta.php`](../includes/Meta/OperationalMaterialMeta.php) — `update_post_metadata` + `save_post` |
+| Gutenberg | [`src/gutenberg/index.tsx`](../src/gutenberg/index.tsx) — `MediaUpload` / `MediaUploadCheck` (`@wordpress/block-editor`)、`useEntityProp` |
+| 所有キー | [`includes/Constants.php`](../includes/Constants.php) — `panel_post_meta_keys()` / アンインストール明示リスト |
+| テスト | [`tests/Integration/OperationalMaterialMetaRestTest.php`](../tests/Integration/OperationalMaterialMetaRestTest.php) (コア REST 往復・MIME 拒否) |
 
 ## アンインストール
 
@@ -113,7 +128,7 @@ Survey / v0.0.1パネルと同じです。
 
 * attachment 選択 → 保存 → 再読み込みでサムネイルとファイル名が復元される。
 * 解除 → メタキーが削除され、未登録として読める。
-* REST が `0` を送った場合 → 正規化でメタ削除。
+* REST が `0` を送った場合 → `update_post_metadata` でメタ削除 (キー不存在)。
 * 同期パイプライン (validate / plan) が CoverArt / フライヤー欠如で止まらない。
 * 不正 MIME / サイズ超過 → メタは前値のまま、メッセージ表示。
 * CoverArt に PDF、フライヤーに画像をサーバー側で拒否。
@@ -125,3 +140,4 @@ Survey / v0.0.1パネルと同じです。
 | 2026-10-10 | 本プラグイン・パネル拡張、メタ案、非目標を起草 (`coverart_flyer_draft.md`) |
 | 2026-10-11 | 実装仕様として `coverart_flyer_spec.md` に昇格。用語集参照を追加 |
 | 2026-10-12 | 正本 `docs/coverart_flyer_spec.md` に反映 |
+| 2026-10-19 | §実装 — P1 メタ + Gutenberg + `OperationalMaterialMeta` (`update_post_metadata` 検証) |

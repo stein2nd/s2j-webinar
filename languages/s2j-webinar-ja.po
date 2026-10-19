@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: S2J Webinar 0.0.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/s2j-webinar\n"
-"POT-Creation-Date: 2026-10-18T22:50:19+00:00\n"
-"PO-Revision-Date: 2026-10-19 08:22+0900\n"
+"POT-Creation-Date: 2026-10-19T07:01:26+00:00\n"
+"PO-Revision-Date: 2026-10-19 16:11+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ja\n"
@@ -337,7 +337,7 @@ msgstr "このイベントは、まだ %s ウェビナーにリンクされて�
 
 #: includes/Messages/DeficiencyMessages.php:46
 msgid "This provider is not supported."
-msgstr "このプロバイダーはサポートされていません。"
+msgstr "このプロバイダーは、サポートされていません。"
 
 #. translators: %s: webinar provider name, e.g. Zoom
 #: includes/Messages/DeficiencyMessages.php:55
@@ -345,7 +345,7 @@ msgstr "このプロバイダーはサポートされていません。"
 msgid "Could not sync. Check event fields and %s connection."
 msgstr "同期できませんでした。イベント項目と %s 接続を確認してください。"
 
-#: includes/Plugin.php:67
+#: includes/Plugin.php:71
 msgid ""
 "S2J Webinar: Composer dependencies are missing. Run composer install in the "
 "plugin directory."
@@ -371,12 +371,13 @@ msgid "Forbidden."
 msgstr "禁止されています。"
 
 #: includes/Rest/TrackingSourceDefinitionsController.php:50
+#: includes/Rest/TrackingSourcesController.php:50
 msgid "Invalid post ID."
 msgstr "不正な投稿 ID です。"
 
 #: includes/Rest/TrackingSourceDefinitionsController.php:57
 msgid "Connect this event to a webinar before loading source definitions."
-msgstr "ソース定義をロードする前に、このイベントをウェビナーに関連付けます。"
+msgstr "ソース定義をロードする前に、このイベントをウェビナーに接続します。"
 
 #: includes/SourceQr/TrackingSourceDefinitions.php:37
 msgid "Web"
@@ -389,6 +390,32 @@ msgstr "SNS"
 #: includes/SourceQr/TrackingSourceDefinitions.php:45
 msgid "Other"
 msgstr "Other"
+
+#: includes/SourceQr/TrackingSourcesImport.php:33
+#: includes/SourceQr/TrackingSourcesImport.php:101
+msgid "Connect this event to a webinar before loading tracking sources."
+msgstr "追跡ソースをロードする前に、このイベントをウェビナーに接続します。"
+
+#: includes/SourceQr/TrackingSourcesImport.php:46
+msgid "Tracking import is not supported for this provider yet."
+msgstr "このプロバイダーでは、インポートの追跡はまだサポートされていません。"
+
+#: includes/SourceQr/TrackingSourcesImport.php:109
+msgid "This webinar provider is not supported."
+msgstr "このウェビナー・プロバイダーは、サポートされていません。"
+
+#. translators: %s: webinar provider display name, e.g. Zoom
+#: includes/SourceQr/TrackingSourcesImport.php:127
+#, php-format
+msgid "Connect %s in settings before loading tracking sources."
+msgstr "追跡ソースをロードする前に、設定で %s に接続します。"
+
+#. translators: %s: webinar provider display name, e.g. Zoom
+#: includes/SourceQr/TrackingSourcesImport.php:140
+#, php-format
+msgid "Tracking sources could not be loaded from %s. Try again later."
+msgstr ""
+"%s から追跡ソースをロードできませんでした。後でもう一度お試しください。"
 
 #: dist/js/s2j-webinar-gutenberg.js:1
 msgid "Cloud"
@@ -437,8 +464,8 @@ msgid ""
 "%s is not connected. Open Settings → S2J Webinar (or GatherPress Settings → "
 "Webinar)."
 msgstr ""
-"%s は接続されていません。「設定」→「S2J Webinar」(または「GatherPress 設定」→"
-"「ウェビナー」) を開いてください。"
+"%s は接続されていません。「設定 → S2J Webinar」(または「GatherPress 設定 → "
+"ウェビナー」) を開いてください。"
 
 #: dist/js/s2j-webinar-gutenberg.js:1
 msgid "Status"
@@ -447,6 +474,49 @@ msgstr "状態"
 #: dist/js/s2j-webinar-gutenberg.js:1
 msgid "Recording"
 msgstr "レコーディング"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "CoverArt"
+msgstr "カバーアート"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "Replace CoverArt"
+msgstr "カバーアートを差し替える"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "Select media"
+msgstr "メディアを選択"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "Remove CoverArt"
+msgstr "カバーアートを削除"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "Flyer"
+msgstr "フライヤー"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid ""
+"Use a PDF exported from your design tool. PowerPoint files are not accepted."
+msgstr ""
+"デザインツールからエクスポートしたPDFファイルをご使用ください。PowerPointファ"
+"イルは受け付けられません。"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "Flyer PDF"
+msgstr "フライヤー PDF"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "Replace flyer"
+msgstr "フライヤーを差し替える"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "Select PDF"
+msgstr "PDF を選択"
+
+#: dist/js/s2j-webinar-gutenberg.js:1
+msgid "Remove flyer"
+msgstr "フライヤーを削除"
 
 #: dist/js/s2j-webinar-gutenberg.js:1
 msgid "Registration"
@@ -533,6 +603,3 @@ msgid "PluginDocumentSettingPanel is unavailable in this WordPress version."
 msgstr ""
 "この WordPress のバージョンでは、PluginDocumentSettingPanel は利用できませ"
 "ん。"
-
-#~ msgid "Remove"
-#~ msgstr "削除"

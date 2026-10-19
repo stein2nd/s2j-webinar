@@ -36,8 +36,8 @@
 | Survey `ready` → `attach_survey` | 一部 | 100 | [§ Survey 引き渡し](#status-survey) (3/3) |
 | フロント資産 (Vite / lint / i18n) | 実装済み | 100 | [§フロント・lint](#status-frontend) (8/8) |
 | アンインストール | 実装済み | 100 | [§アンインストール](#status-uninstall) (2/2) |
-| テスト・ CI (段階1–3) | 一部 | 92 | [§品質・スモーク](#status-quality) (11/12) |
-| 運用素材 | 一部 | 33 | [§運用素材](#status-operational) (P2a + handoff。P1 / P2b / P3 未) |
+| テスト・ CI (段階1–3) | 実装済み | 100 | [§品質・スモーク](#status-quality) (12/12) |
+| 運用素材 | 実装済み | 100 | [§運用素材](#status-operational) (P1 + P2 + handoff。P3 対象外) |
 
 ## 100% 完了条件チェックリスト
 
@@ -59,7 +59,7 @@
 | --- | --- | --- | --- |
 | 0 | 3a | Local 可のみ | `npm run test:unit:php:unit-only` (**22**)、`npm run lint` / **`npm run lint:php`** (`prelint:php` → Composer dev 依存) |
 | 1 | 1 | Local 可のみ (CLI) | Local Site Shell / Studio — `npm run test:smoke:local` |
-| 2 | 3b | Local 可 (MySQL) | `npm run test:unit:php:local` — **22 + 8** (`.env.tests`、任意 `WP_TESTS_GATHERPRESS_DIR`) |
+| 2 | 3b | Local 可 (MySQL) | `npm run test:unit:php:local` — **22 + 14** (`.env.tests`、任意 `WP_TESTS_GATHERPRESS_DIR`) |
 | 3 | 2 | Local 可のみ | Studio Blueprint + 手動 checklist [#1–8](./test-results.md#第1段階-local-結合スモーク) (OAuth #6 SKIP 可) |
 | 4 | 1–3 | Local 可 (E5/E7) | 参加 URL 目視 (E5)。**P2a** 定義 REST 後 Source QR `catalogReady` (E7 — [Source QR 順4 E2](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/test-results.md#順4-オプション-local-可-e2e4)) |
 | 5 | 2–3 | 要 HTTPS | OAuth (E1)、実 Zoom sync (E2)、Webhook (E3)、Survey attach (E4) — Pass は [test-results.md](./test-results.md) |
@@ -225,25 +225,25 @@
 
 #### Test (自動、smoke) — Local 可のみ
 
-* [x] 段階3a — `composer test:unit` / CI [`phpunit.yml`](../.github/workflows/phpunit.yml) (`npm run test:unit:php:unit-only`、**22** tests)
+* [x] 段階3a — `composer test:unit` / CI [`phpunit.yml`](../.github/workflows/phpunit.yml) (`npm run test:unit:php:unit-only`、**22** tests) — **12/12** 品質チェックリスト到達 (**2026-10-19** P1 + P2b)
 * [x] 段階1— [`tests/smoke-local.sh`](../tests/smoke-local.sh) (Local / Studio `WP_PATH`)
 * [x] 段階2— [`studio/smoke-test-blueprint.json`](../studio/smoke-test-blueprint.json) + [`studio/README.md`](../studio/README.md)
 * [x] `.wp-env.json` + [`phpunit.wp-env.xml.dist`](../phpunit.wp-env.xml.dist) (任意。日常3b は MySQL)
 * [x] CI — js-lint / docs-lint / dist-zip / phpunit (3a only)
 * [x] ローカル **`npm run lint:php`** — PHPStan + PHPCS + WPCS (`composer lint:php`、`prelint:php` で dev 依存)
-* [x] 段階3b — `npm run test:unit:php:local` green (**2026-10-19** — unit **22** + integration **8**。`.env.tests` + GatherPress。P2a [`TrackingSourceDefinitionsRestTest.php`](../tests/Integration/TrackingSourceDefinitionsRestTest.php))
+* [x] 段階3b — `npm run test:unit:php:local` green (**2026-10-19** — unit **22** + integration **14**。`.env.tests` + GatherPress。P2a/P2b/CoverArt [`TrackingSourceDefinitionsRestTest.php`](../tests/Integration/TrackingSourceDefinitionsRestTest.php)、[`TrackingSourcesRestTest.php`](../tests/Integration/TrackingSourcesRestTest.php)、[`OperationalMaterialMetaRestTest.php`](../tests/Integration/OperationalMaterialMetaRestTest.php))
 
 #### Test (記録) — Local 可のみ
 
 * [x] [test-results.md](./test-results.md) — localhost 可能 / 不可能の表、[§推奨実施順](./test-results.md#推奨実施順-source-qr-同型localhost-自動テスト優先)
 * [x] 段階1の PASS — Local + Studio smoke (2026-10-14: CLI、**2026-10-17** 手動 #1–8)
-* [x] 段階3b ローカル — [test-results.md §最新結果](./test-results.md#最新結果) **2026-10-17** 行 (**22 + 6** → **22 + 8** 2026-10-19)
+* [x] 段階3b ローカル — [test-results.md §最新結果](./test-results.md#最新結果) **2026-10-17** 行 (**22 + 6** → **22 + 14** 2026-10-19)
 * [x] 手動 — 日本語ロケールで管理 UI / Gutenberg 翻訳表示 (2026-10-13)
 * [x] Blueprint **ゼロから** Studio 再現の Pass 記録 (**2026-10-18** — [test-results.md §最新結果](./test-results.md#最新結果)。手動 #7 登壇者2名・スーパーリロード後も `_s2j_webinar_panelists` 保持)
 
 #### Test (外部結合・連携) — 要 HTTPS / Local 可 (E*)
 
-* [ ] Service [§プラグイン](https://github.com/stein2nd/s2j-webinar-service/blob/main/docs/status.md#status-plugin) — 本プラグインの100% 到達後に Service 側を [x]
+* [x] Service [§プラグイン](https://github.com/stein2nd/s2j-webinar-service/blob/main/docs/status.md#status-plugin) — 本プラグイン運用 § (P1 + P2b) 到達後に Service 側を [x] (**2026-10-19**)
 * [ ] [E1–E4](#status-external) — Zoom OAuth / 実 API / Webhook / Survey attach (Pass は [test-results.md](./test-results.md))
 * [x] Source QR [§品質 E2 / E7](#status-external) — **2026-10-19** Studio `:8888` post **8** (`studio-u7`、stub 無効): P2a **200** + Source QR **`catalogReady` / Save draft / Apply** + 再 open URL 保持 — 証跡 [01–09](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/screenshots/studio-2026-1019-e7-real-p2a/) ([test-results §最新結果](./test-results.md#最新結果))
 * [x] Source QR **E5** handoff — **2026-10-19** ([test-results §最新結果](./test-results.md#最新結果))
@@ -259,10 +259,10 @@
 | **P2b** | tracking 取り込み REST (`tracking-sources`) | **GET のみ** (作成はポータル) | [s2j/webinar-service](https://github.com/stein2nd/s2j-webinar-service) 写像は Packagist 済み。実 Zoom GET は E2後 |
 | **P3** | 配配メール (ラクス) | — | v0.0.2 **対象外** ([operational_material_index.md](./operational_material_index.md)) |
 
-* [ ] **P1** — CoverArt / フライヤー ([coverart_flyer_spec.md](./coverart_flyer_spec.md))
-* [ ] **P2** — Source QR / tracking REST (定義 → 取り込みの順)
+* [x] **P1** — CoverArt / フライヤー ([coverart_flyer_spec.md](./coverart_flyer_spec.md)) — メタ + Gutenberg + [`OperationalMaterialMeta.php`](../includes/Meta/OperationalMaterialMeta.php) — Integration [`OperationalMaterialMetaRestTest.php`](../tests/Integration/OperationalMaterialMetaRestTest.php)
+* [x] **P2** — Source QR / tracking REST (定義 → 取り込みの順)
   * [x] **P2a** — `GET …/tracking-source-definitions` ([`TrackingSourceDefinitionsController.php`](../includes/Rest/TrackingSourceDefinitionsController.php)、[`TrackingSourceDefinitions.php`](../includes/SourceQr/TrackingSourceDefinitions.php)) — Integration [`TrackingSourceDefinitionsRestTest.php`](../tests/Integration/TrackingSourceDefinitionsRestTest.php)
-  * [ ] **P2b** — `GET …/tracking-sources` (OAuth / 実 Zoom は E2)
+  * [x] **P2b** — `GET …/tracking-sources` ([`TrackingSourcesController.php`](../includes/Rest/TrackingSourcesController.php)、[`TrackingSourcesImport.php`](../includes/SourceQr/TrackingSourcesImport.php)) — Integration [`TrackingSourcesRestTest.php`](../tests/Integration/TrackingSourcesRestTest.php) (OAuth 未接続 **503**、mock HTTP **200**)
 * [x] Source QR **handoff (Webinar)** — hook [`s2j_webinar.open_source_qr`](../includes/SourceQr/Handoff.php)、Gutenberg **Edit source tracking / QR** ([`src/gutenberg/index.tsx`](../src/gutenberg/index.tsx))。**2026-10-19** 手動 — Source QR **Open…** と同一メンテナンスモーダル ([test-results §最新結果](./test-results.md#最新結果)、[Source QR E5](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/status.md#status-external))
 * [ ] **P3** — 配配メール (ラクス) — 別途 (status の100% 外)
 
@@ -291,4 +291,4 @@
 
 ## 実装ロードマップ (到達順)
 
-1. ~~フロント・ lint~~ → ~~メタ・レコード~~ → ~~同期~~ → ~~OAuth~~ → ~~get/delete~~ → ~~Survey~~ → ~~管理 UI~~ → ~~公開リンク / Webhook テスト~~ → [§推奨テスト実施順](#status-test-order) **順0–2** (3a **22**、`lint:php`、3b **6** — **2026-10-17**) → **順3** 手動 #1–8: PASS (**2026-10-17** Local/Studio、**2026-10-18** Blueprint ゼロから) → **P1 / P2** (Source QR [status](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/status.md)) → **E1– E4** (HTTPS) / **E7** (定義 REST)
+1. ~~フロント・ lint~~ → ~~メタ・レコード~~ → ~~同期~~ → ~~OAuth~~ → ~~get/delete~~ → ~~Survey~~ → ~~管理 UI~~ → ~~公開リンク / Webhook テスト~~ → [§推奨テスト実施順](#status-test-order) **順0–2** (3a **22**、3b **14**、`lint:php` — **2026-10-19**) → **順3** 手動 #1–8: PASS → ~~**P1 / P2**~~ (**2026-10-19**) → **E7** Pass (**2026-10-19**) → **E1– E4** (HTTPS) / Source QR **E3** 実 Zoom 取り込み

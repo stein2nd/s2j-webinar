@@ -19,8 +19,8 @@ S2J Webinar エコシステムは **接続先 (プロバイダ) を差し替え�
 | 機能 | パッケージ | v0.0.1 | v0.0.2 |
 | --- | --- | --- | --- |
 | OAuth、接続先同期、Webhook、Survey handoff | **S2J Webinar** (本プラグイン) | 正本 (`docs/`)。初実装 `zoom` | 変更なし (fix) |
-| CoverArt (制作済み画像) | **S2J Webinar** パネル拡張 | 非目標 (後続) | 仕様確定 ([coverart_flyer_spec.md](./coverart_flyer_spec.md)) |
-| フライヤー (制作済み PDF) | **S2J Webinar** パネル拡張 | 非目標 (後続) | 仕様確定 ([coverart_flyer_spec.md](./coverart_flyer_spec.md)) |
+| CoverArt (制作済み画像) | **S2J Webinar** パネル拡張 | 非目標 (後続) | **実装済 (2026-10-19)** ([coverart_flyer_spec.md §実装](./coverart_flyer_spec.md#実装-本プラグイン)) |
+| フライヤー (制作済み PDF) | **S2J Webinar** パネル拡張 | 非目標 (後続) | **実装済 (2026-10-19)** (同上) |
 | UTM 別 Source Tracking + QR | **[S2J Webinar Source QR](https://github.com/stein2nd/s2j-webinar-source-qr)** (`s2j-webinar-source-qr`) | 非目標 (後続) | 仕様確定 (コンパニオン [`docs/`](https://github.com/stein2nd/s2j-webinar-source-qr/tree/main/docs)) |
 | 配配メール (ラクス) 連携・集客可視化 | — | 非目標 | **対象外** (別途検討) |
 
@@ -65,7 +65,7 @@ v0.0.1コア (OAuth → 同期 → Webhook → Survey `attach_survey`) **完了�
 | --- | --- | --- | --- |
 | **P1** | CoverArt / フライヤー UI + メタ | なし | **不要** (Local / Studio で検証可) |
 | **P2a** | `GET …/tracking-source-definitions` | P1 と独立可 | **不要** (フィルター + デフォルト `web` / `sns` / `other`) — **実装済 (2026-10-19)** [§実装](./source_qr_tracking_definitions_rest_spec.md#実装-本プラグイン) |
-| **P2b** | `GET …/tracking-sources` + Service 写像 | P2a 推奨 (行 id と `source_name` 整合) | GET は Service 済み。**実行**は `_s2j_webinar_id` 非空 → 多くは **E2 後** (OAuth 済み Webinar) |
+| **P2b** | `GET …/tracking-sources` + Service 写像 | P2a 推奨 (行 id と `source_name` 整合) | **REST 実装済 (2026-10-19)** — [§実装](./source_qr_tracking_rest_spec.md#実装-本プラグイン)。**実 Zoom GET** は `_s2j_webinar_id` 非空 + OAuth → **E2 後** |
 | **P3** | 配配メール (ラクス) | — | **v0.0.2 対象外** (別イニシアチブ) |
 
 **P2 の分割理由:** Source QR 初版は **定義 REST + 手入力 URL + QR** だけで完了可 ([source_qr_handoff_spec.md](./source_qr_handoff_spec.md))。取り込み REST は Zoom ポータルでリンク作成後の **一覧 GET** に限定され、API でソース作成は不可 (下記調査表)。
@@ -118,11 +118,11 @@ API は更新され得るため、**実装着手時に [Zoom Meeting API](https:
 仕様は `docs/` に確定済みです。コード実装 PR では、おおむね次も同バッチで更新します。
 
 * [plugin_spec.md](./plugin_spec.md) — 非目標の分割、実装順、関連リポジトリ表
-* [status.md](./status.md) / [test-results.md](./test-results.md) — P2a / handoff / E7 記録
-* [admin_ui_spec.md](./admin_ui_spec.md) — CoverArt / フライヤー (未)。Source QR は **handoff 入口** 反映済
-* [data_dictionary.md](./data_dictionary.md) — CoverArt / フライヤー メタキー (未)
+* [status.md](./status.md) / [test-results.md](./test-results.md) — P1 / P2 / handoff / E7 / 3b **22 + 14**
+* [admin_ui_spec.md](./admin_ui_spec.md) — CoverArt / フライヤー + Source QR **handoff 入口** 反映済
+* [data_dictionary.md](./data_dictionary.md) — CoverArt / フライヤー メタキー 反映済
 
-**P2a / handoff (Webinar) 反映済 (2026-10-19):** 定義 REST、hook `s2j_webinar.open_source_qr`、Gutenberg セクション。**残:** P2b 取り込み REST、P1 CoverArt、Source QR `addAction` (E5)。
+**P1 / P2 / handoff (Webinar) 反映済 (2026-10-19):** CoverArt / フライヤー、定義 REST、取り込み REST、hook `s2j_webinar.open_source_qr`、Gutenberg セクション。**残 (Local):** Source QR 側 UI 残のみ。**HTTPS:** 実 Zoom `tracking-sources` (E2/E3)。
 
 ## 改訂履歴
 
@@ -134,4 +134,4 @@ API は更新され得るため、**実装着手時に [Zoom Meeting API](https:
 | 2026-10-11 | S2J Webinar Source QR との関係節を追加 |
 | 2026-10-12 | 定義 REST 索引、Source QR `docs/` リンク、進捗ラベル統一 |
 | 2026-10-12 | 正本 `docs/operational_material_index.md` に反映 |
-| 2026-10-19 | P2a 実装済、handoff hook + Gutenberg 入口。P2b / P1 / Source QR E5 は未 |
+| 2026-10-19 | P1 + P2a + P2b + handoff 実装済。Source QR E5 / E7 Pass 記録は各 repo `test-results.md` |

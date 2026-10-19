@@ -45,6 +45,8 @@ final class Constants
             '_s2j_webinar_auto_recording',
             '_s2j_webinar_approval_type',
             '_s2j_webinar_panelists',
+            '_s2j_webinar_cover_art_id',
+            '_s2j_webinar_flyer_id',
         );
     }
 

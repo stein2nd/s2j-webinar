@@ -42,6 +42,8 @@ Local / Studio での Zoom Marketplace 制約 (Webhook / OAuth) と外部ゲー�
 * 接続状態の要約 (未接続なら `%s is not connected…` + 設定への誘導。Client 入力は出さない)
 * 録画方式 (`none` / `cloud` / `local`)。デフォルト表示はクラウド
 * 参加登録 (ラジオ: 必須・自動承認 / 必須・手動承認 / 不要)。デフォルトは必須・自動承認 (`0`)
+* **CoverArt** — メディアライブラリから画像 (JPEG / PNG / WebP / GIF)。サムネイル・差し替え・解除 ([coverart_flyer_spec.md](./coverart_flyer_spec.md))
+* **フライヤー** — PDF のみ。ファイル名リンク・差し替え・解除 (PowerPoint は PDF エクスポート後に登録する旨の案内)
 * **Source tracking / QR** (handoff) — サマリー (任意: `_s2j_webinar_source_qr` 文書の `status` / チャネル数 / `updated_at`)。**Edit source tracking / QR** → `doAction( 's2j_webinar.open_source_qr', postId )`。QR 編集 UI は持たない ([source_qr_handoff_spec.md](./source_qr_handoff_spec.md))。Source QR 未導入時は案内のみ
 * 登壇者 (Panelist) の列 (氏名・メール。追加・削除・並べ替え。**同期には1人以上** (投稿保存では `[]` 可。詳細は下記)。0人のまま「同期」は無効または追加を促す。1人目が質問メール送信先である旨の補足)
 * レコード status の表示 (`not_created` / `synced` / `dirty` / `error`)。生コードではなく適切なラベル文 (i18n)
@@ -58,7 +60,7 @@ Local / Studio での Zoom Marketplace 制約 (Webhook / OAuth) と外部ゲー�
 * パスコード、チャットデフォルト、継承7項目の個別編集
 * Q&A / HD / 認証の個別トグル (作成時はサービス材料の固定値)
 * Survey 設問の編集 (Survey プラグイン)
-* CoverArt / フライヤー (QR **編集 UI** は Source QR。本パネルは handoff **入口のみ**)
+* Source QR の **QR / チャネル編集 UI** (本パネルは handoff **入口** と CoverArt / フライヤーのみ)
 
 ### タイトル・説明・日時
 
@@ -78,7 +80,8 @@ Survey プラグインの永続化にそろえます。**パネル編集キー**
 
 | パネル編集キー | クライアントでの dirty 付け |
 | --- | --- |
-| `_s2j_webinar_auto_recording`、`_s2j_webinar_approval_type` 等 (スカラー) | `@wordpress/core-data` の `useEntityProp` |
+| `_s2j_webinar_auto_recording`、`_s2j_webinar_approval_type`、`_s2j_webinar_cover_art_id`、`_s2j_webinar_flyer_id` 等 (スカラー) | `@wordpress/core-data` の `useEntityProp` |
+| `_s2j_webinar_cover_art_id` / `_s2j_webinar_flyer_id` (メディア) | 上記 + `@wordpress/block-editor` の `MediaUpload` / `MediaUploadCheck`。解除は `useEntityProp` で `0` → サーバーがメタ削除 ([coverart_flyer_spec.md](./coverart_flyer_spec.md)) |
 | `_s2j_webinar_panelists` (配列 `{ name, email }[]`) | `core/editor` の `editPost({ meta: { …編集中 meta, _s2j_webinar_panelists: next } })`。`useEntityProp` のみだと配列 meta が投稿更新 REST に載らないことがあるため |
 
 読み取りも編集中 meta (`getEditedPostAttribute('meta')`) から行う。サーバー側は [`PostMetaRegistrar::sanitize_panelists`](../includes/Meta/PostMetaRegistrar.php) で **有効なメールアドレスを持つ行だけ** 残す (空メール行は除去。氏名のみでは保存されない)。
@@ -109,6 +112,7 @@ Survey プラグインの永続化にそろえます。**パネル編集キー**
 * Gutenberg: `wp_set_script_translations` + `languages/*.json` (PO から `wp i18n make-json`)。
 * 管理 UI の Client / 接続フォームは **PHP 描画のみ** (GatherPress タブに admin JS フッターを二重表示しない)。
 * 仕様書中の日本語は製品文案・説明であり、実装ソースではない。
+* REST エラー文 (例: Source QR 取り込み [`TrackingSourcesImport.php`](../includes/SourceQr/TrackingSourcesImport.php) の `oauth_disconnected` / `tracking_upstream_error`) も **プロバイダー名は `%s` + `WebinarProvider::label()`**。詳細は [source_qr_tracking_rest_spec.md §HTTP 応答 (失敗)](./source_qr_tracking_rest_spec.md#http-応答-失敗)。
 
 ## 関連
 

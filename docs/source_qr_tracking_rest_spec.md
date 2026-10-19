@@ -104,6 +104,13 @@ Zoom 生 JSON、token、`deficiencies` 生コードは **レスポンスに含�
 
 WordPress REST 慣習に従い、`{ "code", "message", "data": { "status": N } }` 形とします。`message` は i18n 済みの **短い** ユーザー向け文です (生の Zoom body や deficiency 列挙を出さない)。
 
+**プロバイダー表示名:** msgid に **接続先名を直書きしない**。[admin_ui_spec.md §i18n](./admin_ui_spec.md#i18n) と同型 — [`WebinarProvider::label()`](../includes/Provider/WebinarProvider.php) を `sprintf( __( '…%s…', 's2j-webinar' ), … )` の **`%s`** に渡す (サイト **設定 → S2J Webinar** の provider と一致)。代表例 ([`TrackingSourcesImport.php`](../includes/SourceQr/TrackingSourcesImport.php)):
+
+| REST `code` | msgid (英語基本) |
+| --- | --- |
+| `oauth_disconnected` | `Connect %s in settings before loading tracking sources.` |
+| `tracking_upstream_error` | `Tracking sources could not be loaded from %s. Try again later.` |
+
 | HTTP | `code` | 発生層 | 条件 |
 | --- | --- | --- | --- |
 | 403 | `rest_forbidden` | コア | 権限不足 (コアに委譲可) |
@@ -135,7 +142,20 @@ WordPress REST 慣習に従い、`{ "code", "message", "data": { "status": N } }
 
 ## v0.0.2での位置付け
 
-* **任意機能:** 本 REST が未実装でも、Source QR 初版 (v0.0.1) は手入力 URL + QR で完了可 (定義 REST が別途必要な場合は [source_qr_tracking_definitions_rest_spec.md](./source_qr_tracking_definitions_rest_spec.md))。
+* Source QR **取り込み UI** は本 REST 成功時に `items[]` をマージする (未 OAuth / 未 `_s2j_webinar_id` 時は spec どおり 4xx)。手入力 URL + QR のみでも初版 UI は完了可 ([source_qr_handoff_spec.md](./source_qr_handoff_spec.md))。
+
+## 実装 (本プラグイン)
+
+| 層 | パス |
+| --- | --- |
+| REST ルート | [`includes/Rest/TrackingSourcesController.php`](../includes/Rest/TrackingSourcesController.php) — `Plugin.php` で register |
+| パイプライン | [`includes/SourceQr/TrackingSourcesImport.php`](../includes/SourceQr/TrackingSourcesImport.php) — Service `build_tracking_sources_request` / `map_tracking_sources_response` + [`WebinarHttpExecutor`](../includes/Http/WebinarHttpExecutor.php) |
+| 認可 | [`SyncController::can_edit_event`](../includes/Rest/SyncController.php) と同型。OAuth は **503** `oauth_disconnected` (同期用 `last_error` は更新しない) |
+| i18n | [`TrackingSourcesImport.php`](../includes/SourceQr/TrackingSourcesImport.php) — 失敗 `message` は [`WebinarProvider::label()`](../includes/Provider/WebinarProvider.php) + `%s` (上表) |
+| テスト | [`tests/Integration/TrackingSourcesRestTest.php`](../tests/Integration/TrackingSourcesRestTest.php) (mock HTTP **200** / 未 OAuth **503** / 空一覧 **200**)、[`tests/smoke-local.sh`](../tests/smoke-local.sh) ルート確認 |
+
+実 Zoom GET の Pass は [status.md §外部結合 E2](./status.md#status-external) (HTTPS)。Local 3b は Marketplace 不要のモック HTTP。
+
 ## 関連
 
 * handoff: [source_qr_handoff_spec.md](./source_qr_handoff_spec.md)
@@ -151,3 +171,5 @@ WordPress REST 慣習に従い、`{ "code", "message", "data": { "status": N } }
 | 2026-10-11 | 初版起草 (GET1本、パイプライン、HTTP マップ) |
 | 2026-10-12 | deficiency → REST 統合表、501発生層、Source QR `docs/` リンク |
 | 2026-10-12 | 正本 `docs/source_qr_tracking_rest_spec.md` に反映 |
+| 2026-10-19 | §実装 — P2b 本番 REST (Controller / TrackingSourcesImport / Integration) |
+| 2026-10-19 | §HTTP 応答 — 失敗 `message` のプロバイダー名は `%s` + `WebinarProvider::label()` (Zoom 直書き禁止) |

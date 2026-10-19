@@ -47,6 +47,8 @@ if [ ! -f "${WP_TESTS_DIR}/includes/functions.php" ]; then
 		"${DB_NAME}" "${DB_USER}" "${DB_PASSWORD}" "${DB_HOST}" "${WP_VERSION}" "${SKIP_DB_CREATE}"
 fi
 
+php "${SCRIPT_DIR}/patch-wp-tests-phpunit11.php"
+
 echo ""
 echo "Running integration tests (WordPress test suite)…"
 vendor/bin/phpunit -c phpunit.xml.dist "$@"

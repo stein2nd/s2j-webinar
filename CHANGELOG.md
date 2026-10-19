@@ -2,6 +2,22 @@
 
 ## unreleased
 
+## 0.0.1 - 2026-10-19
+
+### Added
+
+* **P2b** — `GET /s2j-webinar/v1/events/{id}/tracking-sources` ([`TrackingSourcesController.php`](includes/Rest/TrackingSourcesController.php)、[`TrackingSourcesImport.php`](includes/SourceQr/TrackingSourcesImport.php)) — Service build/map + [`WebinarHttpExecutor`](includes/Http/WebinarHttpExecutor.php) モック可。OAuth 未接続 **503** `oauth_disconnected`
+* **P1** — CoverArt / フライヤー — メタ [`PostMetaRegistrar`](includes/Meta/PostMetaRegistrar.php)、検証 [`OperationalMaterialMeta.php`](includes/Meta/OperationalMaterialMeta.php)、Gutenberg `MediaUpload` ([`src/gutenberg/index.tsx`](src/gutenberg/index.tsx))
+* Test — 統合 **14** 件 ([`TrackingSourcesRestTest.php`](tests/Integration/TrackingSourcesRestTest.php)、[`OperationalMaterialMetaRestTest.php`](tests/Integration/OperationalMaterialMetaRestTest.php))。**3a+3b** = **22 + 14** (`npm run test:unit:php:local`、wp-env 不要)
+* ローカル3b — [`bin/patch-wp-tests-phpunit11.php`](bin/patch-wp-tests-phpunit11.php) ([`bin/phpunit-local.sh`](bin/phpunit-local.sh) から実行。PHPUnit v11 + WP テスト lib)
+* Smoke — [`tests/smoke-local.sh`](tests/smoke-local.sh) に `tracking-sources` ルート。`.env.tests.example` — Studio **: 8888** 向け `WP_TESTS_GATHERPRESS_DIR` / `STUDIO_WP_PATH` 例
+
+### Changed
+
+* CoverArt — MIME / サイズ検証を **`update_post_metadata`** に移行 (コア REST 経由のパネル保存を含む)
+* i18n — 取り込み REST 失敗文を **`%s` + [`WebinarProvider::label()`](includes/Provider/WebinarProvider.php)** に統一 (msgid から Zoom 直書き除去)。CoverArt / フライヤー UI 文言 — POT / [`languages/s2j-webinar-ja.po`](languages/s2j-webinar-ja.po)
+* ドキュメント — 運用 **P1 + P2b** 完了に合わせ [status.md](docs/status.md)、[coverart_flyer_spec.md](docs/coverart_flyer_spec.md)、[source_qr_tracking_rest_spec.md](docs/source_qr_tracking_rest_spec.md)、[test-results.md](docs/test-results.md)、[cross_plugin_remaining_matrix.md](docs/cross_plugin_remaining_matrix.md) 等を更新
+
 ## 0.0.1 - 2026-10-18
 
 ### Added

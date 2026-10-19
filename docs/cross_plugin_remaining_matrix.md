@@ -23,7 +23,7 @@
 | リポジトリ | Local | Webinar 実装待ち | HTTPS + Zoom | 備考 |
 | --- | ---: | ---: | ---: | --- |
 | [S2J Webinar Survey](#s2j-webinar-survey) | 0 | 0 | 0 (+ E3/E4 ゲート) | Local 未完了 9 件 **2026-10-19** 完了 (wp-env 分母外) |
-| [S2J Webinar](#s2j-webinar) | 2 | 1 | 1 (+ E1–E4 ゲート) | P2a + handoff + **E7** **2026-10-19**。P2b 未。P3 は v0.0.2 対象外 |
+| [S2J Webinar](#s2j-webinar) | 0 | 1 | 1 (+ E1–E4 ゲート) | P1 + P2 + handoff + **E7** **2026-10-19**。P3 は v0.0.2 対象外 |
 | [S2J Webinar Source QR](#s2j-webinar-source-qr) | 10 | 5 | 3 (+ E1/E3 ゲート) | 任意・handoff 含む |
 
 ---
@@ -60,7 +60,7 @@
 | --- | --- | --- |
 | 段階1 smoke + 手動 #1–8 | 2026-10-17 | Local + Studio (`webinar-smoke`)。OAuth #6 SKIP |
 | Blueprint **ゼロから** + 手動 #1–8 | **2026-10-18** | 新規 Blueprint サイト。GP + Alpha (Releases)。#7 — `_s2j_webinar_panelists` 2名・スーパーリロード後も保持 |
-| 段階3a+3b / `lint:php` | 2026-10-17–19 | **22 + 8** (定義 REST Integration 追加)、順0 |
+| 段階3a+3b / `lint:php` | 2026-10-17–19 | **22 + 14** (P2b / CoverArt Integration 追加)、順0 |
 | P2a 定義 REST + handoff (Webinar) | **2026-10-19** | コード + **E5** handoff + **E7** Pass (Studio post **8**、stub 無効、REST + **ブラウザ** 証跡 [Source QR studio-2026-1019-e7-real-p2a](../s2j-webinar-source-qr/docs/screenshots/studio-2026-1019-e7-real-p2a/)) |
 
 **未完了 `[ ]` (分類):**
@@ -70,8 +70,8 @@
 | 品質 | Service §プラグイン — 本プラグイン 100% 後に Service [x] | ● | | プロセス (Service repo) |
 | 品質 | Source QR 連携 — localhost `catalogReady` Pass 記録 (**E7**) | | | **2026-10-19** Pass ([test-results §最新結果](./test-results.md#最新結果)) |
 | 品質 | **[E1–E4]** — OAuth / 実 API / Webhook / Survey attach | | | ● |
-| 運用 P1 | CoverArt / フライヤー | ● | | HTTP なし |
-| 運用 P2b | `GET …/tracking-sources` (取り込み) | | ● | P2a **実装済**。P2b 実 GET は E2 |
+| 運用 P1 | CoverArt / フライヤー | | | **2026-10-19** — [coverart_flyer_spec §実装](./coverart_flyer_spec.md#実装-本プラグイン) |
+| 運用 P2b | `GET …/tracking-sources` (取り込み) | | | **2026-10-19** — [source_qr_tracking_rest §実装](./source_qr_tracking_rest_spec.md#実装-本プラグイン)。実 Zoom GET は E2 |
 | 運用 P3 | 配配メール (ラクス) | — | — | status 100% 外 |
 
 ### 外部結合ゲート (詳細)

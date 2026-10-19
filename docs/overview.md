@@ -39,7 +39,7 @@
 * Zoom 作成画面の全項目再現
 * 出席・録画ファイル・効果測定の取り込み
 * registrant 登録、Zoom 手修正の双方向同期
-* CoverArt、QR、フライヤー、配配メール (ラクス) (後続。境界は [plugin_spec.md](./plugin_spec.md))
+* CoverArt / フライヤー — **実装済** ([coverart_flyer_spec.md](./coverart_flyer_spec.md))。QR / 取り込み REST — Source QR + [operational_material_index.md](./operational_material_index.md)。配配メール (ラクス) は v0.0.2 対象外
 * Teams / Meet 等 (初版は Zoom 固定。選択 UI は実装済みが増えた場合)
 * GatherPress フォーク本体の改変
 * WordPress.org への掲載

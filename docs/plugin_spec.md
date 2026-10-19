@@ -39,7 +39,7 @@
 * Zoom 作成画面の全項目再現
 * 出席・録画ファイル・効果測定の取り込み、registrant 登録
 * Zoom 手修正の双方向同期
-* CoverArt、QR、フライヤー、配配メール (ラクス) (後続)
+* 配配メール (ラクス) (v0.0.2 対象外)。CoverArt / フライヤー / Source QR REST は [operational_material_index.md](./operational_material_index.md) (**2026-10-19** 反映済)
 * Teams / Meet 等 (初版 site slug は `zoom` のみ。`WebinarProvider` + `%s` 文言で拡張余地を確保)
 * GatherPress フォーク本体の改変、WordPress.org への掲載
 * 設問の検査・助言 (Survey / Survey Service)
@@ -96,7 +96,7 @@ Composer で `s2j/webinar-service` を require します。参照は [S2J Slug G
 4. 削除・「Zoom で開く」(`get`)、登壇者 (Panelist) 差分。
 5. Webhook (`webinar.started` / `webinar.ended`)。
 6. Survey `ready` の `attach_survey`。
-7. CoverArt / QR 等は後続。
+7. 運用素材 — CoverArt / フライヤー (P1)、Source QR 定義 / 取り込み REST + handoff (P2) — [status.md §運用素材](./status.md#status-operational)。
 
 ## 採用した方針 (要約)
 
@@ -110,7 +110,7 @@ Composer で `s2j/webinar-service` を require します。参照は [S2J Slug G
 * Survey 未完了を create の条件にしない。`ready` は context の `survey_document` のみ (レコードに載せない)。通常の「同期」が `attach_survey` する (専用ボタンなし)。
 * Webhook `webinar.ended` では公開リンクを空にしない。空にするのは Zoom 削除成功時のみ。
 * アンインストールは本プラグイン所有キーの明示リスト + サイト option のみ。`_s2j_webinar_survey` / `_s2j_webinar_source_qr` は触らない。Zoom は変更しない。
-* Source QR — 定義 REST (P2a) + パネル handoff (`s2j_webinar.open_source_qr`)。取り込み REST (P2b) は未。正本 [source_qr_handoff_spec.md](./source_qr_handoff_spec.md)、[source_qr_tracking_definitions_rest_spec.md](./source_qr_tracking_definitions_rest_spec.md)。
+* Source QR — 定義 REST (P2a) + 取り込み REST (P2b) + パネル handoff (`s2j_webinar.open_source_qr`)。正本 [source_qr_handoff_spec.md](./source_qr_handoff_spec.md)、[source_qr_tracking_definitions_rest_spec.md](./source_qr_tracking_definitions_rest_spec.md)、[source_qr_tracking_rest_spec.md](./source_qr_tracking_rest_spec.md)。
 
 ## 改訂履歴
 

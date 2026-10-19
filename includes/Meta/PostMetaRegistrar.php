@@ -100,6 +100,32 @@ final class PostMetaRegistrar
 
         register_post_meta(
             $post_type,
+            '_s2j_webinar_cover_art_id',
+            array(
+                'type'              => 'integer',
+                'single'            => true,
+                'show_in_rest'      => true,
+                'auth_callback'     => array( self::class, 'can_edit_post_meta' ),
+                'sanitize_callback' => array( OperationalMaterialMeta::class, 'sanitize_attachment_id' ),
+                'default'           => 0,
+            )
+        );
+
+        register_post_meta(
+            $post_type,
+            '_s2j_webinar_flyer_id',
+            array(
+                'type'              => 'integer',
+                'single'            => true,
+                'show_in_rest'      => true,
+                'auth_callback'     => array( self::class, 'can_edit_post_meta' ),
+                'sanitize_callback' => array( OperationalMaterialMeta::class, 'sanitize_attachment_id' ),
+                'default'           => 0,
+            )
+        );
+
+        register_post_meta(
+            $post_type,
             '_s2j_webinar_panelists',
             array(
                 'type'              => 'array',

@@ -1,5 +1,6 @@
 import { registerPlugin } from '@wordpress/plugins';
 import { PluginDocumentSettingPanel as PluginDocumentSettingPanelFromEditPost } from '@wordpress/edit-post';
+import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
 import * as editorPackage from '@wordpress/editor';
 import { __, sprintf } from '@wordpress/i18n';
 import {
@@ -59,6 +60,19 @@ const normalizeAutoRecording = (value: unknown): AutoRecording => {
 	return 'cloud';
 };
 
+const normalizeAttachmentId = (value: unknown): number => {
+	if (typeof value === 'number' && value > 0) {
+		return value;
+	}
+	if (typeof value === 'string' && value !== '') {
+		const parsed = Number.parseInt(value, 10);
+		if (parsed > 0) {
+			return parsed;
+		}
+	}
+	return 0;
+};
+
 const webinarStatusLabel = (code: unknown): string => {
 	const status = typeof code === 'string' ? code : 'not_created';
 	switch (status) {
@@ -99,6 +113,42 @@ const WebinarPanelFields = () => {
 		'postType',
 		postType,
 		'_s2j_webinar_approval_type',
+	);
+	const [coverArtId, setCoverArtId] = useEntityProp(
+		'postType',
+		postType,
+		'_s2j_webinar_cover_art_id',
+	);
+	const [flyerId, setFlyerId] = useEntityProp('postType', postType, '_s2j_webinar_flyer_id');
+	const coverArtAttachmentId = normalizeAttachmentId(coverArtId);
+	const flyerAttachmentId = normalizeAttachmentId(flyerId);
+
+	const coverArtMedia = useSelect(
+		(select) => {
+			if (coverArtAttachmentId <= 0) {
+				return null;
+			}
+			const media = select('core').getMedia(coverArtAttachmentId) as {
+				source_url?: string;
+				alt_text?: string;
+			} | null;
+			return media;
+		},
+		[coverArtAttachmentId],
+	);
+
+	const flyerMedia = useSelect(
+		(select) => {
+			if (flyerAttachmentId <= 0) {
+				return null;
+			}
+			const media = select('core').getMedia(flyerAttachmentId) as {
+				source_url?: string;
+				title?: string;
+			} | null;
+			return media;
+		},
+		[flyerAttachmentId],
 	);
 	const [webinarStatus] = useEntityProp('postType', postType, '_s2j_webinar_status');
 	const [lastError] = useEntityProp('postType', postType, '_s2j_webinar_last_error');
@@ -257,6 +307,86 @@ const WebinarPanelFields = () => {
 					options={AUTO_RECORDING_OPTIONS}
 					onChange={(value) => setAutoRecording(normalizeAutoRecording(value))}
 				/>
+			</FieldSection>
+			<FieldSection title={__('CoverArt', 's2j-webinar')}>
+				<MediaUploadCheck>
+					<MediaUpload
+						onSelect={(media) => setCoverArtId(normalizeAttachmentId(media?.id))}
+						allowedTypes={['image']}
+						value={coverArtAttachmentId > 0 ? coverArtAttachmentId : undefined}
+						render={({ open }) => (
+							<div className="s2j-webinar-media-field">
+								{coverArtAttachmentId > 0 && coverArtMedia?.source_url && (
+									<img
+										className="s2j-webinar-media-field__preview"
+										src={coverArtMedia.source_url}
+										alt={coverArtMedia.alt_text ?? ''}
+									/>
+								)}
+								<div className="s2j-webinar-media-field__actions">
+									<Button onClick={open} disabled={busy}>
+										{coverArtAttachmentId > 0
+											? __('Replace CoverArt', 's2j-webinar')
+											: __('Select media', 's2j-webinar')}
+									</Button>
+									{coverArtAttachmentId > 0 && (
+										<Button
+											variant="link"
+											isDestructive
+											onClick={() => setCoverArtId(0)}
+											disabled={busy}
+										>
+											{__('Remove CoverArt', 's2j-webinar')}
+										</Button>
+									)}
+								</div>
+							</div>
+						)}
+					/>
+				</MediaUploadCheck>
+			</FieldSection>
+			<FieldSection title={__('Flyer', 's2j-webinar')}>
+				<p className="s2j-webinar-field__hint">
+					{__(
+						'Use a PDF exported from your design tool. PowerPoint files are not accepted.',
+						's2j-webinar',
+					)}
+				</p>
+				<MediaUploadCheck>
+					<MediaUpload
+						onSelect={(media) => setFlyerId(normalizeAttachmentId(media?.id))}
+						allowedTypes={['application/pdf']}
+						value={flyerAttachmentId > 0 ? flyerAttachmentId : undefined}
+						render={({ open }) => (
+							<div className="s2j-webinar-media-field">
+								{flyerAttachmentId > 0 && flyerMedia?.source_url && (
+									<p className="s2j-webinar-field__value">
+										<a href={flyerMedia.source_url} target="_blank" rel="noreferrer">
+											{flyerMedia.title?.trim() || __('Flyer PDF', 's2j-webinar')}
+										</a>
+									</p>
+								)}
+								<div className="s2j-webinar-media-field__actions">
+									<Button onClick={open} disabled={busy}>
+										{flyerAttachmentId > 0
+											? __('Replace flyer', 's2j-webinar')
+											: __('Select PDF', 's2j-webinar')}
+									</Button>
+									{flyerAttachmentId > 0 && (
+										<Button
+											variant="link"
+											isDestructive
+											onClick={() => setFlyerId(0)}
+											disabled={busy}
+										>
+											{__('Remove flyer', 's2j-webinar')}
+										</Button>
+									)}
+								</div>
+							</div>
+						)}
+					/>
+				</MediaUploadCheck>
 			</FieldSection>
 			<FieldSection title={__('Registration', 's2j-webinar')}>
 				<RadioControl
