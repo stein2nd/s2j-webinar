@@ -36,7 +36,7 @@
 | Survey `ready` → `attach_survey` | 一部 | 100 | [§ Survey 引き渡し](#status-survey) (3/3) |
 | フロント資産 (Vite / lint / i18n) | 実装済み | 100 | [§フロント・lint](#status-frontend) (8/8) |
 | アンインストール | 実装済み | 100 | [§アンインストール](#status-uninstall) (2/2) |
-| テスト・ CI (段階1–3) | 実装済み | 100 | [§品質・スモーク](#status-quality) (12/12) |
+| テスト、CI (段階1–3) | 実装済み | 100 | [§品質・スモーク](#status-quality) (12/12) |
 | 運用素材 | 実装済み | 100 | [§運用素材](#status-operational) (P1 + P2 + handoff。P3 対象外) |
 
 ## 100% 完了条件チェックリスト

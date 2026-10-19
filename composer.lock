@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "s2j/webinar-service",
-            "version": "v0.1.3",
+            "version": "v0.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stein2nd/s2j-webinar-service.git",
-                "reference": "b6708a1a956d059b10d7f2fac9f78c1a8eefd58b"
+                "reference": "406a2120ab5a5f7a4e14b41e0a6d7ab9d951f99c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stein2nd/s2j-webinar-service/zipball/b6708a1a956d059b10d7f2fac9f78c1a8eefd58b",
-                "reference": "b6708a1a956d059b10d7f2fac9f78c1a8eefd58b",
+                "url": "https://api.github.com/repos/stein2nd/s2j-webinar-service/zipball/406a2120ab5a5f7a4e14b41e0a6d7ab9d951f99c",
+                "reference": "406a2120ab5a5f7a4e14b41e0a6d7ab9d951f99c",
                 "shasum": ""
             },
             "require": {
@@ -57,7 +57,7 @@
                 "issues": "https://github.com/stein2nd/s2j-webinar-service/issues",
                 "source": "https://github.com/stein2nd/s2j-webinar-service"
             },
-            "time": "2026-10-19T03:53:07+00:00"
+            "time": "2026-10-19T07:41:38+00:00"
         }
     ],
     "packages-dev": [
