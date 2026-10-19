@@ -113,7 +113,7 @@
 * [x] **同期** / **Open in %s** / **Delete from %s** (確認 `Remove this webinar from %s?`)
 * [x] 登壇者0人 — Sync 無効
 * [x] REST — sync / open / delete ([`SyncController.php`](../includes/Rest/SyncController.php), [`EventActionsController.php`](../includes/Rest/EventActionsController.php))
-* [x] 設定画面分割 — [admin_ui_spec.md](./admin_ui_spec.md) (GP タブに GatherPress 状態を出さない)
+* [x] 設定画面の分割 — [admin_ui_spec.md](./admin_ui_spec.md) (GP タブに GatherPress 状態を出さない)
 
 #### Test (PHPUnit / smoke)
 
@@ -205,14 +205,14 @@
 * [x] レコード本体に Survey を載せない ([`RecordAssembler.php`](../includes/Record/RecordAssembler.php))
 * [x] 通常 sync に plan 任せ (専用ボタンなし)
 
-### フロント・ lint {#status-frontend}
+### フロント、lint {#status-frontend}
 
 * [x] Vite v4エントリ / 本番 `dist/`
 * [x] `npm run lint` — TS + SCSS
 * [x] CI: [`.github/workflows/js-lint.yml`](../.github/workflows/js-lint.yml)
 * [x] 設定 UI — PHP のみ (GP Webinar タブ + **設定 → S2J Webinar**。admin JS フッター二重化なし)
 * [x] Gutenberg — メタ REST 双方向 ([`src/gutenberg/index.tsx`](../src/gutenberg/index.tsx))
-* [x] `@wordpress/core-data` — スカラー meta は `useEntityProp`、`_s2j_webinar_panelists` は `editPost` ([admin_ui_spec](./admin_ui_spec.md#gutenberg-クライアント))
+* [x] `@wordpress/core-data` — スカラ meta は `useEntityProp`、`_s2j_webinar_panelists` は `editPost` ([admin_ui_spec](./admin_ui_spec.md#gutenberg-クライアント))
 * [x] TS shims — [`src/types/wordpress-shims.d.ts`](../src/types/wordpress-shims.d.ts)
 * [x] i18n — `load_plugin_textdomain`、`languages/s2j-webinar-ja.mo`、`wp_set_script_translations`、`npm run makepot` (PHP は `'s2j-webinar'` リテラルで POT 抽出)
 
@@ -236,27 +236,27 @@
 #### Test (記録) — Local 可のみ
 
 * [x] [test-results.md](./test-results.md) — localhost 可能 / 不可能の表、[§推奨実施順](./test-results.md#推奨実施順-source-qr-同型localhost-自動テスト優先)
-* [x] 段階1 PASS — Local + Studio smoke (2026-10-14: CLI、**2026-10-17** 手動 #1–8)
+* [x] 段階1の PASS — Local + Studio smoke (2026-10-14: CLI、**2026-10-17** 手動 #1–8)
 * [x] 段階3b ローカル — [test-results.md §最新結果](./test-results.md#最新結果) **2026-10-17** 行 (**22 + 6** → **22 + 8** 2026-10-19)
 * [x] 手動 — 日本語ロケールで管理 UI / Gutenberg 翻訳表示 (2026-10-13)
 * [x] Blueprint **ゼロから** Studio 再現の Pass 記録 (**2026-10-18** — [test-results.md §最新結果](./test-results.md#最新結果)。手動 #7 登壇者2名・スーパーリロード後も `_s2j_webinar_panelists` 保持)
 
 #### Test (外部結合・連携) — 要 HTTPS / Local 可 (E*)
 
-* [ ] Service [§プラグイン](https://github.com/stein2nd/s2j-webinar-service/blob/main/docs/status.md#status-plugin) — 本プラグイン 100% 到達後に Service 側を [x]
+* [ ] Service [§プラグイン](https://github.com/stein2nd/s2j-webinar-service/blob/main/docs/status.md#status-plugin) — 本プラグインの100% 到達後に Service 側を [x]
 * [ ] [E1–E4](#status-external) — Zoom OAuth / 実 API / Webhook / Survey attach (Pass は [test-results.md](./test-results.md))
-* [x] Source QR [§品質 E2 / E7](#status-external) — **2026-10-19** Studio `:8888` post **8** (`studio-u7`、stub 無効)：P2a **200** + Source QR **`catalogReady` / Save draft / Apply** + 再 open URL 保持 — 証跡 [01–09](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/screenshots/studio-2026-1019-e7-real-p2a/) ([test-results §最新結果](./test-results.md#最新結果))
+* [x] Source QR [§品質 E2 / E7](#status-external) — **2026-10-19** Studio `:8888` post **8** (`studio-u7`、stub 無効): P2a **200** + Source QR **`catalogReady` / Save draft / Apply** + 再 open URL 保持 — 証跡 [01–09](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/screenshots/studio-2026-1019-e7-real-p2a/) ([test-results §最新結果](./test-results.md#最新結果))
 * [x] Source QR **E5** handoff — **2026-10-19** ([test-results §最新結果](./test-results.md#最新結果))
 
 ### 運用素材 {#status-operational}
 
-正本: [operational_material_index.md](./operational_material_index.md) §実装優先順位
+正本: [operational_material_index.md](./operational_material_index.md) §実装の優先順位
 
 | 優先 | 項 | Marketplace / HTTPS | 理由 |
 | --- | --- | --- | --- |
 | **P1** | CoverArt / フライヤー | 不要 | 接続先 HTTP なし。パネル + メタのみ。Local で完結 |
 | **P2a** | ソース定義 REST (`tracking-source-definitions`) | 不要 | 接続先 HTTP なし。Source QR 行の正本 |
-| **P2b** | tracking 取り込み REST (`tracking-sources`) | **GET のみ** (作成はポータル) | [s2j/webinar-service](https://github.com/stein2nd/s2j-webinar-service) 写像は Packagist 済み。実 Zoom GET は E2 後 |
+| **P2b** | tracking 取り込み REST (`tracking-sources`) | **GET のみ** (作成はポータル) | [s2j/webinar-service](https://github.com/stein2nd/s2j-webinar-service) 写像は Packagist 済み。実 Zoom GET は E2後 |
 | **P3** | 配配メール (ラクス) | — | v0.0.2 **対象外** ([operational_material_index.md](./operational_material_index.md)) |
 
 * [ ] **P1** — CoverArt / フライヤー ([coverart_flyer_spec.md](./coverart_flyer_spec.md))
@@ -264,7 +264,7 @@
   * [x] **P2a** — `GET …/tracking-source-definitions` ([`TrackingSourceDefinitionsController.php`](../includes/Rest/TrackingSourceDefinitionsController.php)、[`TrackingSourceDefinitions.php`](../includes/SourceQr/TrackingSourceDefinitions.php)) — Integration [`TrackingSourceDefinitionsRestTest.php`](../tests/Integration/TrackingSourceDefinitionsRestTest.php)
   * [ ] **P2b** — `GET …/tracking-sources` (OAuth / 実 Zoom は E2)
 * [x] Source QR **handoff (Webinar)** — hook [`s2j_webinar.open_source_qr`](../includes/SourceQr/Handoff.php)、Gutenberg **Edit source tracking / QR** ([`src/gutenberg/index.tsx`](../src/gutenberg/index.tsx))。**2026-10-19** 手動 — Source QR **Open…** と同一メンテナンスモーダル ([test-results §最新結果](./test-results.md#最新結果)、[Source QR E5](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/status.md#status-external))
-* [ ] **P3** — 配配メール (ラクス) — 別途 (status 100% 外)
+* [ ] **P3** — 配配メール (ラクス) — 別途 (status の100% 外)
 
 ## 外部結合ゲート {#status-external}
 
@@ -280,15 +280,15 @@
 | E4 | Survey プラグイン `ready` → attach_survey 実 Zoom | **要 HTTPS** (E1・ E2後。Survey 保存・ UI は Local 可) |
 | E5 | フロント — 参加 URL 目視 | **Local 可** (`_s2j_webinar_join_url` / 公開欄が入っていること。E2またはテスト用メタ) |
 | E6 | 運用素材 | **項目依存** (プラグイン UI / REST のみ Local 可。外部配信・本番ドメインは **要 HTTPS**) |
-| E7 | Source QR — 定義 REST `200` + `sources.length >= 1` → `catalogReady` | **Local 可** — **Pass 2026-10-19** (post **8** / P2a 本番ルート。仕様 [source_qr_tracking_definitions_rest_spec.md](./source_qr_tracking_definitions_rest_spec.md)。Source QR [E2](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/status.md#status-external) / [証跡 01–09](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/screenshots/studio-2026-1019-e7-real-p2a/)) |
+| E7 | Source QR — 定義 REST `200` + `sources.length >= 1` → `catalogReady` | **Local 可** — **Pass: 2026-10-19** (post **8** / P2a 本番ルート。仕様 [source_qr_tracking_definitions_rest_spec.md](./source_qr_tracking_definitions_rest_spec.md)。Source QR [E2](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/status.md#status-external) / [証跡 01–09](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/screenshots/studio-2026-1019-e7-real-p2a/)) |
 
 ## 補足
 
-* 3 プラグイン横断の未完了分類: [cross_plugin_remaining_matrix.md](./cross_plugin_remaining_matrix.md) (Survey / Source QR に同期コピーあり)。
+* 3プラグイン横断の未完了分類: [cross_plugin_remaining_matrix.md](./cross_plugin_remaining_matrix.md) (Survey / Source QR に同期コピーあり)。
 * **実装％** はプラグイン検証可能項のみ (上記)。Zoom ステージングは Pass 記録があっても % に含めない。
 * 初版プロバイダ slug は `zoom` のみ ([`WebinarProvider`](../includes/Provider/WebinarProvider.php))。UI 文言は `%s` / `providerLabel` で差し替え。
 * HTTP Adapter は本プラグイン、計算は Service ([plugin_spec.md](./plugin_spec.md))。
 
 ## 実装ロードマップ (到達順)
 
-1. ~~フロント・ lint~~ → ~~メタ・レコード~~ → ~~同期~~ → ~~OAuth~~ → ~~get/delete~~ → ~~Survey~~ → ~~管理 UI~~ → ~~公開リンク / Webhook テスト~~ → [§推奨テスト実施順](#status-test-order) **順0–2** (3a **22**、`lint:php`、3b **6** — **2026-10-17**) → **順3** 手動 #1–8 PASS (**2026-10-17** Local/Studio、**2026-10-18** Blueprint ゼロから) → **P1 / P2** (Source QR [status](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/status.md)) → **E1–E4** (HTTPS) / **E7** (定義 REST)
+1. ~~フロント・ lint~~ → ~~メタ・レコード~~ → ~~同期~~ → ~~OAuth~~ → ~~get/delete~~ → ~~Survey~~ → ~~管理 UI~~ → ~~公開リンク / Webhook テスト~~ → [§推奨テスト実施順](#status-test-order) **順0–2** (3a **22**、`lint:php`、3b **6** — **2026-10-17**) → **順3** 手動 #1–8: PASS (**2026-10-17** Local/Studio、**2026-10-18** Blueprint ゼロから) → **P1 / P2** (Source QR [status](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/status.md)) → **E1– E4** (HTTPS) / **E7** (定義 REST)
