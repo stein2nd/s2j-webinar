@@ -14,7 +14,7 @@
 * [archive/README.md](./archive/README.md) — 完了イニシアチブ (まだなし)
 * [test-results.md](./test-results.md) — 段階1–3、外部結合の記録
 * [cross_plugin_remaining_matrix.md](./cross_plugin_remaining_matrix.md) — Webinar / Source QR / Survey の未完了 `[ ]` 分類 (Local / Webinar 待ち / HTTPS+Zoom)
-* コンパニオン [S2J Webinar Source QR — status.md](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/status.md) / [test-results.md](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/test-results.md) — P2a + **E7/E2/E5 Pass (2026-10-19)** (Studio `:8888`、stub 無効)
+* コンパニオン [S2J Webinar Source QR — status.md](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/status.md) / [test-results.md](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/test-results.md) — P2a + **E7/E2/E5Pass (2026-10-19)** (Studio `:8888`、stub 無効)
 
 ## 機能一覧
 
@@ -37,7 +37,7 @@
 | フロント資産 (Vite / lint / i18n) | 実装済み | 100 | [§フロント・lint](#status-frontend) (8/8) |
 | アンインストール | 実装済み | 100 | [§アンインストール](#status-uninstall) (2/2) |
 | テスト、CI (段階1–3) | 実装済み | 100 | [§品質・スモーク](#status-quality) (12/12) |
-| 運用素材 | 実装済み | 100 | [§運用素材](#status-operational) (P1 + P2 + handoff。P3 対象外) |
+| 運用素材 | 実装済み | 100 | [§運用素材](#status-operational) (P1 + P2 + handoff。P3対象外) |
 
 ## 100% 完了条件チェックリスト
 
@@ -60,8 +60,8 @@
 | 0 | 3a | Local 可のみ | `npm run test:unit:php:unit-only` (**22**)、`npm run lint` / **`npm run lint:php`** (`prelint:php` → Composer dev 依存) |
 | 1 | 1 | Local 可のみ (CLI) | Local Site Shell / Studio — `npm run test:smoke:local` |
 | 2 | 3b | Local 可 (MySQL) | `npm run test:unit:php:local` — **22 + 14** (`.env.tests`、任意 `WP_TESTS_GATHERPRESS_DIR`) |
-| 3 | 2 | Local 可のみ | Studio Blueprint + 手動 checklist [#1–8](./test-results.md#第1段階-local-結合スモーク) (OAuth #6 SKIP 可) |
-| 4 | 1–3 | Local 可 (E5/E7) | 参加 URL 目視 (E5)。**P2a** 定義 REST 後 Source QR `catalogReady` (E7 — [Source QR 順4 E2](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/test-results.md#順4-オプション-local-可-e2e4)) |
+| 3 | 2 | Local 可のみ | Studio Blueprint + 手動 checklist [#1–8](./test-results.md#第1段階-local-結合スモーク) (OAuth #6SKIP 可) |
+| 4 | 1–3 | Local 可 (E5/E7) | 参加 URL 目視 (E5)。**P2a** 定義 REST 後 Source QR `catalogReady` (E7— [Source QR 順4 E2](https://github.com/stein2nd/s2j-webinar-source-qr/blob/main/docs/test-results.md#順4-オプション-local-可-e2e4)) |
 | 5 | 2–3 | 要 HTTPS | OAuth (E1)、実 Zoom sync (E2)、Webhook (E3)、Survey attach (E4) — Pass は [test-results.md](./test-results.md) |
 
 詳細コマンドは [test-results.md §推奨実施順](./test-results.md#推奨実施順-source-qr-同型localhost-自動テスト優先)。
@@ -73,7 +73,8 @@
 
 ### Composer、配布 {#status-composer-dist}
 
-* [x] `composer.json` — Packagist 名のみで `s2j/webinar-service`
+* [x] `composer.json` — `php` **>=8.3**、Packagist 名のみで `s2j/webinar-service`
+* [x] CI / Studio — GitHub Actions ・Blueprint ・`.wp-env.json` は PHP **8.3** (PHPUnit workflow は `test:unit:php:unit-only` のみ。`phpunit:wp-env` は CI 未使用)
 * [x] `s2j-webinar.php` — `vendor/autoload.php`
 * [x] Test: [`ServiceBridgeTest.php`](../tests/ServiceBridgeTest.php)
 * [x] 配布 zip — `vendor/` + `dist/`
@@ -239,7 +240,7 @@
 * [x] 段階1の PASS — Local + Studio smoke (2026-10-14: CLI、**2026-10-17** 手動 #1–8)
 * [x] 段階3b ローカル — [test-results.md §最新結果](./test-results.md#最新結果) **2026-10-17** 行 (**22 + 6** → **22 + 14** 2026-10-19)
 * [x] 手動 — 日本語ロケールで管理 UI / Gutenberg 翻訳表示 (2026-10-13)
-* [x] Blueprint **ゼロから** Studio 再現の Pass 記録 (**2026-10-18** — [test-results.md §最新結果](./test-results.md#最新結果)。手動 #7 登壇者2名・スーパーリロード後も `_s2j_webinar_panelists` 保持)
+* [x] Blueprint **ゼロから** Studio 再現の Pass 記録 (**2026-10-18** — [test-results.md §最新結果](./test-results.md#最新結果)。手動 #7登壇者2名・スーパーリロード後も `_s2j_webinar_panelists` 保持)
 
 #### Test (外部結合・連携) — 要 HTTPS / Local 可 (E*)
 

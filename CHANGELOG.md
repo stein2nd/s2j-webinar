@@ -2,6 +2,13 @@
 
 ## unreleased
 
+### Changed
+
+* **PHP 下限 v8.3** — [WordPress 動作環境](https://ja.wordpress.org/about/requirements/) に合わせ [`composer.json`](composer.json) (`>=8.3` / platform **8.3.0**)、[`s2j-webinar.php`](s2j-webinar.php) / [`readme.txt`](readme.txt)、[`studio/smoke-test-blueprint.json`](studio/smoke-test-blueprint.json)、[`.wp-env.json`](.wp-env.json)、[`composer.lock`](composer.lock)
+* **CI** — Actions PHP **8.3** ([`phpunit.yml`](.github/workflows/phpunit.yml)、[`dist-zip.yml`](.github/workflows/dist-zip.yml))。lint workflows — [`composer validate`](.github/workflows/docs-lint.yml) (PHPUnit は **`test:unit:php:unit-only`**。`phpunit:wp-env` 非使用、Setup Node 先行)
+* **npm (dev)** — `@wordpress/*` メジャー、`vite` / `eslint` / `rollup` / `@s2j/docs-linter` 等 ([`package.json`](package.json))
+* ドキュメント — [overview.md](docs/overview.md)、[plugin_spec.md](docs/plugin_spec.md)、[status.md](docs/status.md)、[README.md](README.md)、[studio/README.md](studio/README.md)、[test-results.md](docs/test-results.md)
+
 ## 0.0.1 - 2026-10-19
 
 ### Added

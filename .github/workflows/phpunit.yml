@@ -23,7 +23,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.2"
+          php-version: "8.3"
           tools: composer
 
       - name: Install Node dependencies
@@ -32,5 +32,6 @@ jobs:
       - name: Install Composer dependencies
         run: composer install --no-interaction --prefer-dist
 
+      # wp-env 統合は CI 対象外。`phpunit:wp-env` は使わず 3a の unit-only のみ (Node は先に Setup 済み)。
       - name: Run PHPUnit (stage 3a — pure unit)
         run: npm run test:unit:php:unit-only

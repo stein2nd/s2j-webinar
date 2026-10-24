@@ -8,7 +8,8 @@ GatherPress のイベント編集画面から Webinar を作成・更新する W
 
 ## 依存
 
-* WordPress と [GatherPress](https://github.com/stein2nd/gatherpress) (フォーク可。本プラグインは Slot のみ使用)
+* **PHP v8.3+**、**WordPress v6.3+** ([WordPress 動作環境](https://ja.wordpress.org/about/requirements/))
+* [GatherPress](https://github.com/stein2nd/gatherpress) (フォーク可。本プラグインは Slot のみ使用)
 * Composer: `s2j/webinar-service` (Packagist の名前だけ。`repositories` に VCS / パスは書かない)
 
 ## Contributing

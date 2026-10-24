@@ -26,6 +26,15 @@ jobs:
         with:
           node-version: "20"
 
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          tools: composer
+
+      - name: Validate Composer (minimum PHP)
+        run: composer validate --strict --no-check-publish
+
       - name: Install dependencies
         run: npm ci
 

@@ -12,7 +12,7 @@
 
 | ファイル | 内容 |
 | --- | --- |
-| [`smoke-test-blueprint.json`](./smoke-test-blueprint.json) | Studio / Playground 形式 (PHP v8.2、WP latest、**GatherPress (wp.org)**、Query Monitor、Plugin Check、シード mu-plugin。**GatherPress Alpha は Blueprint 外** — [GitHub 手動](#gatherpress-alpha-blueprint-後手動)) |
+| [`smoke-test-blueprint.json`](./smoke-test-blueprint.json) | Studio / Playground 形式 (PHP v8.3、WP latest、**GatherPress (wp.org)**、Query Monitor、Plugin Check、シード mu-plugin。**GatherPress Alpha は Blueprint 外** — [GitHub 手動](#gatherpress-alpha-blueprint-後手動)) |
 | [`mu-plugin-smoke-seed.php`](./mu-plugin-smoke-seed.php) | Blueprint の `writeFile` に埋め込む mu-plugin の **ソース** (JSON 内 `data` と同期) |
 
 ## GatherPress について

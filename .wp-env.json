@@ -4,7 +4,7 @@
 		".",
 		"https://github.com/stein2nd/gatherpress/archive/refs/heads/main.zip"
 	],
-	"phpVersion": "8.2",
+	"phpVersion": "8.3",
 	"config": {
 		"WP_DEBUG": true
 	}

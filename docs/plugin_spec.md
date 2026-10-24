@@ -8,6 +8,8 @@
 
 スラッグは `s2j-webinar` です。ライセンスは GPL-3.0-or-later です。テキストドメインは `s2j-webinar` です。
 
+実行環境の下限は **PHP v8.3**、**WordPress v6.3** です ([WordPress 動作環境](https://ja.wordpress.org/about/requirements/) の PHP 要件に合わせる。`composer.json` の `require.php` とプラグインヘッダー `Requires PHP` を正とする。
+
 両立したいのは、下記の2つです。
 
 * 営業担当者が、イベントと同じ編集画面から Webinar を登録・更新できる。
@@ -28,7 +30,7 @@
 
 * サイトに Zoom を1アカウント接続する。
 * 録画方式・参加登録・登壇者をイベントごとに編集し、メタに保存する。
-* 新規登録・更新・削除・プロバイダー名付き「開く」(`get`。msgid `Open in %s`。再取得と同義) をパネルから行う。
+* 新規登録・更新・削除・プロバイダ名付き「開く」(`get`。msgid `Open in %s`。再取得と同義) をパネルから行う。
 * 参加 URL を GatherPress の公開欄に反映する。
 * Webhook で開催中 / 終了を反映する。
 * Survey の `ready` 文書があれば `attach_survey` で付ける (写像はサービス)。
@@ -39,7 +41,7 @@
 * Zoom 作成画面の全項目再現
 * 出席・録画ファイル・効果測定の取り込み、registrant 登録
 * Zoom 手修正の双方向同期
-* 配配メール (ラクス) (v0.0.2 対象外)。CoverArt / フライヤー / Source QR REST は [operational_material_index.md](./operational_material_index.md) (**2026-10-19** 反映済)
+* 配配メール (ラクス) (v0.0.2対象外)。CoverArt / フライヤー / Source QR REST は [operational_material_index.md](./operational_material_index.md) (**2026-10-19** 反映済)
 * Teams / Meet 等 (初版 site slug は `zoom` のみ。`WebinarProvider` + `%s` 文言で拡張余地を確保)
 * GatherPress フォーク本体の改変、WordPress.org への掲載
 * 設問の検査・助言 (Survey / Survey Service)
@@ -106,7 +108,7 @@ Composer で `s2j/webinar-service` を require します。参照は [S2J Slug G
 * `dirty` は本体項目の変更のみ。登壇者だけ・アンケートだけは `synced` のまま。`error`+id の「同期」は `intend_retry` (サービスは dirty と同計画)。
 * 削除はパネルの明示操作だけ。ゴミ箱移動では delete を呼ばない。
 * `start_url` は保存しない。「Zoom で開く」は `build_webinar_request( 'get', … )` 直呼び。create / update / get いずれも `join_url` / `webinar_uuid` 非空ならメタ (と `join_url` なら公開欄) を更新 (空なら既存を消さない。空にするのは delete 成功時のみ)。
-* パネルは Document Settings の `PluginDocumentSettingPanel` ([admin_ui_spec.md](./admin_ui_spec.md))。メタ保存は明示の投稿更新 + `save_post` (Survey に倣う)。Gutenberg ではスカラー meta は `useEntityProp`、`_s2j_webinar_panelists` は `editPost` ([§Gutenberg クライアント](./admin_ui_spec.md#gutenberg-クライアント))。Zoom HTTP は明示ボタンのみ。Authorization の種別は [oauth_and_settings_spec.md](./oauth_and_settings_spec.md)。
+* パネルは Document Settings の `PluginDocumentSettingPanel` ([admin_ui_spec.md](./admin_ui_spec.md))。メタ保存は明示の投稿更新 + `save_post` (Survey に倣う)。Gutenberg ではスカラ meta は `useEntityProp`、`_s2j_webinar_panelists` は `editPost` ([§Gutenberg クライアント](./admin_ui_spec.md#gutenberg-クライアント))。Zoom HTTP は明示ボタンのみ。Authorization の種別は [oauth_and_settings_spec.md](./oauth_and_settings_spec.md)。
 * Survey 未完了を create の条件にしない。`ready` は context の `survey_document` のみ (レコードに載せない)。通常の「同期」が `attach_survey` する (専用ボタンなし)。
 * Webhook `webinar.ended` では公開リンクを空にしない。空にするのは Zoom 削除成功時のみ。
 * アンインストールは本プラグイン所有キーの明示リスト + サイト option のみ。`_s2j_webinar_survey` / `_s2j_webinar_source_qr` は触らない。Zoom は変更しない。
@@ -126,6 +128,6 @@ Composer で `s2j/webinar-service` を require します。参照は [S2J Slug G
 | 2026-10-09 | 第6監査 BP: create/update の空 webinar_uuid も既存維持、status の get 完了条件にメタ、冒頭コメントの API 名統一、と記録 |
 | 2026-10-09 | 第7監査 BP: concept 操作表と specs 読み方のパイプライン表記を正本にそろえた、と記録 |
 | 2026-10-09 | 第8監査 BP: status の get 完了条件に webinar_uuid を含めた、と記録 |
-| 2026-10-10 | OAuth は REST=Bearer / token・refresh=Basic+フル URL、update は intend_retry も、last_panelists は希望列丸ごと、Survey は context のみ、と記録 |
-| 2026-10-18 | Gutenberg — `_s2j_webinar_panelists` は `editPost` で dirty 付け (配列 meta の REST 保存)。`sanitize_panelists` で有効メール行のみ永続。Studio Blueprint ゼロから手動 #7 Pass ([test-results.md](./test-results.md)) |
+| 2026-10-10 | OAuth は REST=Bearer / token ・refresh=Basic+フル URL、update は intend_retry も、last_panelists は希望列丸ごと、Survey は context のみ、と記録 |
+| 2026-10-18 | Gutenberg — `_s2j_webinar_panelists` は `editPost` で dirty 付け (配列 meta の REST 保存)。`sanitize_panelists` で有効メール行のみ永続。Studio Blueprint ゼロから手動 #7Pass ([test-results.md](./test-results.md)) |
 | 2026-10-19 | 運用素材 P2a — `GET …/tracking-source-definitions`。Source QR handoff hook + Gutenberg 入口 ([operational_material_index.md](./operational_material_index.md)) |
