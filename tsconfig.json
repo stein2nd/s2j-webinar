@@ -12,6 +12,8 @@
 		"resolveJsonModule": true,
 		"paths": {
 			"@/*": ["./src/*"],
+			"@wordpress/block-editor": ["./src/types/shims/wordpress-block-editor.d.ts"],
+			"@wordpress/data": ["./src/types/shims/wordpress-data.d.ts"],
 			"@wordpress/edit-post": ["./src/types/shims/wordpress-edit-post.d.ts"],
 			"@wordpress/editor": ["./src/types/shims/wordpress-editor.d.ts"]
 		},

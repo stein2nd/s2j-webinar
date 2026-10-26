@@ -10,6 +10,8 @@ declare(strict_types=1);
 
 namespace S2J\Webinar\SourceQr;
 
+use S2J\Webinar\Companion\CompanionStatus;
+
 final class Handoff
 {
     /** @wordpress/hooks action name — Source QR registers the listener. */
@@ -17,14 +19,6 @@ final class Handoff
 
     public static function is_companion_active(): bool
     {
-        if (defined('S2J_WEBINAR_SOURCE_QR_VERSION')) {
-            return true;
-        }
-
-        if (! function_exists('is_plugin_active')) {
-            require_once ABSPATH . 'wp-admin/includes/plugin.php';
-        }
-
-        return is_plugin_active('s2j-webinar-source-qr/s2j-webinar-source-qr.php');
+        return CompanionStatus::is_source_qr_active();
     }
 }

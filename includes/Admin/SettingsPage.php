@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace S2J\Webinar\Admin;
 
+use S2J\Webinar\Companion\CompanionStatus;
 use S2J\Webinar\Constants;
 use S2J\Webinar\GatherPress\DependencyStatus;
 use S2J\Webinar\OAuth\TokenStore;
@@ -47,11 +48,11 @@ final class SettingsPage
         if (! $on_options && ! $on_gp_tab) {
             return;
         }
-        $style = S2J_WEBINAR_PLUGIN_DIR . 'dist/css/s2j-webinar-admin.css';
+        $style = S2J_WEBINAR_PLUGIN_DIR . 'dist/css/s2j-webinar-settings.css';
         if (is_readable($style)) {
             wp_enqueue_style(
                 's2j-webinar-admin',
-                S2J_WEBINAR_PLUGIN_URL . 'dist/css/s2j-webinar-admin.css',
+                S2J_WEBINAR_PLUGIN_URL . 'dist/css/s2j-webinar-settings.css',
                 array(),
                 (string) filemtime($style)
             );
@@ -267,6 +268,7 @@ final class SettingsPage
     public static function render_page_inner(): void
     {
         self::render_gatherpress_status();
+        self::render_companion_status();
         ?>
         <form method="post" action="options.php">
             <?php settings_fields('s2j_webinar_settings'); ?>
@@ -284,6 +286,64 @@ final class SettingsPage
             );
             ?>
         </p>
+        <?php
+    }
+
+    private static function render_companion_status(): void
+    {
+        if (CompanionStatus::all_companions_active()) {
+            return;
+        }
+
+        ?>
+        <div class="notice notice-info s2j-webinar-settings__companion-status">
+            <p><strong><?php esc_html_e('Optional companion plugins', 's2j-webinar'); ?></strong></p>
+            <p class="description">
+                <?php
+                esc_html_e(
+                    'Install and activate these plugins when you need post-webinar surveys or per-source registration QR codes.',
+                    's2j-webinar'
+                );
+                ?>
+            </p>
+            <ul class="s2j-webinar-settings__gp-list">
+                <?php foreach (CompanionStatus::companion_rows() as $row) : ?>
+                    <li>
+                        <?php
+                        echo esc_html($row['label']);
+                        echo ': ';
+                        if ($row['active']) {
+                            esc_html_e('active', 's2j-webinar');
+                        } elseif ($row['installed']) {
+                            esc_html_e('installed but inactive', 's2j-webinar');
+                        } else {
+                            esc_html_e('not installed', 's2j-webinar');
+                        }
+                        ?>
+                        <?php if ($row['active']) : ?>
+                            —
+                            <span><?php esc_html_e('No action needed.', 's2j-webinar'); ?></span>
+                        <?php elseif ($row['installed'] && $row['activate_url'] !== '') : ?>
+                            —
+                            <a href="<?php echo esc_url($row['activate_url']); ?>">
+                                <?php esc_html_e('Activate plugin', 's2j-webinar'); ?>
+                            </a>
+                        <?php elseif (! $row['installed']) : ?>
+                            —
+                            <a href="<?php echo esc_url($row['install_url']); ?>" target="_blank" rel="noopener noreferrer">
+                                <?php esc_html_e('Installation guide (GitHub)', 's2j-webinar'); ?>
+                            </a>
+                            <?php if (current_user_can('activate_plugins')) : ?>
+                                |
+                                <a href="<?php echo esc_url(CompanionStatus::plugins_admin_url()); ?>">
+                                    <?php esc_html_e('Plugins screen', 's2j-webinar'); ?>
+                                </a>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
         <?php
     }
 

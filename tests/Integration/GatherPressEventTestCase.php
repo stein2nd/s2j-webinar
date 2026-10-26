@@ -6,9 +6,7 @@ namespace S2J\Webinar\Tests\Integration;
 
 use S2J\Webinar\Meta\OperationalMaterialMeta;
 use S2J\Webinar\Meta\PostMetaRegistrar;
-use WP_UnitTestCase;
-
-abstract class GatherPressEventTestCase extends WP_UnitTestCase {
+abstract class GatherPressEventTestCase extends IntegrationTestCase {
 
 	protected function setUp(): void {
 		parent::setUp();

@@ -2,12 +2,30 @@
 
 ## unreleased
 
+## 0.0.1 - 2026-10-26
+
+### Added
+
+* コンパニオン — [`CompanionStatus.php`](includes/Companion/CompanionStatus.php) (Source QR / Survey の installed、active 判定)。**Settings → S2J Webinar** に任意プラグイン案内 ([`SettingsPage.php`](includes/Admin/SettingsPage.php)、[README.md](README.md))
+
+### Fixed
+
+* Gutenberg — Document Settings パネルを **postId / postType 確定後** にだけ描画 (`useEntityProp` 前ガード)。GatherPress v0.36.x で設定サイドバー展開時の React クラッシュ回避 ([`src/gutenberg/index.tsx`](src/gutenberg/index.tsx))
+* Gutenberg ビルド — `@wordpress/block-editor` → **`wp.blockEditor`** ([`vite.config.ts`](vite.config.ts))、依存 **`wp-block-editor`** ([`AssetLoader.php`](includes/Admin/AssetLoader.php)) — CoverArt `MediaUpload` 実行時 undefined 修正
+* Gutenberg — **`getEditedEntityRecord`** 同期までロード表示。CoverArt / フライヤー — `core` **`getMedia`** 未提供時ガード
+* Source QR — [`Handoff::is_companion_active()`](includes/SourceQr/Handoff.php) を `CompanionStatus` に集約
+* 統合テスト — [`IntegrationTestCase`](tests/Integration/IntegrationTestCase.php) (PHPUnit v11 `checkRequirements` 非推奨警告の抑制)。[`RestRoutesTest`](tests/Integration/RestRoutesTest.php) / [`GatherPressEventTestCase`](tests/Integration/GatherPressEventTestCase.php) が継承
+* TypeScript — `@wordpress/block-editor` / `@wordpress/data` shim 分割 ([`src/types/shims/`](src/types/shims/)、[`tsconfig.json`](tsconfig.json))
+* i18n — `makejson` を **purge デフォルト**に変更 (`makejson:keep` = `--no-purge` のみ)。管理 JS 出力を **`s2j-webinar-settings.js`** に改名 (`-admin.js` の `make-json` 誤マッチ回避)。孤児 JED 削除、PO/POT/JED 更新。[wp-plugin-spec §2.3](https://github.com/stein2nd/wp-plugin-spec/blob/main/docs/I18N_AND_A11Y_TEMPLATE.md#23-gutenberg--管理-js-wp_set_script_translations)
+
 ### Changed
 
 * **PHP 下限 v8.3** — [WordPress 動作環境](https://ja.wordpress.org/about/requirements/) に合わせ [`composer.json`](composer.json) (`>=8.3` / platform **8.3.0**)、[`s2j-webinar.php`](s2j-webinar.php) / [`readme.txt`](readme.txt)、[`studio/smoke-test-blueprint.json`](studio/smoke-test-blueprint.json)、[`.wp-env.json`](.wp-env.json)、[`composer.lock`](composer.lock)
 * **CI** — Actions PHP **8.3** ([`phpunit.yml`](.github/workflows/phpunit.yml)、[`dist-zip.yml`](.github/workflows/dist-zip.yml))。lint workflows — [`composer validate`](.github/workflows/docs-lint.yml) (PHPUnit は **`test:unit:php:unit-only`**。`phpunit:wp-env` 非使用、Setup Node 先行)
 * **npm (dev)** — `@wordpress/*` メジャー、`vite` / `eslint` / `rollup` / `@s2j/docs-linter` 等 ([`package.json`](package.json))
-* ドキュメント — [overview.md](docs/overview.md)、[plugin_spec.md](docs/plugin_spec.md)、[status.md](docs/status.md)、[README.md](README.md)、[studio/README.md](studio/README.md)、[test-results.md](docs/test-results.md)
+* Vite — 管理ビルド target を **`settings`** に (`npm` スクリプトは `build:*:admin` のまま、`endsWith(':admin')` で判定)
+* `.gitignore` — JED (`languages/*-{32hex}.json`) はコミット対象である旨を明記
+* ドキュメント — [overview.md](docs/overview.md)、[plugin_spec.md](docs/plugin_spec.md)、[status.md](docs/status.md)、[admin_ui_spec.md](docs/admin_ui_spec.md)、[README.md](README.md)、[studio/README.md](studio/README.md)、[test-results.md](docs/test-results.md)
 
 ## 0.0.1 - 2026-10-19
 

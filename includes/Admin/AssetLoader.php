@@ -73,6 +73,7 @@ final class AssetLoader
                 'wp-plugins',
                 'wp-edit-post',
                 'wp-editor',
+                'wp-block-editor',
                 'wp-element',
                 'wp-i18n',
                 'wp-components',

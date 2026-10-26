@@ -93,17 +93,13 @@ const webinarProviderLabel = (): string => {
 	return label !== undefined && label !== '' ? label : 'Zoom';
 };
 
-const WebinarPanelFields = () => {
-	const postId = useSelect((select) => {
-		const editor = select('core/editor') as { getCurrentPostId?: () => number };
-		return editor.getCurrentPostId?.() ?? 0;
-	}, []);
-
-	const postType = useSelect((select) => {
-		const editor = select('core/editor') as { getCurrentPostType?: () => string };
-		return editor.getCurrentPostType?.() ?? '';
-	}, []);
-
+const WebinarPanelFieldsInner = ({
+	postId,
+	postType,
+}: {
+	postId: number;
+	postType: string;
+}) => {
 	const [autoRecording, setAutoRecording] = useEntityProp(
 		'postType',
 		postType,
@@ -128,11 +124,14 @@ const WebinarPanelFields = () => {
 			if (coverArtAttachmentId <= 0) {
 				return null;
 			}
-			const media = select('core').getMedia(coverArtAttachmentId) as {
+			const getMedia = select('core').getMedia;
+			if (typeof getMedia !== 'function') {
+				return null;
+			}
+			return getMedia(coverArtAttachmentId) as {
 				source_url?: string;
 				alt_text?: string;
 			} | null;
-			return media;
 		},
 		[coverArtAttachmentId],
 	);
@@ -142,11 +141,14 @@ const WebinarPanelFields = () => {
 			if (flyerAttachmentId <= 0) {
 				return null;
 			}
-			const media = select('core').getMedia(flyerAttachmentId) as {
+			const getMedia = select('core').getMedia;
+			if (typeof getMedia !== 'function') {
+				return null;
+			}
+			return getMedia(flyerAttachmentId) as {
 				source_url?: string;
 				title?: string;
 			} | null;
-			return media;
 		},
 		[flyerAttachmentId],
 	);
@@ -502,6 +504,40 @@ const WebinarPanelFields = () => {
 			)}
 		</>
 	);
+};
+
+const WebinarPanelFields = () => {
+	const { postId, postType, entityReady } = useSelect((select) => {
+		const editor = select(EDITOR_STORE) as {
+			getCurrentPostId?: () => number;
+			getCurrentPostType?: () => string;
+		};
+		const id = editor.getCurrentPostId?.() ?? 0;
+		const type = editor.getCurrentPostType?.() ?? '';
+		if (id <= 0 || type === '') {
+			return { postId: id, postType: type, entityReady: false };
+		}
+		const getEditedEntityRecord = select('core').getEditedEntityRecord;
+		const record =
+			typeof getEditedEntityRecord === 'function'
+				? getEditedEntityRecord('postType', type, id)
+				: null;
+		return {
+			postId: id,
+			postType: type,
+			entityReady: record != null && typeof record === 'object',
+		};
+	}, []);
+
+	if (!entityReady) {
+		return (
+			<PanelRow>
+				<p className="description">{__('Loading webinar settings…', 's2j-webinar')}</p>
+			</PanelRow>
+		);
+	}
+
+	return <WebinarPanelFieldsInner postId={postId} postType={postType} />;
 };
 
 const WebinarPanel = () => {

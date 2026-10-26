@@ -2,6 +2,23 @@
 
 GatherPress のイベント編集画面から Webinar を作成・更新する WordPress プラグインです。判断の正は [S2J Webinar Service](https://github.com/stein2nd/s2j-webinar-service) にあります。
 
+## Installation {#installation}
+
+1. [GatherPress](https://github.com/stein2nd/gatherpress) を有効化します (wp.org 版では **GatherPress Alpha** が必要な場合があります)。
+2. 本プラグインを `wp-content/plugins/s2j-webinar/` に配置し、**Plugins** 画面で有効化します (リリース zip または `git clone`)。
+3. **Settings → S2J Webinar** で GatherPress / 連携状態を確認します。
+
+WordPress プラグインディレクトリ (wp.org) への掲載を予定しています。掲載後は **Plugins → Add New** からのインストールも可能になります。
+
+**任意コンパニオン** (本プラグイン有効化が前提):
+
+| プラグイン | 用途 |
+| --- | --- |
+| [S2J Webinar Source QR](https://github.com/stein2nd/s2j-webinar-source-qr#installation) | ソース別 registration URL + QR PNG |
+| [S2J Webinar Survey](https://github.com/stein2nd/s2j-webinar-survey#installation) | ウェビナー後アンケート |
+
+**Settings → S2J Webinar** に、上記コンパニオンのインストール / 有効化案内が表示されます (両方有効のときは非表示)。
+
 ## 仕様
 
 確定仕様の索引は [docs/specs.md](docs/specs.md) です。大きな改訂案は [docs_mod/](docs_mod/) で起草します。

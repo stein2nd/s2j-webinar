@@ -8,9 +8,7 @@ if ( ! class_exists( \WP_UnitTestCase::class, false ) ) {
 	require_once dirname( __DIR__, 2 ) . '/stubs/wordpress-tests.php';
 }
 
-use WP_UnitTestCase;
-
-final class RestRoutesTest extends WP_UnitTestCase {
+final class RestRoutesTest extends IntegrationTestCase {
 
 	public function test_sync_route_is_registered(): void {
 		$server = rest_get_server();

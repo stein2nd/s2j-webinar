@@ -1,20 +1,3 @@
-declare module '@wordpress/data' {
-	type StoreSelect = (storeName: string) => {
-		getEditedPostAttribute?: (attributeName: string) => unknown;
-		invalidateResolution?: (selectorName: string, args: unknown[]) => void;
-	};
-
-	export function useSelect<T>(mapSelect: (select: StoreSelect) => T, deps?: readonly unknown[]): T;
-
-	export function useDispatch(storeName: string): {
-		editPost?: (edits: { meta?: Record<string, unknown> }) => void;
-	};
-
-	export function dispatch(storeName: string): {
-		invalidateResolution?: (selectorName: string, args: unknown[]) => void;
-	};
-}
-
 declare module '@wordpress/core-data' {
 	export function useEntityProp(
 		kind: string,

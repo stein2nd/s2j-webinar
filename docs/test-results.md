@@ -181,7 +181,7 @@ npm run test:unit:php:local
 
 **Pass の読み方:** ユニット **22** 件 OK のあと、統合 **14** 件 (GP 読込時) が目安。GP 未読込時は `RestRoutesTest` のみ実行し、他は `markTestSkipped` (`SSS.` 等は **失敗ではなく成功**)。14 件すべて Pass にするには `.env.tests` で `WP_TESTS_GATHERPRESS_DIR` を設定 (必要なら alpha 同梱)。
 
-**統合スイート (現行、GP 読込時):** `tests/Integration/` — **14** tests — P2a / **P2b** / **P1** (`TrackingSourcesRestTest`、`OperationalMaterialMetaRestTest` 等)。3a **22** + 3b **14** = 計 **36** tests。**`OK, but there were issues!`** + `PHPUnit Deprecations: 8` は WP テスト lib の docblock メタデータ警告 (失敗ではない)。
+**統合スイート (現行、GP 読込時):** `tests/Integration/` — **14** tests — P2a / **P2b** / **P1** (`TrackingSourcesRestTest`、`OperationalMaterialMetaRestTest` 等)。3a **22** + 3b **14** = 計 **36** tests。PHPUnit 11 の **`PHPUnit Deprecations: 8`** (WP テスト lib `checkRequirements` docblock) は [`IntegrationTestCase.php`](../tests/Integration/IntegrationTestCase.php) で回避 — 統合は **`OK (14 tests, …)`** のみ。
 
 **Studio smoke (段階1):** `WP_PATH=<Studio サイトルート> npm run test:smoke:local` — Source QR 同居 **:8888** 向けは `.env.tests` の `STUDIO_WP_PATH` と同値。
 
