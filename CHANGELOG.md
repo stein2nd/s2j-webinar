@@ -2,6 +2,20 @@
 
 ## unreleased
 
+## 0.0.1 - 2026-10-27
+
+### Added
+
+* i18n — 空 `msgstr` を訳マップから埋める CLI [`tools/i18n/fill-empty-msgstr.php`](tools/i18n/fill-empty-msgstr.php) ([`tools/i18n/maps/webinar-ja-companion.php`](tools/i18n/maps/webinar-ja-companion.php) 等)
+
+### Fixed
+
+* i18n (Gutenberg) — `languages/s2j-webinar-ja.po` の Gutenberg 訳を復元し、JED ([`723569…`](languages/s2j-webinar-ja-723569a0885fd39d6ab6fb899e406bf0.json)) を再生成 (Document Settings の日本語表示)
+
+### Changed
+
+* [admin_ui_spec.md](docs/admin_ui_spec.md) — Gutenberg JED は **訳済み `msgstr` のみ** が `makejson` に載る旨を明記
+
 ## 0.0.1 - 2026-10-26
 
 ### Added
@@ -17,6 +31,7 @@
 * 統合テスト — [`IntegrationTestCase`](tests/Integration/IntegrationTestCase.php) (PHPUnit v11 `checkRequirements` 非推奨警告の抑制)。[`RestRoutesTest`](tests/Integration/RestRoutesTest.php) / [`GatherPressEventTestCase`](tests/Integration/GatherPressEventTestCase.php) が継承
 * TypeScript — `@wordpress/block-editor` / `@wordpress/data` shim 分割 ([`src/types/shims/`](src/types/shims/)、[`tsconfig.json`](tsconfig.json))
 * i18n — `makejson` を **purge デフォルト**に変更 (`makejson:keep` = `--no-purge` のみ)。管理 JS 出力を **`s2j-webinar-settings.js`** に改名 (`-admin.js` の `make-json` 誤マッチ回避)。孤児 JED 削除、PO/POT/JED 更新。[wp-plugin-spec §2.3](https://github.com/stein2nd/wp-plugin-spec/blob/main/docs/I18N_AND_A11Y_TEMPLATE.md#23-gutenberg--管理-js-wp_set_script_translations)
+* i18n (Gutenberg) — **`languages/*-ja.po` の Gutenberg 訳欠落**で JED がほぼ空になり Document Settings が英語表示だった問題を修正 (`wp i18n update-po` + 訳復元、`makejson` で JED 再生成)。Survey / Source QR も同様に Gutenberg 向け **ja.po / JED** を整備
 
 ### Changed
 
