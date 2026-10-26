@@ -214,8 +214,11 @@
 * [x] 設定 UI — PHP のみ (GP Webinar タブ + **設定 → S2J Webinar**。admin JS フッター二重化なし)
 * [x] Gutenberg — メタ REST 双方向 ([`src/gutenberg/index.tsx`](../src/gutenberg/index.tsx))
 * [x] `@wordpress/core-data` — スカラ meta は `useEntityProp`、`_s2j_webinar_panelists` は `editPost` ([admin_ui_spec](./admin_ui_spec.md#gutenberg-クライアント))
-* [x] TS shims — [`src/types/wordpress-shims.d.ts`](../src/types/wordpress-shims.d.ts)
-* [x] i18n — `load_plugin_textdomain`、`languages/s2j-webinar-ja.mo`、`wp_set_script_translations`、`npm run makepot` (PHP は `'s2j-webinar'` リテラルで POT 抽出)
+* [x] TS shims — [`src/types/shims/`](../src/types/shims/) (`@wordpress/block-editor` / `@wordpress/data` 等)
+* [x] Gutenberg — `wp-block-editor` 依存、postId/postType ガード、CoverArt `getMedia` ガード ([`admin_ui_spec.md`](./admin_ui_spec.md))
+* [x] 設定 — 任意コンパニオン案内 ([`CompanionStatus.php`](../includes/Companion/CompanionStatus.php)、[`SettingsPage.php`](../includes/Admin/SettingsPage.php))
+* [x] i18n — `load_plugin_textdomain`、`wp_set_script_translations`、**JED** (`makejson` purge 既定)、管理 JS **`s2j-webinar-settings.js`**、Gutenberg **`s2j-webinar-gutenberg.js`**。PO 訳 → JED ([`admin_ui_spec.md` §i18n](./admin_ui_spec.md#i18n)、[`tools/i18n/`](../tools/i18n/))。PHP は `'s2j-webinar'` リテラルで POT 抽出
+* [x] 統合テスト — [`IntegrationTestCase.php`](../tests/Integration/IntegrationTestCase.php) (PHPUnit 11 `checkRequirements` 警告抑制)
 
 ### アンインストール {#status-uninstall}
 

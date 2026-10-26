@@ -14,6 +14,8 @@
 
 ### Changed
 
+* 仕様 — [`docs/status.md`](docs/status.md)、[`README.md`](README.md) (Gutenberg i18n 手順・`makei18n`)。[wp-plugin-spec §2.3](https://github.com/stein2nd/wp-plugin-spec/blob/main/docs/I18N_AND_A11Y_TEMPLATE.md#23-gutenberg--管理-js-wp_set_script_translations) (空 `msgstr` / `update-po` / fill ツール)。Survey / Source QR ドキュメント同期
+
 * [admin_ui_spec.md](docs/admin_ui_spec.md) — Gutenberg JED は **訳済み `msgstr` のみ** が `makejson` に載る旨を明記
 
 ## 0.0.1 - 2026-10-26

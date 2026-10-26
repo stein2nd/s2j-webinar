@@ -55,7 +55,10 @@ npm run build:production   # dist/ (管理画面・ブロックエディター J
 npm run dist               # release/s2j-webinar-<version>.zip
 composer test
 npm run makepot          # languages/s2j-webinar.pot
+npm run makei18n         # .mo + JED (Gutenberg サイドバー翻訳に JED 必須)
 ```
+
+**日本語 (Gutenberg):** `makepot` のあと `wp i18n update-po languages/s2j-webinar.pot languages/s2j-webinar-ja.po` で PO をそろえ、**`msgstr` を埋めてから** `npm run makei18n`。空 `msgstr` は JED に載りません ([admin_ui_spec.md](docs/admin_ui_spec.md#i18n)、[wp-plugin-spec §2.3](https://github.com/stein2nd/wp-plugin-spec/blob/main/docs/I18N_AND_A11Y_TEMPLATE.md#23-gutenberg--管理-js-wp_set_script_translations))。補助: [`tools/i18n/fill-empty-msgstr.php`](tools/i18n/fill-empty-msgstr.php)。
 
 ### WP-CLI と PHP 8.5
 

@@ -24,7 +24,7 @@
 
 | 画面 | メニュー / タブ | 権限 | 内容 |
 | --- | --- | --- | --- |
-| **設定 → S2J Webinar** | WordPress `add_options_page` | `manage_options` | GatherPress 依存状態 (plugin / event post type / alpha)。GatherPress 内 **Webinar タブを表示するか** (`s2j_webinar_show_gatherpress_settings_tab`。OFF なら GP からタブ非表示)。**Webinar provider** (初版は `zoom` ラベルのみ表示。将来コンボ)。Save settings。フッター注記 (ブロックエディター)。 |
+| **設定 → S2J Webinar** | WordPress `add_options_page` | `manage_options` | GatherPress 依存状態 (plugin / event post type / alpha)。GatherPress 内 **Webinar タブを表示するか** (`s2j_webinar_show_gatherpress_settings_tab`。OFF なら GP からタブ非表示)。**Webinar provider** (初版は `zoom` ラベルのみ表示。将来コンボ)。**任意コンパニオン** (Source QR / Survey) の installed・active 案内 ([`CompanionStatus`](../includes/Companion/CompanionStatus.php)。両方 active のとき非表示)。Save settings。フッター注記 (ブロックエディター)。 |
 | **GatherPress 設定 → Webinar** | `gatherpress_sub_pages` (`webinar_settings`)。Tools / Alpha 付近 | `manage_options` | タブ先頭 **Provider setup guide** リンク。クライアント ID/秘密鍵、リダイレクト URI、Webhook 秘密鍵/URL、Connection status (各 description)。Save settings (**`admin-post.php`** — 下記)。**Connect %s** / Disconnect (**`admin-post.php`**)。GatherPress 依存ブロックは **出さない**。 |
 
 * サイト全体のプロバイダー slug / 表示名の正本は [`WebinarProvider`](../includes/Provider/WebinarProvider.php) (`s2j_webinar_provider` option。未設定時 `zoom`)。

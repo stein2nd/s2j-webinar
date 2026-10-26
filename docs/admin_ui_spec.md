@@ -10,7 +10,7 @@
 
 | 画面 | 内容 |
 | --- | --- |
-| **設定 → S2J Webinar** | GatherPress 依存状態 (plugin / event post type / alpha) と Webinar タブへのリンク (有効時)。GatherPress 設定内 Webinar タブの表示 ON/OFF。**Webinar provider** (初版は Zoom ラベルのみ。将来コンボ)。Save settings。フッター注記 (ブロックエディター)。 |
+| **設定 → S2J Webinar** | GatherPress 依存状態 (plugin / event post type / alpha) と Webinar タブへのリンク (有効時)。GatherPress 設定内 Webinar タブの表示 ON/OFF。**Webinar provider** (初版は Zoom ラベルのみ。将来コンボ)。**任意コンパニオン** (Source QR / Survey) の installed・active 案内 ([`CompanionStatus.php`](../includes/Companion/CompanionStatus.php)。両方 active のとき非表示)。Save settings。フッター注記 (ブロックエディター)。 |
 | **GatherPress 設定 → Webinar** | クライアント ID/秘密鍵、リダイレクト URI、Webhook 秘密鍵/URL、Connection status (各ガイド付き)。Save settings。**Connect {provider}** (msgid `Connect %s`。Disconnect は接続時)。GatherPress 状態は出さない。 |
 
 GatherPress → Webinar タブの認証・Webhook 項目には用途ガイド (description) を付けます。ガイド中のプロバイダー名は `%s` msgid + [`WebinarProvider`](../includes/Provider/WebinarProvider.php) の表示名とします。
@@ -109,7 +109,9 @@ Survey プラグインの永続化にそろえます。**パネル編集キー**
 
 * PHP / JS への日本語直書きスクリプトにしない。msgid は英語基本。プロバイダー名は msgid に含めず **`%s` / `%1$s` プレースホルダ** + 実行時の表示名 ([`WebinarProvider`](../includes/Provider/WebinarProvider.php) / Gutenberg の `providerLabel`)。
 * PHP の `__()` 等の第2引数 (text domain) は **`'s2j-webinar'` 文字列リテラル** とする (`wp i18n make-pot` が `Constants::TEXT_DOMAIN` だけでは抽出しないため)。
-* Gutenberg: `wp_set_script_translations` + `languages/{domain}-{locale}-{md5}.json` (PO → `npm run makejson`。purge 既定。[wp-plugin-spec I18N §2.3](https://github.com/stein2nd/wp-plugin-spec/blob/main/docs/I18N_AND_A11Y_TEMPLATE.md#23-gutenberg--管理-js-wp_set_script_translations))。**`msgstr` が空の条目は JED に載らない**ため、Gutenberg 文言は `languages/*-ja.po` に訳を入れたうえで `makejson` すること（PHP `.mo` だけ更新してもサイドバー JS は英語のまま）。
+* Gutenberg: `wp_set_script_translations` + `languages/{domain}-{locale}-{md5}.json` (PO → `npm run makejson`。purge 既定。[wp-plugin-spec I18N §2.3](https://github.com/stein2nd/wp-plugin-spec/blob/main/docs/I18N_AND_A11Y_TEMPLATE.md#23-gutenberg--管理-js-wp_set_script_translations))。**`msgstr` が空の条目は JED に載らない**ため、Gutenberg 文言は `languages/*-ja.po` に訳を入れたうえで `makejson` すること（PHP `.mo` だけ更新しても Document Settings の JS は英語のまま）。
+* Gutenberg バンドル — `dist/js/s2j-webinar-gutenberg.js` (Vite target `gutenberg`)。将来の管理専用 JS は **`s2j-webinar-settings.js`** (`build:*:admin` → target `settings`)。`-admin.js` 命名は make-json 誤マッチのため使わない。
+* 翻訳更新手順 (目安): `npm run makepot` → `wp i18n update-po languages/s2j-webinar.pot languages/s2j-webinar-ja.po` → 訳追加 (必要なら [`tools/i18n/fill-empty-msgstr.php`](../tools/i18n/fill-empty-msgstr.php) + [`tools/i18n/maps/`](../tools/i18n/maps/)) → `npm run makei18n` (`makemo` + `makejson`)。本番 Gutenberg ビルド後は `postbuild:production:gutenberg` で `makejson`。
 * 管理 UI の Client / 接続フォームは **PHP 描画のみ** (GatherPress タブに admin JS フッターを二重表示しない)。
 * 仕様書中の日本語は製品文案・説明であり、実装ソースではない。
 * REST エラー文 (例: Source QR 取り込み [`TrackingSourcesImport.php`](../includes/SourceQr/TrackingSourcesImport.php) の `oauth_disconnected` / `tracking_upstream_error`) も **プロバイダー名は `%s` + `WebinarProvider::label()`**。詳細は [source_qr_tracking_rest_spec.md §HTTP 応答 (失敗)](./source_qr_tracking_rest_spec.md#http-応答-失敗)。
