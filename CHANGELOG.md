@@ -2,21 +2,27 @@
 
 ## unreleased
 
+## 0.0.1 - 2026-10-30
+
+### Changed
+
+* npm (dev) — `rollup` / `sass` / `@typescript-eslint/*` / `@s2j/docs-linter` / `autoprefixer` / `@types/node` 等パッチ更新 ([`package.json`](package.json))
+* [`composer.lock`](composer.lock) — 再生成 (Composer `published-time` メタデータ)
+
 ## 0.0.1 - 2026-10-27
 
 ### Added
 
-* i18n — 空 `msgstr` を訳マップから埋める CLI [`tools/i18n/fill-empty-msgstr.php`](tools/i18n/fill-empty-msgstr.php) ([`tools/i18n/maps/webinar-ja-companion.php`](tools/i18n/maps/webinar-ja-companion.php) 等)
+* i18n — 空 `msgstr` を訳マップから埋める CLI [`tools/i18n/fill-empty-msgstr.php`](tools/i18n/fill-empty-msgstr.php) + [`tools/i18n/maps/`](tools/i18n/maps/) (コンパニオン文言など)
 
 ### Fixed
 
 * i18n (Gutenberg) — `languages/s2j-webinar-ja.po` の Gutenberg 訳を復元し、JED ([`723569…`](languages/s2j-webinar-ja-723569a0885fd39d6ab6fb899e406bf0.json)) を再生成 (Document Settings の日本語表示)
+* i18n ツール — `fill-empty-msgstr.php` の CLI 引数を `$_SERVER['argv']` 経由に変更 (IDE / 静的解析の `$argc` 未定義警告を解消)
 
 ### Changed
 
-* 仕様 — [`docs/status.md`](docs/status.md)、[`README.md`](README.md) (Gutenberg i18n 手順・`makei18n`)。[wp-plugin-spec §2.3](https://github.com/stein2nd/wp-plugin-spec/blob/main/docs/I18N_AND_A11Y_TEMPLATE.md#23-gutenberg--管理-js-wp_set_script_translations) (空 `msgstr` / `update-po` / fill ツール)。Survey / Source QR ドキュメント同期
-
-* [admin_ui_spec.md](docs/admin_ui_spec.md) — Gutenberg JED は **訳済み `msgstr` のみ** が `makejson` に載る旨を明記
+* 仕様 — Gutenberg i18n (`makei18n` / 空 `msgstr` / `update-po` / fill ツール)、**`-settings.js`** 命名、コンパニオン案内 — [`admin_ui_spec.md`](docs/admin_ui_spec.md)、[`oauth_and_settings_spec.md`](docs/oauth_and_settings_spec.md)、[`status.md`](docs/status.md)、[`README.md`](README.md)。[wp-plugin-spec §2.3](https://github.com/stein2nd/wp-plugin-spec/blob/main/docs/I18N_AND_A11Y_TEMPLATE.md#23-gutenberg--管理-js-wp_set_script_translations) と Survey / Source QR 側ドキュメントを同期
 
 ## 0.0.1 - 2026-10-26
 
