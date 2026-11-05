@@ -4,6 +4,10 @@
 
 ## 0.0.1 - 2026-11-05
 
+### Fixed
+
+* `lint:scss` — Stylelint **18** で削除された `declaration-block-single-line-max-declarations` と `stylelint-config-standard-scss@17` (内包 `standard@40`) の不整合による Unknown rule。[`package.json`](package.json) **overrides** で `stylelint-config-standard` **41** / `stylelint-config-recommended` **19** にそろえる (`standard-scss` **18** 待ち)
+
 ### Changed
 
 * ドキュメント — 用語 **写像 → マッピング**、句読・表記を textlint / docs-linter に合わせて調整 ([`docs/`](docs/) 一式、本 CHANGELOG 履歴節)

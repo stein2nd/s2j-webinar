@@ -74,7 +74,9 @@
         "react-dom": "^19.3.1"
     },
     "overrides": {
-        "rollup": "^4.67.5"
+        "rollup": "^4.67.5",
+        "stylelint-config-recommended": "^19.0.0",
+        "stylelint-config-standard": "^41.0.0"
     },
     "devDependencies": {
         "@eslint/js": "^10.0.1",
