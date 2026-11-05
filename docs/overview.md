@@ -4,7 +4,7 @@
 
 ## はじめに
 
-本プラグインは、GatherPress のイベント編集画面から Zoom Webinar を作成・更新・削除し、「Zoom で開く」(`get`) するための WordPress コンパニオンです。イベントの一覧と公開ページは GatherPress が持ちます。検証・操作計画・リクエスト材料・応答写像は [S2J Webinar Service](https://github.com/stein2nd/s2j-webinar-service) が持ちます。
+本プラグインは、GatherPress のイベント編集画面から Zoom Webinar を作成・更新・削除し、「Zoom で開く」(`get`) するための WordPress コンパニオンです。イベントの一覧と公開ページは GatherPress が持ちます。検証・操作計画・リクエスト材料・応答マッピングは [S2J Webinar Service](https://github.com/stein2nd/s2j-webinar-service) が持ちます。
 
 ## 基本情報
 
@@ -25,7 +25,7 @@
 * サービス経由の新規登録・更新・削除・「Zoom で開く」(`get`。再取得と同義)
 * 参加 URL の GatherPress 公開欄への反映
 * Webhook による開催中 / 終了の反映
-* Survey の `ready` 文書がある場合の `attach_survey` (写像はサービス)
+* Survey の `ready` 文書がある場合の `attach_survey` (マッピングはサービス)
 
 ## 責務
 
@@ -37,7 +37,7 @@
 
 ## 非対応スコープ (Out of Scope)
 
-* 検証・操作計画・パス / ボディ / 応答写像の規則本体 (サービス)
+* 検証・操作計画・パス / ボディ / 応答マッピングの規則本体 (サービス)
 * Zoom 作成画面の全項目再現
 * 出席・録画ファイル・効果測定の取り込み
 * registrant 登録、Zoom 手修正の双方向同期

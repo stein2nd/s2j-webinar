@@ -2,6 +2,14 @@
 
 ## unreleased
 
+## 0.0.1 - 2026-11-05
+
+### Changed
+
+* ドキュメント — 用語 **写像 → マッピング**、句読・表記を textlint / docs-linter に合わせて調整 ([`docs/`](docs/) 一式、本 CHANGELOG 履歴節)
+* npm (dev) — `@wordpress/*` マイナー更新、`stylelint` **18**、`rollup` / `vite` / `eslint` / `@s2j/docs-linter` 等 ([`package.json`](package.json))
+* [`composer.lock`](composer.lock) — PHPStan **2.3.5** 等 dev 依存パッチ
+
 ## 0.0.1 - 2026-10-30
 
 ### Changed
@@ -245,7 +253,7 @@
 * プロバイダはサービス側アダプタで差し替え可能とする。初版は `zoom` のみ。管理画面での選択は、実装済みが増えた場合に出す
 * 参加登録のデフォルトは必須・自動承認 (`0`) にそろえる (サービス record_spec と同じ。2026-10-05記載の「不要」は破棄)
 * `docs_mod/` 監査 BP を反映: アンインストールは所有キーの明示リスト (`_s2j_webinar_survey` 除外)、delete で `last_panelists` / セッション処理、get は `join_url` 反映可・`start_url` 非永続、`webinar.ended` は公開リンク非空、メタ保存は明示の投稿更新、`last_sent` は create/update map 成功直後、`intend_get` は「Zoom で開く」のみ、Webhook はプラグイン REST、Survey 添付は通常同期、用語を統一
-* `docs_mod/` 再監査 BP を反映: 再取得は「Zoom で開く」と同義、`duration_minutes` は floor、`last_*` は map 成功直後に永続、`intend_retry` を admin UI に明記、get 写像範囲を固定、メタは個別キー、登壇者1人以上、トークン暗号化は後続
+* `docs_mod/` 再監査 BP を反映: 再取得は「Zoom で開く」と同義、`duration_minutes` は floor、`last_*` は map 成功直後に永続、`intend_retry` を admin UI に明記、get マッピング範囲を固定、メタは個別キー、登壇者1人以上、トークン暗号化は後続
 * `docs_mod/` 第3監査 BP を反映: get は書き込みと別経路 (`webinar_id` のみゲート)、メタ REST はパネル編集キーのみ、`join_url` 成功時は必須反映、登壇者0は UI でブロック、concept に即時永続の注記、`webinar_uuid` と `ready` 表記を統一
 * `docs_mod/` 第4監査 BP を反映: get は `build_webinar_request( 'get', … )` のみ (`intend_get` plan 不使用)、REST 除外はカスタム REST / WP-CLI 等 (コア投稿 REST は許可)、登壇者 `[]` は投稿保存可、空の `join_url` 応答では既存を消さない、FOP を初出展開、配配メール (ラクス) と明記
 * `docs_mod/` 第5監査 BP を反映: create / update の空 `join_url` も既存維持 (delete のみ空化)、usage の `intend_get` 例は非採用と明記、登壇者「1人以上」は同期ゲート、API 名は `build_webinar_request` に統一、`status.md` 後続に配配メール (ラクス)
@@ -261,7 +269,7 @@
 
 * セッション中の Q&A は、作成で `settings.question_and_answer` の一式を送る。`enable` = `true`、`allow_anonymous_questions` = `true`、`answer_questions` = `only` である。コメントと upvote は送らない。
 * HD は `settings.hd_video` = `false`、出席者の参加時認証は `settings.meeting_authentication` = `false` である。パネリスト認証とチャットのデフォルト対象は送らない。
-* アンケート添付は `PATCH /webinars/{webinarId}/survey` で行う。写像はサービスが持つ。
+* アンケート添付は `PATCH /webinars/{webinarId}/survey` で行う。マッピングはサービスが持つ。
 * 初版の設問 `type` は `single` / `multiple` / `short_answer` / `long_answer` / `rating_scale` である。画像、スキップロジック、マッチング、ランク順、空欄に記入する、は初版以降の検討である。
 
 ## 0.0.1 - 2026-10-06

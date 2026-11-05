@@ -24,7 +24,7 @@
 | --- | --- |
 | 登録 | フィルター `gatherpress_sub_pages`。slug `webinar_settings` (GP 側は prefix 付き page) |
 | 優先度 | Tools / Alpha 付近 (`PHP_INT_MAX - 2` 程度) |
-| 表示 ON/OFF | サイト option `s2j_webinar_show_gatherpress_settings_tab`。OFF 時はサブページ自体を登録しない |
+| 表示 オン／オフ | サイト option `s2j_webinar_show_gatherpress_settings_tab`。OFF 時はサブページ自体を登録しない |
 | 内容 | OAuth / Webhook / 接続 (正本 [admin_ui_spec.md](./admin_ui_spec.md))。GatherPress 依存状態は **設定 → S2J Webinar** のみ |
 
 ## 日時の読み取り
@@ -54,7 +54,7 @@
 | 項目 | 方針 |
 | --- | --- |
 | 公開欄のメタ | `gatherpress_online_event_link` |
-| 書き込み契機 | create / update / get 写像で `join_url` が非空になった場合のみ (空なら既存メタ / 公開欄は触らない)。`webinar.started` で維持 / 再設定してよい ([webhook_spec.md](./webhook_spec.md)) |
+| 書き込み契機 | create / update / get マッピングで `join_url` が非空になった場合のみ (空なら既存メタ / 公開欄は触らない)。`webinar.started` で維持 / 再設定してよい ([webhook_spec.md](./webhook_spec.md)) |
 | API | `Event::set_online` 相当 (GatherPress が提供するオンラインリンク設定)。生 `update_post_meta` だけに頼らず、GP の公開経路を優先する |
 | 空にする場合 | **Zoom 削除成功後のみ。** create / update / get の空 `join_url` では消さない。`webinar.ended` でも空にしない (終了後の表示抑止は GatherPress に任せる) |
 

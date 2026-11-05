@@ -11,7 +11,7 @@
 ### 2. アダプタ
 
 * 本プラグインは、WordPress / GatherPress / HTTP の外側である。
-* ドメイン判断 (検証、plan、材料、写像) は、サービスに委譲する。
+* ドメイン判断 (検証、plan、材料、マッピング) は、サービスに委譲する。
 * パス・ボディ・不足コードの意味を、本プラグインで再定義しない。
 
 ### 3. 一方向同期
@@ -44,7 +44,7 @@
 
 * クライアント ID / シークレット、トークン、Webhook 秘密はサイト設定。配布物とログに出さない。
 * 保存後のシークレットは再表示しない。
-* `Authorization` は本プラグインが呼び出し種別に応じて付け、サービス材料には含めない。種別 (Webinar REST の Bearer / OAuth token・refresh の Basic、フル URL の `path`) の正本は [oauth_and_settings_spec.md](./oauth_and_settings_spec.md)。
+* `Authorization` は本プラグインが呼び出し種別に応じて付け、サービス材料には含めない。種別 (Webinar REST の Bearer / OAuth token、refresh の Basic、フル URL の `path`) の正本は [oauth_and_settings_spec.md](./oauth_and_settings_spec.md)。
 
 ### 8. GatherPress 非改変
 

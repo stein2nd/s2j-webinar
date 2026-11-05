@@ -21,7 +21,7 @@
 | --- | --- | --- |
 | イベント UI | [stein2nd/gatherpress](https://github.com/stein2nd/gatherpress) | イベントの編集画面。本プラグインのコードはフォークに置かない |
 | 呼び出し側 | **本プラグイン** | OAuth、HTTP、メタ、画面、Webhook、メタ ↔ WebinarRecord、`dirty` / `synced` 判定 |
-| 計算 | [s2j-webinar-service](https://github.com/stein2nd/s2j-webinar-service) | 検証、操作計画、リクエスト材料、応答写像。WordPress を知らない |
+| 計算 | [s2j-webinar-service](https://github.com/stein2nd/s2j-webinar-service) | 検証、操作計画、リクエスト材料、応答マッピング。WordPress を知らない |
 | 設問 | [S2J Webinar Survey](https://github.com/stein2nd/s2j-webinar-survey) | 設問の検査と保存。本プラグインは `ready` 文書の添付だけ |
 
 ## 目的
@@ -33,11 +33,11 @@
 * 新規登録・更新・削除・プロバイダ名付き「開く」(`get`。msgid `Open in %s`。再取得と同義) をパネルから行う。
 * 参加 URL を GatherPress の公開欄に反映する。
 * Webhook で開催中 / 終了を反映する。
-* Survey の `ready` 文書があれば `attach_survey` で付ける (写像はサービス)。
+* Survey の `ready` 文書があれば `attach_survey` で付ける (マッピングはサービス)。
 
 ## 非目標 (初版)
 
-* 検証・操作計画・パス / ボディ / 応答写像の規則本体 (サービス)
+* 検証・操作計画・パス / ボディ / 応答マッピングの規則本体 (サービス)
 * Zoom 作成画面の全項目再現
 * 出席・録画ファイル・効果測定の取り込み、registrant 登録
 * Zoom 手修正の双方向同期
@@ -53,8 +53,8 @@
 | メタと GatherPress から WebinarRecord を組み立てる | レコードのキー意味を定義する (WP キー名は知らない) |
 | `_s2j_webinar_last_sent` と比較して `dirty` / `synced` を付ける | 渡された `status` を推測し直さない |
 | `validate` → 不足なら適切なメッセージ文。HTTP しない | 不足コード列を返す |
-| `plan` → 各 op で `build_webinar_request` → 種別ごとの `Authorization` 付き HTTP → `map` | 材料と写像 |
-| 「Zoom で開く」で `start_url` を開く (保存しない)。create / update / get いずれも `join_url` / `webinar_uuid` 非空ならメタ (と `join_url` なら公開欄) を更新。空なら既存を消さない | `map` の揮発 `start_url` とレコード写像 |
+| `plan` → 各 op で `build_webinar_request` → 種別ごとの `Authorization` 付き HTTP → `map` | 材料とマッピング |
+| 「Zoom で開く」で `start_url` を開く (保存しない)。create / update / get いずれも `join_url` / `webinar_uuid` 非空ならメタ (と `join_url` なら公開欄) を更新。空なら既存を消さない | `map` の揮発 `start_url` とレコードマッピング |
 | Survey の `_s2j_webinar_survey` が `ready` なら context に載せる | `attach_survey` 材料 |
 
 詳細: [sync_execution_spec.md](./sync_execution_spec.md)、[data_dictionary.md](./data_dictionary.md)、[survey_handoff_spec.md](./survey_handoff_spec.md)。
@@ -83,7 +83,7 @@ Composer で `s2j/webinar-service` を require します。参照は [S2J Slug G
 | 名称 | 種別 | 役割 |
 | --- | --- | --- |
 | **本プラグイン** | WP プラグイン | OAuth、HTTP、メタ、画面、Webhook |
-| [s2j-webinar-service](https://github.com/stein2nd/s2j-webinar-service) | Composer | 検証、計画、材料、写像 |
+| [s2j-webinar-service](https://github.com/stein2nd/s2j-webinar-service) | Composer | 検証、計画、材料、マッピング |
 | [s2j-webinar-survey](https://github.com/stein2nd/s2j-webinar-survey) | WP プラグイン | 設問の編集と `ready` 保存 |
 | [s2j-webinar-survey-service](https://github.com/stein2nd/s2j-webinar-survey-service) | Composer | 設問の検査・助言 |
 | [stein2nd/gatherpress](https://github.com/stein2nd/gatherpress) | WP プラグイン (フォーク) | イベントの編集画面 |
@@ -121,13 +121,13 @@ Composer で `s2j/webinar-service` を require します。参照は [S2J Slug G
 | 2026-10-09 | `docs_mod/` に分割起草。Survey / Alliance / webinar-service に倣う索引と境界を記録 |
 | 2026-10-09 | 確定正本を `docs/` に移行した |
 | 2026-10-09 | 監査 BP: アンインストール明示リスト、delete で last_panelists/セッション処理、get と join_url、ended 非空、保存経路、last_sent タイミング、intend_get、Webhook REST、用語、と記録 |
-| 2026-10-09 | 再監査 BP: 再取得は Zoom で開くと同義、duration floor、last_* 即時永続、intend_retry UI、get 写像範囲、個別メタ、登壇者1人以上、トークン暗号化は後続、と記録 |
+| 2026-10-09 | 再監査 BP: 再取得は Zoom で開くと同義、duration floor、last_* 即時永続、intend_retry UI、get マッピング範囲、個別メタ、登壇者1人以上、トークン暗号化は後続、と記録 |
 | 2026-10-09 | 第3監査 BP: get 専用経路、メタ REST 範囲、join_url 必須反映、登壇者0は UI ブロック、concept 図注記、webinar_uuid と ready 表記、と記録 |
 | 2026-10-09 | 第4監査 BP: get は build のみ、REST 除外の切り分け、登壇者 [] は投稿保存可、空 join_url は既存維持、FOP 展開、配配メール (ラクス)、と記録 |
 | 2026-10-09 | 第5監査 BP: create/update の空 join_url も既存維持、intend_get は usage 非採用と明記、登壇者必須は同期ゲート、API 名は build_webinar_request、status 後続に配配メール (ラクス)、と記録 |
 | 2026-10-09 | 第6監査 BP: create/update の空 webinar_uuid も既存維持、status の get 完了条件にメタ、冒頭コメントの API 名統一、と記録 |
 | 2026-10-09 | 第7監査 BP: concept 操作表と specs 読み方のパイプライン表記を正本にそろえた、と記録 |
 | 2026-10-09 | 第8監査 BP: status の get 完了条件に webinar_uuid を含めた、と記録 |
-| 2026-10-10 | OAuth は REST=Bearer / token ・refresh=Basic+フル URL、update は intend_retry も、last_panelists は希望列丸ごと、Survey は context のみ、と記録 |
+| 2026-10-10 | OAuth は REST=Bearer / token ・ refresh=Basic+フル URL、update は intend_retry も、last_panelists は希望列丸ごと、Survey は context のみ、と記録 |
 | 2026-10-18 | Gutenberg — `_s2j_webinar_panelists` は `editPost` で dirty 付け (配列 meta の REST 保存)。`sanitize_panelists` で有効メール行のみ永続。Studio Blueprint ゼロから手動 #7Pass ([test-results.md](./test-results.md)) |
 | 2026-10-19 | 運用素材 P2a — `GET …/tracking-source-definitions`。Source QR handoff hook + Gutenberg 入口 ([operational_material_index.md](./operational_material_index.md)) |

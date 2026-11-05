@@ -57,18 +57,18 @@ v0.0.1コア (OAuth → 同期 → Webhook → Survey `attach_survey`) **完了�
 1. CoverArt / フライヤー (本プラグイン。API 調査不要)
 2. UTM 別 QR (コンパニオン + Webinar Service の **プロバイダ Adapter**。**リンク作成は接続先ポータル**、WP は取り込み・手入力・ QR。v0.0.2取り込みは `zoom` のみ)
 
-## 実装優先順位 (Marketplace 不要で進める順)
+## 実装の優先順位 (Marketplace 不要で進める順)
 
 [status.md §品質・スモーク](./status.md#status-quality) が Marketplace 不要範囲で緑になったあと、運用素材は次の順で着手します。
 
 | 順 | 成果物 | 依存 | Marketplace / 実 Zoom |
 | --- | --- | --- | --- |
 | **P1** | CoverArt / フライヤー UI + メタ | なし | **不要** (Local / Studio で検証可) |
-| **P2a** | `GET …/tracking-source-definitions` | P1 と独立可 | **不要** (フィルター + デフォルト `web` / `sns` / `other`) — **実装済 (2026-10-19)** [§実装](./source_qr_tracking_definitions_rest_spec.md#実装-本プラグイン) |
-| **P2b** | `GET …/tracking-sources` + Service 写像 | P2a 推奨 (行 id と `source_name` 整合) | **REST 実装済 (2026-10-19)** — [§実装](./source_qr_tracking_rest_spec.md#実装-本プラグイン)。**実 Zoom GET** は `_s2j_webinar_id` 非空 + OAuth → **E2 後** |
-| **P3** | 配配メール (ラクス) | — | **v0.0.2 対象外** (別イニシアチブ) |
+| **P2a** | `GET …/tracking-source-definitions` | P1と独立可 | **不要** (フィルター + デフォルト `web` / `sns` / `other`) — **実装済 (2026-10-19)** [§実装](./source_qr_tracking_definitions_rest_spec.md#実装-本プラグイン) |
+| **P2b** | `GET …/tracking-sources` + Service マッピング | P2a 推奨 (行 id と `source_name` 整合) | **REST 実装済 (2026-10-19)** — [§実装](./source_qr_tracking_rest_spec.md#実装-本プラグイン)。**実 Zoom GET** は `_s2j_webinar_id` 非空 + OAuth → **E2後** |
+| **P3** | 配配メール (ラクス) | — | **v0.0.2対象外** (別イニシアチブ) |
 
-**P2 の分割理由:** Source QR 初版は **定義 REST + 手入力 URL + QR** だけで完了可 ([source_qr_handoff_spec.md](./source_qr_handoff_spec.md))。取り込み REST は Zoom ポータルでリンク作成後の **一覧 GET** に限定され、API でソース作成は不可 (下記調査表)。
+**P2の分割理由:** Source QR 初版は **定義 REST + 手入力 URL + QR** だけで完了可 ([source_qr_handoff_spec.md](./source_qr_handoff_spec.md))。取り込み REST は Zoom ポータルでリンク作成後の **一覧 GET** に限定され、API でソース作成は不可 (下記調査表)。
 
 ## 接続先 Source Tracking 調査 (初実装 `zoom`)
 
@@ -134,4 +134,4 @@ API は更新され得るため、**実装着手時に [Zoom Meeting API](https:
 | 2026-10-11 | S2J Webinar Source QR との関係節を追加 |
 | 2026-10-12 | 定義 REST 索引、Source QR `docs/` リンク、進捗ラベル統一 |
 | 2026-10-12 | 正本 `docs/operational_material_index.md` に反映 |
-| 2026-10-19 | P1 + P2a + P2b + handoff 実装済。Source QR E5 / E7 Pass 記録は各 repo `test-results.md` |
+| 2026-10-19 | P1 + P2a + P2b + handoff 実装済。Source QR E5 / E7Pass 記録は各 repo `test-results.md` |

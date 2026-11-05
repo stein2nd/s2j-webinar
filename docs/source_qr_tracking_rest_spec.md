@@ -1,6 +1,6 @@
 # S2J Webinar - Source Tracking 取り込み REST
 
-S2J Webinar 仕様 v0.0.2 (運用素材) です。handoff 全体は [source_qr_handoff_spec.md](./source_qr_handoff_spec.md)。ソース定義一覧は [source_qr_tracking_definitions_rest_spec.md](./source_qr_tracking_definitions_rest_spec.md)。写像は [s2j-webinar-service / tracking_import_spec.md](https://github.com/stein2nd/s2j-webinar-service/blob/main/docs/core/tracking_import_spec.md)。
+S2J Webinar 仕様 v0.0.2 (運用素材) です。handoff 全体は [source_qr_handoff_spec.md](./source_qr_handoff_spec.md)。ソース定義一覧は [source_qr_tracking_definitions_rest_spec.md](./source_qr_tracking_definitions_rest_spec.md)。マッピングは [s2j-webinar-service / tracking_import_spec.md](https://github.com/stein2nd/s2j-webinar-service/blob/main/docs/core/tracking_import_spec.md)。
 
 ## 設計意図 (ゴール)
 
@@ -104,7 +104,7 @@ Zoom 生 JSON、token、`deficiencies` 生コードは **レスポンスに含�
 
 WordPress REST 慣習に従い、`{ "code", "message", "data": { "status": N } }` 形とします。`message` は i18n 済みの **短い** ユーザー向け文です (生の Zoom body や deficiency 列挙を出さない)。
 
-**プロバイダー表示名:** msgid に **接続先名を直書きしない**。[admin_ui_spec.md §i18n](./admin_ui_spec.md#i18n) と同型 — [`WebinarProvider::label()`](../includes/Provider/WebinarProvider.php) を `sprintf( __( '…%s…', 's2j-webinar' ), … )` の **`%s`** に渡す (サイト **設定 → S2J Webinar** の provider と一致)。代表例 ([`TrackingSourcesImport.php`](../includes/SourceQr/TrackingSourcesImport.php)):
+**プロバイダ表示名:** msgid に **接続先名を直書きしない**。[admin_ui_spec.md §i18n](./admin_ui_spec.md#i18n) と同型 — [`WebinarProvider::label()`](../includes/Provider/WebinarProvider.php) を `sprintf( __( '…%s…', 's2j-webinar' ), … )` の **`%s`** に渡す (サイト **設定 → S2J Webinar** の provider と一致)。代表例 ([`TrackingSourcesImport.php`](../includes/SourceQr/TrackingSourcesImport.php)):
 
 | REST `code` | msgid (英語基本) |
 | --- | --- |
@@ -142,7 +142,7 @@ WordPress REST 慣習に従い、`{ "code", "message", "data": { "status": N } }
 
 ## v0.0.2での位置付け
 
-* Source QR **取り込み UI** は本 REST 成功時に `items[]` をマージする (未 OAuth / 未 `_s2j_webinar_id` 時は spec どおり 4xx)。手入力 URL + QR のみでも初版 UI は完了可 ([source_qr_handoff_spec.md](./source_qr_handoff_spec.md))。
+* Source QR **取り込み UI** は本 REST 成功時に `items[]` をマージする (未 OAuth / 未 `_s2j_webinar_id` 時は spec どおり `4xx`)。手入力 URL + QR のみでも初版 UI は完了可 ([source_qr_handoff_spec.md](./source_qr_handoff_spec.md))。
 
 ## 実装 (本プラグイン)
 
@@ -154,7 +154,7 @@ WordPress REST 慣習に従い、`{ "code", "message", "data": { "status": N } }
 | i18n | [`TrackingSourcesImport.php`](../includes/SourceQr/TrackingSourcesImport.php) — 失敗 `message` は [`WebinarProvider::label()`](../includes/Provider/WebinarProvider.php) + `%s` (上表) |
 | テスト | [`tests/Integration/TrackingSourcesRestTest.php`](../tests/Integration/TrackingSourcesRestTest.php) (mock HTTP **200** / 未 OAuth **503** / 空一覧 **200**)、[`tests/smoke-local.sh`](../tests/smoke-local.sh) ルート確認 |
 
-実 Zoom GET の Pass は [status.md §外部結合 E2](./status.md#status-external) (HTTPS)。Local 3b は Marketplace 不要のモック HTTP。
+実 Zoom GET の Pass は [status.md §外部結合 E2](./status.md#status-external) (HTTPS)。Local の3b は Marketplace 不要のモック HTTP。
 
 ## 関連
 
@@ -172,4 +172,4 @@ WordPress REST 慣習に従い、`{ "code", "message", "data": { "status": N } }
 | 2026-10-12 | deficiency → REST 統合表、501発生層、Source QR `docs/` リンク |
 | 2026-10-12 | 正本 `docs/source_qr_tracking_rest_spec.md` に反映 |
 | 2026-10-19 | §実装 — P2b 本番 REST (Controller / TrackingSourcesImport / Integration) |
-| 2026-10-19 | §HTTP 応答 — 失敗 `message` のプロバイダー名は `%s` + `WebinarProvider::label()` (Zoom 直書き禁止) |
+| 2026-10-19 | § HTTP 応答 — 失敗 `message` のプロバイダ名は `%s` + `WebinarProvider::label()` (Zoom 直書き禁止) |

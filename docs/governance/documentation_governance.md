@@ -12,7 +12,7 @@ README と `docs/` の説明・命名が、実装とサービス契約からず�
 
 | 対象 | 正本 |
 | --- | --- |
-| 検証・操作計画・材料・写像および OAuth 材料形 | Webinar Service の `docs/core/` |
+| 検証・操作計画・材料・マッピングおよび OAuth 材料形 | Webinar Service の `docs/core/` |
 | 公開 PHP API (Composer) | Webinar Service の `docs/interfaces/php_api_spec.md` |
 | メタキー、option、メタ ↔ レコード、dirty 判定 | 本 `docs/` (`data_dictionary.md` 等) |
 | 画面、HTTP 実行、Webhook、i18n | 本 `docs/` の分割仕様 |
@@ -28,7 +28,7 @@ README と `docs/` の説明・命名が、実装とサービス契約からず�
 * 画面の表示文言は、「適切なメッセージ文を表示する」と書き、国際化関数の経由を前提とする。
 * レコードの `status` (`not_created` / `synced` / `dirty` / `error`) と Survey 文書の `status` (`draft` / `ready`) とセッション `phase` を混同しない。
 * `dirty` の業務判定は本プラグイン。サービスは推測し直さない。
-* Survey の `answer_kind` と Zoom の `type` を混同しない。写像は Webinar Service。
+* Survey の `answer_kind` と Zoom の `type` を混同しない。マッピングは Webinar Service。
 * 「パネル」は本プラグインのイベント編集 Fill。「パネル文書」は Survey 側用語であり、本プラグインでは使わない。
 * UI および仕様の見出しは「登壇者」。キー・操作名・サービス用語は `panelists` / Panelist。初出で「登壇者 (Panelist)」と対応づける。
 * Composer の repository 種別コードは `` `path` `` と書く。日本語の「パス」は URL やファイルの説明に限定する。

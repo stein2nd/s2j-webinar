@@ -12,7 +12,7 @@ S2J Webinar Source QR が保存した文書を、**本プラグインのイベ�
 
 * メンテナンス UI (4ステップ)、QR プレビュー / PNG 保存 (Source QR プラグイン)
 * `_s2j_webinar_source_qr` への書き込み
-* 接続先 Source Tracking の写像 (s2j-webinar-service プロバイダ Adapter)
+* 接続先 Source Tracking のマッピング (s2j-webinar-service プロバイダ Adapter)
 * CoverArt / フライヤー ([coverart_flyer_spec.md](./coverart_flyer_spec.md))
 
 ## 所有
@@ -21,7 +21,7 @@ S2J Webinar Source QR が保存した文書を、**本プラグインのイベ�
 | --- | --- |
 | `_s2j_webinar_source_qr` | S2J Webinar Source QR |
 | `_s2j_webinar_id` / `_s2j_webinar_provider` 等 | 本プラグイン ([data_dictionary.md](./data_dictionary.md)) |
-| 取り込み GET の写像・検証 | s2j-webinar-service (プロバイダ Adapter) |
+| 取り込み GET のマッピング・検証 | s2j-webinar-service (プロバイダ Adapter) |
 | 取り込み HTTP (OAuth 付き) | 本プラグイン (token 正本。Source QR は **読まない**) |
 | パネル入口・サマリー表示 | 本プラグイン |
 
@@ -76,7 +76,7 @@ Source QR は OAuth / token option を **直接読みません**。接続先 HTT
 | --- | --- |
 | Source QR UI | ボタン押下 → 本プラグイン REST を呼ぶ。返却された正規化行をパネル文書に反映 |
 | 本プラグイン REST | 権限、`post_id`、イベントの `_s2j_webinar_id` / `provider` を検証。HTTP は既存 OAuth アダプタ |
-| s2j-webinar-service | GET 応答 → `items[]` 写像 ([tracking_import_spec.md](https://github.com/stein2nd/s2j-webinar-service/blob/main/docs/core/tracking_import_spec.md)) |
+| s2j-webinar-service | GET 応答 → `items[]` マッピング ([tracking_import_spec.md](https://github.com/stein2nd/s2j-webinar-service/blob/main/docs/core/tracking_import_spec.md)) |
 
 #### REST 契約
 

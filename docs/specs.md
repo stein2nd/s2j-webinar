@@ -13,7 +13,7 @@
 
 ## 計算の正本 (Composer ライブラリ)
 
-Webinar の検証・操作計画・リクエスト材料・応答写像の規則は、本プラグインには置きません。
+Webinar の検証・操作計画・リクエスト材料・応答マッピングの規則は、本プラグインには置きません。
 
 * 索引: [s2j-webinar-service / docs/specs.md](https://github.com/stein2nd/s2j-webinar-service/blob/main/docs/specs.md)
 * 統合見取り図: [service_spec.md](https://github.com/stein2nd/s2j-webinar-service/blob/main/docs/service_spec.md)
@@ -71,7 +71,7 @@ Webinar の検証・操作計画・リクエスト材料・応答写像の規則
 | --- | --- |
 | [データ辞書](./data_dictionary.md) | メタキー、option、メタ ↔ WebinarRecord |
 | [GatherPress 境界](./gatherpress_boundary_spec.md) | 日時キー、Slot、公開リンク、終日 |
-| [OAuth とサイト設定](./oauth_and_settings_spec.md) | 接続、トークン、Webhook 秘密、`admin-post` 保存・Connect、redirect フィルター |
+| [OAuth とサイト設定](./oauth_and_settings_spec.md) | 接続、トークン、Webhook 秘密、`admin-post` 保存、Connect、redirect フィルター |
 | [プロバイダー設定ガイド](./provider_setup_guides.md) | GatherPress → Webinar と Marketplace の対応 (Zoom 初版) |
 | [管理 UI](./admin_ui_spec.md) | 設定画面、イベントパネル |
 
@@ -104,7 +104,7 @@ Webinar の検証・操作計画・リクエスト材料・応答写像の規則
 
 | 対象 | 正本 |
 | --- | --- |
-| 検証・操作計画・材料・写像および OAuth 材料形 | Webinar Service の `docs/core/` |
+| 検証・操作計画・材料・マッピングおよび OAuth 材料形 | Webinar Service の `docs/core/` |
 | 公開 PHP API (Composer) | Webinar Service の `docs/interfaces/php_api_spec.md` |
 | メタキー、option、メタ ↔ レコード、dirty 判定 | 本 `docs/` ([data_dictionary.md](./data_dictionary.md) 等) |
 | 画面、HTTP 実行、Webhook、i18n | 本 `docs/` の分割仕様 |

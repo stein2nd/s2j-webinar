@@ -7,14 +7,14 @@ S2J Webinar Survey が保存した `ready` 文書を、Zoom アンケートと�
 ## 非対象
 
 * 設問 UI、不足・助言、下書きコネクタ (Survey プラグイン / Survey Service)
-* Zoom survey ボディ写像 (Webinar Service [survey_map_spec.md](https://github.com/stein2nd/s2j-webinar-service/blob/main/docs/core/survey_map_spec.md))
+* Zoom survey ボディマッピング (Webinar Service [survey_map_spec.md](https://github.com/stein2nd/s2j-webinar-service/blob/main/docs/core/survey_map_spec.md))
 
 ## 所有
 
 | 対象 | 所有者 |
 | --- | --- |
 | `_s2j_webinar_survey` | S2J Webinar Survey |
-| `attach_survey` 材料・写像 | S2J Webinar Service |
+| `attach_survey` 材料・マッピング | S2J Webinar Service |
 | plan への載せ方、HTTP | 本プラグイン |
 
 ## 読み取り条件
@@ -31,7 +31,7 @@ S2J Webinar Survey が保存した `ready` 文書を、Zoom アンケートと�
 
 * 入口は常に通常の「同期」→ `plan_webinar_operations` → 操作列の `attach_survey` → `build_webinar_request` → HTTP → `map`。
 * 後から設問が `ready` になり、レコードが `synced` の場合も、同じ「同期」で `attach_survey` だけが計画されうる (サービス operation_spec)。専用ボタンは持たない。
-* 本プラグインは Survey メタを書き戻さない。写像後に変えるのは Webinar 側メタだけである。
+* 本プラグインは Survey メタを書き戻さない。マッピング後に変えるのは Webinar 側メタだけである。
 
 ## 表示
 
@@ -48,4 +48,4 @@ S2J Webinar Survey が保存した `ready` 文書を、Zoom アンケートと�
 
 * Survey 永続化: [persistence_spec.md](https://github.com/stein2nd/s2j-webinar-survey/blob/main/docs/persistence_spec.md)
 * 同期: [sync_execution_spec.md](./sync_execution_spec.md)
-* サービス写像: [survey_map_spec.md](https://github.com/stein2nd/s2j-webinar-service/blob/main/docs/core/survey_map_spec.md)
+* サービスマッピング: [survey_map_spec.md](https://github.com/stein2nd/s2j-webinar-service/blob/main/docs/core/survey_map_spec.md)

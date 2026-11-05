@@ -74,7 +74,7 @@
 ### Composer、配布 {#status-composer-dist}
 
 * [x] `composer.json` — `php` **>=8.3**、Packagist 名のみで `s2j/webinar-service`
-* [x] CI / Studio — GitHub Actions ・Blueprint ・`.wp-env.json` は PHP **8.3** (PHPUnit workflow は `test:unit:php:unit-only` のみ。`phpunit:wp-env` は CI 未使用)
+* [x] CI / Studio — GitHub Actions、Blueprint、`.wp-env.json` は PHP **8.3** (PHPUnit workflow は `test:unit:php:unit-only` のみ。`phpunit:wp-env` は CI 未使用)
 * [x] `s2j-webinar.php` — `vendor/autoload.php`
 * [x] Test: [`ServiceBridgeTest.php`](../tests/ServiceBridgeTest.php)
 * [x] 配布 zip — `vendor/` + `dist/`
@@ -217,7 +217,7 @@
 * [x] TS shims — [`src/types/shims/`](../src/types/shims/) (`@wordpress/block-editor` / `@wordpress/data` 等)
 * [x] Gutenberg — `wp-block-editor` 依存、postId/postType ガード、CoverArt `getMedia` ガード ([`admin_ui_spec.md`](./admin_ui_spec.md))
 * [x] 設定 — 任意コンパニオン案内 ([`CompanionStatus.php`](../includes/Companion/CompanionStatus.php)、[`SettingsPage.php`](../includes/Admin/SettingsPage.php))
-* [x] i18n — `load_plugin_textdomain`、`wp_set_script_translations`、**JED** (`makejson` purge 既定)、管理 JS **`s2j-webinar-settings.js`**、Gutenberg **`s2j-webinar-gutenberg.js`**。PO 訳 → JED ([`admin_ui_spec.md` §i18n](./admin_ui_spec.md#i18n)、[`tools/i18n/`](../tools/i18n/))。PHP は `'s2j-webinar'` リテラルで POT 抽出
+* [x] i18n — `load_plugin_textdomain`、`wp_set_script_translations`、**JED** (`makejson` purge デフォルト)、管理 JS **`s2j-webinar-settings.js`**、Gutenberg **`s2j-webinar-gutenberg.js`**。PO 訳 → JED ([`admin_ui_spec.md` §i18n](./admin_ui_spec.md#i18n)、[`tools/i18n/`](../tools/i18n/))。PHP は `'s2j-webinar'` リテラルで POT 抽出
 * [x] 統合テスト — [`IntegrationTestCase.php`](../tests/Integration/IntegrationTestCase.php) (PHPUnit 11 `checkRequirements` 警告抑制)
 
 ### アンインストール {#status-uninstall}
@@ -260,7 +260,7 @@
 | --- | --- | --- | --- |
 | **P1** | CoverArt / フライヤー | 不要 | 接続先 HTTP なし。パネル + メタのみ。Local で完結 |
 | **P2a** | ソース定義 REST (`tracking-source-definitions`) | 不要 | 接続先 HTTP なし。Source QR 行の正本 |
-| **P2b** | tracking 取り込み REST (`tracking-sources`) | **GET のみ** (作成はポータル) | [s2j/webinar-service](https://github.com/stein2nd/s2j-webinar-service) 写像は Packagist 済み。実 Zoom GET は E2後 |
+| **P2b** | tracking 取り込み REST (`tracking-sources`) | **GET のみ** (作成はポータル) | [s2j/webinar-service](https://github.com/stein2nd/s2j-webinar-service) マッピングは Packagist 済み。実 Zoom GET は E2後 |
 | **P3** | 配配メール (ラクス) | — | v0.0.2 **対象外** ([operational_material_index.md](./operational_material_index.md)) |
 
 * [x] **P1** — CoverArt / フライヤー ([coverart_flyer_spec.md](./coverart_flyer_spec.md)) — メタ + Gutenberg + [`OperationalMaterialMeta.php`](../includes/Meta/OperationalMaterialMeta.php) — Integration [`OperationalMaterialMetaRestTest.php`](../tests/Integration/OperationalMaterialMetaRestTest.php)

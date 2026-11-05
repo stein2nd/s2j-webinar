@@ -6,7 +6,7 @@
 
 ## 非対象
 
-* パス / ボディ / 写像規則 (サービス `docs/core/`)
+* パス / ボディ / マッピング規則 (サービス `docs/core/`)
 * OAuth 材料の中身 (サービス oauth_spec。トークン保存は [oauth_and_settings_spec.md](./oauth_and_settings_spec.md))
 
 ## 前提
@@ -42,7 +42,7 @@
       op 単位で Zoom 実体を再構築しない。列中断しても「成功した op までの希望列」が残る
    g. deficiencies 非空、または record.status === 'error' →
       残りの Webinar メタを書き戻して列中断
-   h. record を写像結果で更新し、次の step
+   h. record をマッピング結果で更新し、次の step
 7. 列終了後 (または中断時)、webinar_id / status / last_error 等の
    残メタを書き戻す。join_url / webinar_uuid は get と同型:
    - join_url 非空 → メタと公開欄を更新。空 → 既存の join_url メタ / 公開欄は触らない

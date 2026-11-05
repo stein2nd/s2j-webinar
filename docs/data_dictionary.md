@@ -39,13 +39,13 @@
 
 ### サーバー管理キー (`show_in_rest` しない)
 
-同期、Webhook、get 写像が書く。クライアントからの REST 書き込み対象にしない。
+同期、Webhook、get マッピングが書く。クライアントからの REST 書き込み対象にしない。
 
 | キー | 型 | 説明 |
 | --- | --- | --- |
 | `_s2j_webinar_id` | string | Zoom webinar ID。未作成は空 |
-| `_s2j_webinar_uuid` | string | Zoom UUID (`webinar_uuid`)。空可。create / update / get で写像・応答が空の場合は既存を消さない (空にするのは delete 成功時のみ) |
-| `_s2j_webinar_join_url` | string | 参加 URL。空可。公開欄への写し元。create / update / get で写像・応答が空の場合は既存を消さない (空にするのは delete 成功時のみ) |
+| `_s2j_webinar_uuid` | string | Zoom UUID (`webinar_uuid`)。空可。create / update / get でマッピング・応答が空の場合は既存を消さない (空にするのは delete 成功時のみ) |
+| `_s2j_webinar_join_url` | string | 参加 URL。空可。公開欄への写し元。create / update / get でマッピング・応答が空の場合は既存を消さない (空にするのは delete 成功時のみ) |
 | `_s2j_webinar_status` | string | レコード status |
 | `_s2j_webinar_last_error` | string | 直近失敗文。トークンを入れない |
 | `_s2j_webinar_last_sent` | object | 前回送付スナップショット (本体項目のみ。下記) |
@@ -101,7 +101,7 @@ create / update の **map 成功直後**に、送った本体項目を `update_p
 | `status` | 組立直後に本プラグインが再計算 (下記 dirty 規則)。メタの値は初期入力 |
 | `last_error` | `_s2j_webinar_last_error` |
 
-写像後のレコードは、対応するメタに書き戻します。`start_url` は書き戻しません。`join_url` / `webinar_uuid` が空の場合は既存メタを触らない (`join_url` が空なら公開欄も触らない。create / update / get 共通。空にするのは delete 成功時のみ)。
+マッピング後のレコードは、対応するメタに書き戻します。`start_url` は書き戻しません。`join_url` / `webinar_uuid` が空の場合は既存メタを触らない (`join_url` が空なら公開欄も触らない。create / update / get 共通。空にするのは delete 成功時のみ)。
 
 ## dirty / synced の判定 (本プラグイン)
 
@@ -131,8 +131,8 @@ Settings API の group / name は、本キーとそろえます。秘密は配�
 | `s2j_webinar_zoom_token_expires_at` | int | UNIX 時刻。期限までアクセス・トークンを使い回す |
 | `s2j_webinar_zoom_account_email` | string | 接続ユーザーの表示用メール (任意) |
 | `s2j_webinar_webhook_secret` | string | Webhook 署名検証用。保存後は再表示しない |
-| `s2j_webinar_show_gatherpress_settings_tab` | bool | GatherPress 設定内 **Webinar** サブタブを登録するか。既定 `true`。OFF 時はタブ非表示 (設定 → S2J Webinar から復帰可) |
-| `s2j_webinar_provider` | string | サイト全体のウェビナープロバイダー slug。初版は `zoom` のみ使用 (未設定時も `zoom`)。UI 表示名は [`WebinarProvider`](../includes/Provider/WebinarProvider.php) |
+| `s2j_webinar_show_gatherpress_settings_tab` | bool | GatherPress 設定内 **Webinar** サブタブを登録するか。デフォルト `true`。OFF 時はタブ非表示 (設定 → S2J Webinar から復帰可) |
+| `s2j_webinar_provider` | string | サイト全体のウェビナープロバイダ slug。初版は `zoom` のみ使用 (未設定時も `zoom`)。UI 表示名は [`WebinarProvider`](../includes/Provider/WebinarProvider.php) |
 
 OAuth の `redirect_uri` は option に持たず、`admin-post.php` の固定アクション URL を都度組み立てます ([oauth_and_settings_spec.md](./oauth_and_settings_spec.md))。
 

@@ -9,7 +9,7 @@
 | **S2J Webinar** | 本リポジトリの WordPress プラグイン。OAuth、接続先同期、CoverArt / フライヤー、Survey handoff、Source QR handoff |
 | **S2J Webinar Source QR** | コンパニオン・プラグイン (`s2j-webinar-source-qr`)。ソース追跡 URL と QR 文書の UI ・永続化。製品・仕様版は **v0.0.1** (Webinar 仕様 v0.0.2とは別)。和文説明では **ソース QR** と書いてよい |
 | **接続先 / プロバイダ** | ウェビナー API の実装先。文書・メタでは `provider` (v0.0.2初実装は `zoom`) |
-| **s2j-webinar-service** | Composer ライブラリ。Webinar 同期と Source Tracking **取り込み** の写像 (Adapter) |
+| **s2j-webinar-service** | Composer ライブラリ。Webinar 同期と Source Tracking **取り込み** のマッピング (Adapter) |
 
 ## 流入経路 (チャネル)
 
